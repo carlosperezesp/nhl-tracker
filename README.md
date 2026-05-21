@@ -8,7 +8,9 @@ Local NHL dashboard using real data from the public NHL web API.
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000/NHL%20Tracker.html`.
+Open `http://localhost:8000/`.
+
+The deployed site works as a static Vercel project because the root file is `index.html`.
 
 ## Refresh Data
 

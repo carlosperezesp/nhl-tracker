@@ -74,6 +74,7 @@ function TeamDetail({ team, onBack, onPlayerClick, onOpenMethodology }) {
     {
       key: "score", label: "Score", numeric: true, w: 124,
       render: r => <ScoreBar value={r.score} width={56} />,
+      value: r => r.pos === "G" ? r.score - 200 : r.score,
     },
   ];
 

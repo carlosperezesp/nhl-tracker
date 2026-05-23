@@ -1,14 +1,134 @@
 // screens-current.jsx — Temporada Actual screen + Playoff bracket
 
+function getPlayoffTeams(teams) {
+  const playoff = new Set();
+  for (const conf of ["E", "W"]) {
+    const confTeams = [...teams]
+      .filter(t => t.conf === conf)
+      .sort((a, b) => b.pts - a.pts || b.gd - a.gd);
+    const divs = [...new Set(confTeams.map(t => t.div))];
+    const divIn = new Set();
+    for (const div of divs) {
+      confTeams.filter(t => t.div === div).slice(0, 3).forEach(t => { playoff.add(t.code); divIn.add(t.code); });
+    }
+    confTeams.filter(t => !divIn.has(t.code)).slice(0, 2).forEach(t => playoff.add(t.code));
+  }
+  return playoff;
+}
+
+function StandingsConf({ teams, label, playoffSet, onTeamClick }) {
+  const sorted = [...teams].sort((a, b) => b.pts - a.pts || b.gd - a.gd);
+  return (
+    <div className="standings-conf">
+      <div className="standings-conf__label mono mono--muted">{label}</div>
+      <table className="table table--dense">
+        <thead>
+          <tr>
+            <th className="table__th" style={{ width: 28 }}>#</th>
+            <th className="table__th">Team</th>
+            <th className="table__th table__th--num" style={{ width: 80 }}>W–L–OT</th>
+            <th className="table__th table__th--num" style={{ width: 44 }}>PTS</th>
+            <th className="table__th table__th--num" style={{ width: 104 }}>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sorted.map((team, i) => (
+            <React.Fragment key={team.code}>
+              {i === 8 && (
+                <tr className="standings__cutoff">
+                  <td colSpan={5}>── Playoff line ──</td>
+                </tr>
+              )}
+              <tr
+                className={`table__row ${!playoffSet.has(team.code) ? "table__row--out" : ""}`}
+                onClick={() => onTeamClick(team)}
+              >
+                <td className="table__td"><span className="mono mono--muted">{String(i + 1).padStart(2, "0")}</span></td>
+                <td className="table__td">
+                  <span className="team-cell">
+                    <TeamSwatch colors={team.colors} code={team.code} />
+                    <span className="team-cell__city">{team.shortName}</span>
+                  </span>
+                </td>
+                <td className="table__td table__td--num"><span className="mono">{team.w}–{team.l}–{team.ot}</span></td>
+                <td className="table__td table__td--num"><span className="mono mono--bold">{team.pts}</span></td>
+                <td className="table__td table__td--num"><ScoreBar value={team.score} width={52} /></td>
+              </tr>
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function StandingsDivisions({ teams, playoffSet, onTeamClick }) {
+  const DIV_ORDER = ["Atlantic", "Metro", "Central", "Pacific"];
+  const byDiv = {};
+  teams.forEach(t => { byDiv[t.div] = byDiv[t.div] || []; byDiv[t.div].push(t); });
+  Object.keys(byDiv).forEach(d => byDiv[d].sort((a, b) => b.pts - a.pts || b.gd - a.gd));
+
+  return (
+    <div className="standings-divs">
+      {DIV_ORDER.filter(d => byDiv[d]).map(name => (
+        <div key={name} className="standings-div">
+          <div className="standings-div__label mono mono--muted">{name} division</div>
+          <table className="table table--dense">
+            <thead>
+              <tr>
+                <th className="table__th" style={{ width: 28 }}>#</th>
+                <th className="table__th">Team</th>
+                <th className="table__th table__th--num" style={{ width: 80 }}>W–L–OT</th>
+                <th className="table__th table__th--num" style={{ width: 44 }}>PTS</th>
+                <th className="table__th table__th--num" style={{ width: 104 }}>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {byDiv[name].map((team, i) => {
+                const inPlayoff = playoffSet.has(team.code);
+                const isWC = inPlayoff && i >= 3;
+                return (
+                  <React.Fragment key={team.code}>
+                    {i === 3 && (
+                      <tr className="standings__cutoff">
+                        <td colSpan={5}>── Division line ──</td>
+                      </tr>
+                    )}
+                    <tr
+                      className={`table__row ${!inPlayoff ? "table__row--out" : ""}`}
+                      onClick={() => onTeamClick(team)}
+                    >
+                      <td className="table__td"><span className="mono mono--muted">{String(i + 1).padStart(2, "0")}</span></td>
+                      <td className="table__td">
+                        <span className="team-cell">
+                          <TeamSwatch colors={team.colors} code={team.code} />
+                          <span className="team-cell__city">
+                            {team.shortName}
+                            {isWC && <span className="wc-badge">WC</span>}
+                          </span>
+                        </span>
+                      </td>
+                      <td className="table__td table__td--num"><span className="mono">{team.w}–{team.l}–{team.ot}</span></td>
+                      <td className="table__td table__td--num"><span className="mono mono--bold">{team.pts}</span></td>
+                      <td className="table__td table__td--num"><ScoreBar value={team.score} width={52} /></td>
+                    </tr>
+                  </React.Fragment>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function CurrentSeason({ onTeamClick, onPlayerClick, onOpenMethodology }) {
   const { TEAMS, PLAYERS, BRACKET } = window.NHL_DATA;
-  const [conf, setConf] = useState("E");
+  const [viewMode, setViewMode] = useState("both");
   const [posFilter, setPosFilter] = useState("ALL");
 
-  // Standings: filter by conf, default sorted by pts desc
-  const standings = useMemo(() => {
-    return TEAMS.filter(t => t.conf === conf);
-  }, [TEAMS, conf]);
+  const playoffSet = useMemo(() => getPlayoffTeams(TEAMS), [TEAMS]);
 
   // Top players: filter by position
   const topPlayers = useMemo(() => {
@@ -20,43 +140,6 @@ function CurrentSeason({ onTeamClick, onPlayerClick, onOpenMethodology }) {
     return [...filtered].sort((a, b) => b.score - a.score);
   }, [PLAYERS, posFilter]);
 
-  const standingsCols = [
-    {
-      key: "rank", label: "#", w: 28, numeric: true, sortable: false,
-      render: (_r, i) => <span className="mono mono--muted">{String(i + 1).padStart(2, "0")}</span>,
-    },
-    {
-      key: "city", label: "Team", w: "auto",
-      render: r => (
-        <span className="team-cell">
-          <TeamSwatch colors={r.colors} code={r.code} />
-          <span className="team-cell__text">
-            <span className="team-cell__code">{r.code}</span>
-            <span className="team-cell__city">{r.city}</span>
-          </span>
-        </span>
-      ),
-    },
-    { key: "gp",  label: "GP",  numeric: true, w: 48 },
-    {
-      key: "rec", label: "W–L–OT", numeric: true, w: 84, sortable: false,
-      render: r => <span className="mono">{r.w}–{r.l}–{r.ot}</span>,
-      value: r => r.w,
-    },
-    {
-      key: "pts", label: "PTS", numeric: true, w: 56,
-      render: r => <span className="mono mono--bold">{r.pts}</span>,
-    },
-    {
-      key: "gd",  label: "GF / GA", numeric: true, w: 96,
-      render: r => <span className="mono mono--muted">{r.gf} <span className="gd-slash">/</span> {r.ga}</span>,
-      value: r => r.gd,
-    },
-    {
-      key: "score", label: "Team Score", numeric: true, w: 132,
-      render: r => <ScoreBar value={r.score} width={64} />,
-    },
-  ];
 
   const playerCols = [
     {
@@ -122,19 +205,34 @@ function CurrentSeason({ onTeamClick, onPlayerClick, onOpenMethodology }) {
         <div className="block__head">
           <WFLabel>STANDINGS</WFLabel>
           <div className="seg">
-            <button className={`seg__btn ${conf === "E" ? "seg__btn--on" : ""}`} onClick={() => setConf("E")}>Eastern</button>
-            <button className={`seg__btn ${conf === "W" ? "seg__btn--on" : ""}`} onClick={() => setConf("W")}>Western</button>
+            <button className={`seg__btn ${viewMode === "both" ? "seg__btn--on" : ""}`} onClick={() => setViewMode("both")}>Both</button>
+            <button className={`seg__btn ${viewMode === "divisions" ? "seg__btn--on" : ""}`} onClick={() => setViewMode("divisions")}>Divisions</button>
           </div>
         </div>
 
         <div className="block__body block__body--rel">
-          <SortableTable
-            columns={standingsCols}
-            rows={standings}
-            defaultSort={{ key: "pts", dir: "desc" }}
-            rowKey={r => r.code}
-            onRowClick={onTeamClick}
-          />
+          {viewMode === "both" ? (
+            <div className="standings-split">
+              <StandingsConf
+                teams={TEAMS.filter(t => t.conf === "E")}
+                label="Eastern Conference"
+                playoffSet={playoffSet}
+                onTeamClick={onTeamClick}
+              />
+              <StandingsConf
+                teams={TEAMS.filter(t => t.conf === "W")}
+                label="Western Conference"
+                playoffSet={playoffSet}
+                onTeamClick={onTeamClick}
+              />
+            </div>
+          ) : (
+            <StandingsDivisions
+              teams={TEAMS}
+              playoffSet={playoffSet}
+              onTeamClick={onTeamClick}
+            />
+          )}
           <MarginNote side="right">
             Click a row → team detail<br />with full roster.
           </MarginNote>

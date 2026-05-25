@@ -158,8 +158,9 @@ function PosBadge({ pos }) {
   return <span className={`pos-badge pos-badge--${pos}`}>{pos}</span>;
 }
 
-function TeamSwatch({ colors, code }) {
+function TeamSwatch({ colors, code, logo }) {
   const primary = colors?.primary || "#666";
+  const logoSrc = logo || (code ? `https://assets.nhle.com/logos/nhl/svg/${code}_dark.svg` : null);
   return (
     <span
       className="team-swatch"
@@ -167,9 +168,9 @@ function TeamSwatch({ colors, code }) {
       style={{ background: primary }}
       aria-hidden="true"
     >
-      {code && (
+      {logoSrc && (
         <img
-          src={`https://assets.nhle.com/logos/nhl/svg/${code}_dark.svg`}
+          src={logoSrc}
           alt=""
           className="team-swatch__logo"
           onError={e => { e.target.style.display = "none"; }}

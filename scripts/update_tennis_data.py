@@ -1,0 +1,649 @@
+#!/usr/bin/env python3
+"""Fetch ATP + WTA singles data from Jeff Sackmann GitHub CSVs and write tennis_data.js."""
+from __future__ import annotations
+import csv, hashlib, json, math, os, re, sys, time, urllib.request
+from collections import defaultdict
+from datetime import datetime, timezone
+from io import StringIO
+from pathlib import Path
+
+ROOT   = Path(__file__).resolve().parent.parent
+CACHE  = ROOT / ".tennis_cache"
+CACHE.mkdir(exist_ok=True)
+
+CURRENT_YEAR  = datetime.now(timezone.utc).year
+CAREER_START  = 2010
+ACTIVE_YEARS  = [CURRENT_YEAR - 1, CURRENT_YEAR]
+TOP_N         = 15   # players per tour in output
+
+BASE = {
+    "atp": "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master",
+    "wta": "https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master",
+}
+
+GS_LEVELS    = {"G"}
+ELITE_ATP    = {"M", "F"}
+ELITE_WTA    = {"P", "PM", "F"}
+
+LEGEND_REF = {
+    "atp": {
+        "gs": 24, "elite": 40, "titles_500": 28, "gs_consistency": 55,
+        "top10_wins": 120, "weeks_no1": 428, "gs_pace_max": 2.5,
+    },
+    "wta": {
+        "gs": 24, "elite": 35, "titles_500": 25, "gs_consistency": 50,
+        "top10_wins": 80, "weeks_no1": 377, "gs_pace_max": 2.5,
+    },
+}
+
+# ── Country data ──────────────────────────────────────────────────────────────
+
+CC3_TO_CC2: dict[str, str] = {
+    "ESP": "es", "SRB": "rs", "GER": "de", "RUS": "ru", "NOR": "no",
+    "GRE": "gr", "POL": "pl", "ARG": "ar", "USA": "us", "AUS": "au",
+    "GBR": "gb", "FRA": "fr", "ITA": "it", "CAN": "ca", "BEL": "be",
+    "NED": "nl", "SUI": "ch", "DEN": "dk", "CZE": "cz", "CHI": "cl",
+    "BRA": "br", "CRO": "hr", "HUN": "hu", "SVK": "sk", "BUL": "bg",
+    "FIN": "fi", "SWE": "se", "AUT": "at", "ROU": "ro", "POR": "pt",
+    "KAZ": "kz", "CHN": "cn", "JPN": "jp", "KOR": "kr", "TPE": "tw",
+    "THA": "th", "IND": "in", "RSA": "za", "EGY": "eg", "MAR": "ma",
+    "TUN": "tn", "COL": "co", "ECU": "ec", "URU": "uy", "PAR": "py",
+    "BOL": "bo", "PER": "pe", "MEX": "mx", "BAH": "bs", "HAI": "ht",
+    "DOM": "do", "PUR": "pr", "LAT": "lv", "EST": "ee", "LTU": "lt",
+    "UKR": "ua", "BLR": "by", "MDA": "md", "AZE": "az", "GEO": "ge",
+    "ARM": "am", "UZB": "uz", "ISR": "il", "TUR": "tr", "LUX": "lu",
+    "MON": "mc", "SLO": "si", "MKD": "mk", "BIH": "ba", "MNE": "me",
+    "CYP": "cy", "NZL": "nz", "ZIM": "zw", "NGR": "ng", "SEN": "sn",
+    "CMR": "cm", "GUA": "gt",
+}
+
+COUNTRY_COLORS: dict[str, str] = {
+    "ESP": "#AA151B", "SRB": "#C6363C", "GER": "#000000", "RUS": "#003DA5",
+    "NOR": "#EF2B2D", "GRE": "#0D5EAF", "POL": "#DC143C", "ARG": "#74ACDF",
+    "USA": "#B22234", "AUS": "#00008B", "GBR": "#012169", "FRA": "#002395",
+    "ITA": "#009246", "CAN": "#FF0000", "BEL": "#000000", "NED": "#AE1C28",
+    "SUI": "#FF0000", "DEN": "#C60C30", "CZE": "#D7141A", "CHI": "#D52B1E",
+    "BRA": "#009C3B", "CRO": "#FF0000", "HUN": "#477050", "SVK": "#0B4EA2",
+    "BUL": "#00966E", "FIN": "#003580", "SWE": "#006AA7", "AUT": "#ED2939",
+    "ROU": "#002B7F", "POR": "#006600", "KAZ": "#00AFCA", "CHN": "#DE2910",
+    "JPN": "#BC002D", "KOR": "#003478", "TPE": "#FE0000", "THA": "#A51931",
+    "IND": "#FF9933", "RSA": "#007749", "EGY": "#CE1126", "MAR": "#C1272D",
+    "COL": "#FCD116", "ECU": "#FFD100", "UKR": "#005BBB", "BLR": "#CF101A",
+    "ISR": "#0038B8", "TUR": "#E30A17", "UZB": "#1EB53A",
+}
+
+def _flag_url(ioc3: str) -> str:
+    cc2 = CC3_TO_CC2.get(ioc3, "")
+    if not cc2:
+        return ""
+    return f"https://flagcdn.com/24x18/{cc2}.png"
+
+# ── Cache helpers ─────────────────────────────────────────────────────────────
+
+def _cache_fetch(url: str, ttl_hours: float = 720.0) -> str:
+    key  = hashlib.md5(url.encode()).hexdigest()
+    path = CACHE / key
+    if path.exists():
+        age_h = (time.time() - path.stat().st_mtime) / 3600
+        if age_h < ttl_hours:
+            return path.read_text(encoding="utf-8")
+    try:
+        with urllib.request.urlopen(url, timeout=30) as r:
+            text = r.read().decode("utf-8")
+        path.write_text(text, encoding="utf-8")
+        return text
+    except Exception as exc:
+        if path.exists():
+            print(f"[WARN] fetch failed ({exc}), using stale cache: {url}", file=sys.stderr)
+            return path.read_text(encoding="utf-8")
+        raise
+
+def _csv(url: str, ttl_hours: float = 720.0) -> list[dict]:
+    text = _cache_fetch(url, ttl_hours)
+    return list(csv.DictReader(StringIO(text)))
+
+def _matches(tour: str, year: int) -> list[dict]:
+    prefix = "atp_matches" if tour == "atp" else "wta_matches"
+    url    = f"{BASE[tour]}/{prefix}_{year}.csv"
+    # current year: short TTL (6h); historical: long TTL (30 days)
+    ttl    = 6.0 if year == CURRENT_YEAR else 720.0
+    try:
+        return _csv(url, ttl)
+    except Exception:
+        return []
+
+def _players(tour: str) -> dict[str, dict]:
+    prefix = "atp_players" if tour == "atp" else "wta_players"
+    rows   = _csv(f"{BASE[tour]}/{prefix}.csv", ttl_hours=168.0)
+    out: dict[str, dict] = {}
+    for r in rows:
+        pid = r.get("player_id", "").strip()
+        if pid:
+            out[pid] = r
+    return out
+
+def _rankings_current(tour: str) -> list[dict]:
+    prefix = "atp_rankings" if tour == "atp" else "wta_rankings"
+    url    = f"{BASE[tour]}/{prefix}_current.csv"
+    rows   = _csv(url, ttl_hours=6.0)
+    if not rows:
+        return rows
+    latest = max(r.get("ranking_date", "") for r in rows)
+    return [r for r in rows if r.get("ranking_date") == latest]
+
+def _rankings_two_weeks(tour: str) -> tuple[list[dict], list[dict], str, str]:
+    """Return (current, previous) weekly rankings and their dates."""
+    prefix = "atp_rankings" if tour == "atp" else "wta_rankings"
+    url    = f"{BASE[tour]}/{prefix}_current.csv"
+    rows   = _csv(url, ttl_hours=6.0)
+    if not rows:
+        return [], [], "", ""
+    dates = sorted({r.get("ranking_date", "") for r in rows if r.get("ranking_date")})
+    curr_date = dates[-1] if dates else ""
+    prev_date = dates[-2] if len(dates) > 1 else ""
+    curr = [r for r in rows if r.get("ranking_date") == curr_date]
+    prev = [r for r in rows if r.get("ranking_date") == prev_date]
+    return curr, prev, curr_date, prev_date
+
+def _top10_changes(curr: list[dict], prev: list[dict], player_meta: dict,
+                   curr_date: str = "", prev_date: str = "") -> dict:
+    """Compute who entered/exited the official top 10 between two ranking weeks."""
+    def top10_ids(rows: list[dict]) -> dict[str, int]:
+        out = {}
+        for r in rows:
+            try:
+                rk = int(r.get("rank", 9999))
+                pid = r.get("player", "").strip()
+                if pid and rk <= 10:
+                    out[pid] = rk
+            except ValueError:
+                pass
+        return out
+
+    def pid_to_info(pid: str, rank: int) -> dict:
+        meta = player_meta.get(pid, {})
+        ioc  = meta.get("ioc", "")
+        name = f"{meta.get('name_first','')} {meta.get('name_last','')}".strip()
+        return {"name": name or pid, "rank": rank, "country": ioc, "logo": _flag_url(ioc)}
+
+    curr_top10 = top10_ids(curr)
+    prev_top10 = top10_ids(prev)
+
+    entered = [pid_to_info(pid, curr_top10[pid]) for pid in curr_top10 if pid not in prev_top10]
+    exited  = [pid_to_info(pid, prev_top10[pid]) for pid in prev_top10 if pid not in curr_top10]
+    entered.sort(key=lambda x: x["rank"])
+    exited.sort(key=lambda x: x["rank"])
+    return {"entered": entered, "exited": exited, "prev_date": prev_date, "curr_date": curr_date}
+
+def _rankings_year(tour: str, decade: str) -> list[dict]:
+    prefix = "atp_rankings" if tour == "atp" else "wta_rankings"
+    url    = f"{BASE[tour]}/{prefix}_{decade}s.csv"
+    return _csv(url, ttl_hours=720.0)
+
+# ── Singles-only filter ───────────────────────────────────────────────────────
+
+def _singles(rows: list[dict]) -> list[dict]:
+    return [r for r in rows
+            if r.get("tourney_level", "") not in ("D", "")  # exclude Davis/Fed Cup
+            and r.get("score", "").strip() not in ("", "W/O", "walkover", "Walkover")]
+
+# ── Elo ───────────────────────────────────────────────────────────────────────
+
+def _build_elo(all_matches: list[dict]) -> dict[str, float]:
+    K     = 32.0
+    START = 1500.0
+    elo: dict[str, float] = defaultdict(lambda: START)
+    for m in all_matches:
+        w = m.get("winner_id", "").strip()
+        l = m.get("loser_id",  "").strip()
+        if not w or not l:
+            continue
+        ew, el = elo[w], elo[l]
+        pw = 1.0 / (1.0 + 10 ** ((el - ew) / 400.0))
+        elo[w] = ew + K * (1.0 - pw)
+        elo[l] = el + K * (0.0 - (1.0 - pw))
+    return dict(elo)
+
+# ── Surface win rates (active years only) ────────────────────────────────────
+
+def _build_surface_rates(active_matches: list[dict]) -> dict[str, dict[str, float]]:
+    wins:  dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    total: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for m in active_matches:
+        surface = m.get("surface", "Unknown") or "Unknown"
+        w = m.get("winner_id", "").strip()
+        l = m.get("loser_id",  "").strip()
+        if w:
+            wins[w][surface]  += 1
+            total[w][surface] += 1
+        if l:
+            total[l][surface] += 1
+    result: dict[str, dict[str, float]] = {}
+    for pid in set(wins) | set(total):
+        result[pid] = {}
+        for surf in ("Hard", "Clay", "Grass", "Carpet"):
+            t = total[pid].get(surf, 0)
+            w = wins[pid].get(surf, 0)
+            result[pid][surf.lower()] = round(w / t, 3) if t >= 5 else None  # type: ignore[assignment]
+    return result
+
+# ── Recent form: last 20 singles matches ─────────────────────────────────────
+
+def _build_form(active_matches: list[dict]) -> dict[str, float]:
+    events: dict[str, list[tuple[str, int]]] = defaultdict(list)
+    for m in active_matches:
+        date = m.get("tourney_date", "00000000")
+        w = m.get("winner_id", "").strip()
+        l = m.get("loser_id",  "").strip()
+        if w:
+            events[w].append((date, 1))
+        if l:
+            events[l].append((date, 0))
+    form: dict[str, float] = {}
+    for pid, evs in events.items():
+        evs.sort(key=lambda x: x[0])
+        last20 = evs[-20:]
+        form[pid] = sum(r for _, r in last20) / len(last20) if last20 else 0.5
+    return form
+
+# ── Opponent quality (avg rank of opponents beaten, lower rank = tougher) ───
+
+def _build_opp_quality(active_matches: list[dict]) -> dict[str, float]:
+    beaten_ranks: dict[str, list[int]] = defaultdict(list)
+    for m in active_matches:
+        w   = m.get("winner_id", "").strip()
+        try:
+            lr = int(m.get("loser_rank") or 0)
+        except ValueError:
+            lr = 0
+        if w and 1 <= lr <= 500:
+            beaten_ranks[w].append(lr)
+    quality: dict[str, float] = {}
+    for pid, ranks in beaten_ranks.items():
+        avg = sum(ranks) / len(ranks)
+        # lower avg rank = better opponents; map to 0-1 (rank 1 → 1.0, rank 200 → 0.0)
+        quality[pid] = max(0.0, 1.0 - (avg - 1) / 200.0)
+    return quality
+
+# ── Career stats ──────────────────────────────────────────────────────────────
+
+def _build_career_stats(
+    tour: str,
+    all_matches: list[dict],
+) -> dict[str, dict]:
+    elite_levels = ELITE_ATP if tour == "atp" else ELITE_WTA
+    stats: dict[str, dict] = defaultdict(lambda: {
+        "gs": 0, "gs_finals": 0, "elite_titles": 0, "titles_500": 0,
+        "gs_matches_won": 0, "gs_matches_played": 0,
+        "top10_wins": 0, "total_titles": 0,
+    })
+    # Group by tourney to find winners
+    by_tourney: dict[str, list[dict]] = defaultdict(list)
+    for m in all_matches:
+        key = f"{m.get('tourney_date','')}-{m.get('tourney_id','')}"
+        by_tourney[key].append(m)
+
+    for key, matches in by_tourney.items():
+        if not matches:
+            continue
+        level = matches[0].get("tourney_level", "")
+        # find the final (highest round)
+        final = [m for m in matches if m.get("round") in ("F", "Final")]
+        if final:
+            winner_id = final[0].get("winner_id", "").strip()
+            if winner_id:
+                stats[winner_id]["total_titles"] += 1
+                if level in GS_LEVELS:
+                    stats[winner_id]["gs"] += 1
+                if level in elite_levels:
+                    stats[winner_id]["elite_titles"] += 1
+                if level in ("A", "500", "B", "2") or level in elite_levels:
+                    stats[winner_id]["titles_500"] += 1
+        # GS consistency: matches won/played in GS
+        if level in GS_LEVELS:
+            for m in matches:
+                w = m.get("winner_id", "").strip()
+                l = m.get("loser_id",  "").strip()
+                if w:
+                    stats[w]["gs_matches_won"]    += 1
+                    stats[w]["gs_matches_played"] += 1
+                if l:
+                    stats[l]["gs_matches_played"] += 1
+        # top-10 wins
+        for m in matches:
+            w = m.get("winner_id", "").strip()
+            try:
+                lr = int(m.get("loser_rank") or 0)
+            except ValueError:
+                lr = 0
+            if w and 1 <= lr <= 10:
+                stats[w]["top10_wins"] += 1
+
+    return {k: dict(v) for k, v in stats.items()}
+
+# ── Weeks at #1 ───────────────────────────────────────────────────────────────
+
+def _build_weeks_no1(tour: str) -> dict[str, int]:
+    weeks: dict[str, int] = defaultdict(int)
+    for decade in range(2010, CURRENT_YEAR, 10):
+        try:
+            rows = _rankings_year(tour, str(decade))
+        except Exception:
+            continue
+        # group by date
+        by_date: dict[str, list[dict]] = defaultdict(list)
+        for r in rows:
+            by_date[r.get("ranking_date", "")].append(r)
+        for date_rows in by_date.values():
+            for r in date_rows:
+                try:
+                    rank = int(r.get("rank", 999))
+                except ValueError:
+                    continue
+                if rank == 1:
+                    weeks[r.get("player", "").strip()] += 1
+    # current year
+    try:
+        rows = _rankings_current(tour)
+        by_date = defaultdict(list)
+        for r in rows:
+            by_date[r.get("ranking_date", "")].append(r)
+        for date_rows in by_date.values():
+            for r in date_rows:
+                try:
+                    rank = int(r.get("rank", 999))
+                except ValueError:
+                    continue
+                if rank == 1:
+                    weeks[r.get("player", "").strip()] += 1
+    except Exception:
+        pass
+    return dict(weeks)
+
+# ── Scoring ───────────────────────────────────────────────────────────────────
+
+def _pct(value: float, lo: float, hi: float) -> float:
+    if hi <= lo:
+        return 0.0
+    return max(0.0, min(1.0, (value - lo) / (hi - lo)))
+
+def _active_score(
+    pid: str,
+    rank: int,
+    elo: dict[str, float],
+    all_elos: list[float],
+    surface: dict[str, dict[str, float]],
+    form: dict[str, float],
+    opp_quality: dict[str, float],
+) -> float:
+    # stat_pct: combined serve-based metric (simplified — we use surface win-rates as proxy)
+    surf = surface.get(pid, {})
+    non_none = [v for v in surf.values() if v is not None]
+    stat_pct = sum(non_none) / len(non_none) if non_none else 0.5
+
+    # rank strength (rank 1 → 1.0, rank 100 → 0.0)
+    rank_strength = max(0.0, 1.0 - (rank - 1) / 99.0) if rank <= 100 else 0.0
+
+    # elo percentile
+    my_elo   = elo.get(pid, 1500.0)
+    elo_pct  = _pct(my_elo, min(all_elos), max(all_elos)) if len(all_elos) > 1 else 0.5
+
+    strength = 0.6 * elo_pct + 0.4 * rank_strength
+
+    f = form.get(pid, 0.5)
+    q = opp_quality.get(pid, 0.5)
+
+    raw = 0.40 * stat_pct + 0.35 * strength + 0.15 * f + 0.10 * q
+    return round(raw * 100, 1)
+
+def _legend_score(pid: str, tour: str, career: dict, weeks_no1: dict[str, int]) -> float:
+    ref  = LEGEND_REF[tour]
+    s    = career.get(pid, {})
+
+    gs           = s.get("gs", 0)
+    elite_titles = s.get("elite_titles", 0)
+    titles_500   = s.get("titles_500", 0)
+    gs_w         = s.get("gs_matches_won", 0)
+    gs_p         = s.get("gs_matches_played", 0)
+    top10_wins   = s.get("top10_wins", 0)
+    weeks        = weeks_no1.get(pid, 0)
+    total_titles = s.get("total_titles", 0)
+
+    # GS pace: GS per 100 titles (capped at ref max)
+    gs_pace = (gs / total_titles * 100) if total_titles > 0 else 0.0
+
+    # GS consistency: GS win rate × 100
+    gs_consistency = (gs_w / gs_p * 100) if gs_p > 0 else 0.0
+
+    # surface versatility: placeholder (always neutral 0.5)
+    surface_score = 0.5
+
+    components = {
+        "gs_pace":        (0.30, _pct(gs_pace,        0, ref["gs_pace_max"] * 100)),
+        "ranking":        (0.20, _pct(weeks,           0, ref["weeks_no1"])),
+        "elite":          (0.15, _pct(elite_titles,    0, ref["elite"])),
+        "titles_500":     (0.10, _pct(titles_500,      0, ref["titles_500"])),
+        "gs_consistency": (0.10, _pct(gs_consistency,  0, ref["gs_consistency"])),
+        "top10":          (0.075,_pct(top10_wins,      0, ref["top10_wins"])),
+        "surface":        (0.05, surface_score),
+        "team":           (0.025, 0.50),  # Davis/Fed Cup: neutral
+    }
+    raw = sum(w * v for _, (w, v) in components.items())
+    return round(raw * 100, 1)
+
+# ── All-time legends (hardcoded) ─────────────────────────────────────────────
+# name, ioc3, born, gs, year_end_no1, weeks_no1, active
+# Score: gs×12 + year_end_no1×3 + floor(weeks_no1/10)
+
+LEGENDS_ATP_RAW = [
+    ("Novak Djokovic",  "SRB", 1987, 24, 7, 428, True),
+    ("Rafael Nadal",    "ESP", 1986, 22, 2, 209, False),
+    ("Roger Federer",   "SUI", 1981, 20, 5, 310, False),
+    ("Pete Sampras",    "USA", 1971, 14, 6, 286, False),
+    ("Björn Borg",      "SWE", 1956, 11, 3, 109, False),
+    ("Andre Agassi",    "USA", 1970,  8, 1, 101, False),
+    ("Jimmy Connors",   "USA", 1952,  8, 5, 268, False),
+    ("Ivan Lendl",      "CZE", 1960,  8, 8, 270, False),
+    ("John McEnroe",    "USA", 1959,  7, 4, 170, False),
+    ("Carlos Alcaraz",  "ESP", 2003,  7, 1,  40, True),   # through mid-2026
+    ("Stefan Edberg",   "SWE", 1966,  6, 2,  72, False),
+    ("Boris Becker",    "GER", 1967,  6, 1,  12, False),
+    ("Jannik Sinner",   "ITA", 2001,  4, 1,  50, True),
+    ("Mats Wilander",   "SWE", 1964,  7, 3,  20, False),
+]
+
+LEGENDS_WTA_RAW = [
+    ("Steffi Graf",          "GER", 1969, 22, 8, 377, False),
+    ("Serena Williams",      "USA", 1981, 23, 5, 319, False),
+    ("Martina Navratilova",  "CZE", 1956, 18, 7, 332, False),
+    ("Chris Evert",          "USA", 1954, 18, 7, 260, False),
+    ("Monica Seles",         "USA", 1973,  9, 7, 178, False),
+    ("Iga Swiatek",          "POL", 2001,  6, 5, 125, True),   # through mid-2026 approx
+    ("Martina Hingis",       "SUI", 1980,  5, 4, 209, False),
+    ("Venus Williams",       "USA", 1980,  7, 3,  11, False),
+    ("Justine Henin",        "BEL", 1982,  7, 3,  61, False),
+    ("Aryna Sabalenka",      "BLR", 2004,  5, 2,  60, True),   # through mid-2026 approx
+    ("Maria Sharapova",      "RUS", 1987,  5, 0,  21, False),
+    ("Lindsay Davenport",    "USA", 1976,  3, 3,  98, False),
+    ("Kim Clijsters",        "BEL", 1983,  4, 1,   0, False),
+    ("Billie Jean King",     "USA", 1943, 12, 0,  40, False),
+]
+
+def _legend_score_tennis(gs: int, year_end_no1: int, weeks_no1: int) -> float:
+    return gs * 12 + year_end_no1 * 3 + weeks_no1 // 10
+
+def build_legends_tennis(tour: str) -> list[dict]:
+    raw_list = LEGENDS_ATP_RAW if tour == "atp" else LEGENDS_WTA_RAW
+    scored   = [(_legend_score_tennis(r[3], r[4], r[5]), r) for r in raw_list]
+    max_raw  = max(s for s, _ in scored)
+    out = []
+    for raw, row in sorted(scored, reverse=True):
+        name, ioc3, born, gs, year_end_no1, weeks_no1, active = row
+        primary = COUNTRY_COLORS.get(ioc3, "#555555")
+        out.append({
+            "id":          name.lower().replace(" ", "_").replace("ö","o").replace("é","e").replace("ñ","n"),
+            "name":        name,
+            "country":     ioc3,
+            "logo":        _flag_url(ioc3),
+            "teamCode":    ioc3,
+            "primary":     primary,
+            "secondary":   "#FFFFFF",
+            "legendScore": round(raw / max_raw * 100, 1),
+            "active":      active,
+            "stats":       {"gs": gs, "year_end_no1": year_end_no1, "weeks_no1": weeks_no1, "birth": born},
+        })
+    return out
+
+# ── Main builder ──────────────────────────────────────────────────────────────
+
+def build_tour_data(tour: str) -> list[dict]:
+    print(f"[{tour.upper()}] loading player metadata…", file=sys.stderr)
+    player_meta = _players(tour)
+
+    print(f"[{tour.upper()}] loading current rankings…", file=sys.stderr)
+    current_rankings = _rankings_current(tour)
+
+    # ranked_players: [(rank, pid)]
+    ranked: list[tuple[int, str]] = []
+    for r in current_rankings:
+        try:
+            rank = int(r.get("rank", 9999))
+            pid  = r.get("player", "").strip()
+            if pid and rank <= 200:
+                ranked.append((rank, pid))
+        except ValueError:
+            continue
+    ranked.sort()
+    top_pids = {pid for _, pid in ranked[:200]}
+
+    print(f"[{tour.upper()}] loading match history {CAREER_START}–{CURRENT_YEAR}…", file=sys.stderr)
+    all_matches: list[dict] = []
+    for year in range(CAREER_START, CURRENT_YEAR + 1):
+        ms = _matches(tour, year)
+        all_matches.extend(_singles(ms))
+
+    active_matches: list[dict] = []
+    for year in ACTIVE_YEARS:
+        ms = _matches(tour, year)
+        active_matches.extend(_singles(ms))
+
+    print(f"[{tour.upper()}] computing Elo ({len(all_matches)} matches)…", file=sys.stderr)
+    elo = _build_elo(all_matches)
+
+    print(f"[{tour.upper()}] computing surface rates…", file=sys.stderr)
+    surface = _build_surface_rates(active_matches)
+
+    print(f"[{tour.upper()}] computing form…", file=sys.stderr)
+    form = _build_form(active_matches)
+
+    print(f"[{tour.upper()}] computing opponent quality…", file=sys.stderr)
+    opp_quality = _build_opp_quality(active_matches)
+
+    print(f"[{tour.upper()}] computing career stats…", file=sys.stderr)
+    career = _build_career_stats(tour, all_matches)
+
+    print(f"[{tour.upper()}] computing weeks at #1…", file=sys.stderr)
+    weeks_no1 = _build_weeks_no1(tour)
+
+    # score all top-200 players
+    all_elo_vals = [elo.get(pid, 1500.0) for _, pid in ranked[:200]]
+
+    scored: list[dict] = []
+    for rank, pid in ranked[:200]:
+        meta  = player_meta.get(pid, {})
+        fname = meta.get("name_first", "").strip()
+        lname = meta.get("name_last",  "").strip()
+        name  = f"{fname} {lname}".strip() or pid
+        ioc   = meta.get("ioc", "").strip()
+
+        active = _active_score(pid, rank, elo, all_elo_vals, surface, form, opp_quality)
+        legend = _legend_score(pid, tour, career, weeks_no1)
+
+        surf = surface.get(pid, {})
+
+        scored.append({
+            "id":          pid,
+            "name":        name,
+            "rank":        rank,
+            "country":     ioc,
+            "logo":        _flag_url(ioc),
+            "teamCode":    ioc,
+            "primary":     COUNTRY_COLORS.get(ioc, "#555555"),
+            "secondary":   "#FFFFFF",
+            "activeScore": active,
+            "legendScore": legend,
+            "surface": {
+                "hard":   surf.get("hard"),
+                "clay":   surf.get("clay"),
+                "grass":  surf.get("grass"),
+            },
+            "stats": {
+                "gs":        career.get(pid, {}).get("gs", 0),
+                "titles":    career.get(pid, {}).get("total_titles", 0),
+                "weeks_no1": weeks_no1.get(pid, 0),
+                "top10_wins":career.get(pid, {}).get("top10_wins", 0),
+            },
+        })
+
+    # normalize active scores to 35-100 range
+    active_vals = [p["activeScore"] for p in scored]
+    a_min, a_max = min(active_vals), max(active_vals)
+    for p in scored:
+        if a_max > a_min:
+            p["activeScore"] = round(35 + (p["activeScore"] - a_min) / (a_max - a_min) * 65, 1)
+        else:
+            p["activeScore"] = 70.0
+
+    # normalize legend scores to 0-100 range
+    legend_vals = [p["legendScore"] for p in scored]
+    l_min, l_max = min(legend_vals), max(legend_vals)
+    for p in scored:
+        if l_max > l_min:
+            p["legendScore"] = round((p["legendScore"] - l_min) / (l_max - l_min) * 100, 1)
+        else:
+            p["legendScore"] = 50.0
+
+    # sort by active score desc, take top N
+    scored.sort(key=lambda x: x["activeScore"], reverse=True)
+    return scored[:TOP_N]
+
+
+def write_data() -> None:
+    updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+    print("Building ATP data…", file=sys.stderr)
+    atp          = build_tour_data("atp")
+    atp_meta     = _players("atp")
+    atp_curr, atp_prev, atp_curr_date, atp_prev_date = _rankings_two_weeks("atp")
+    atp_changes  = _top10_changes(atp_curr, atp_prev, atp_meta, atp_curr_date, atp_prev_date)
+    atp_legends  = build_legends_tennis("atp")
+
+    print("Building WTA data…", file=sys.stderr)
+    wta          = build_tour_data("wta")
+    wta_meta     = _players("wta")
+    wta_curr, wta_prev, wta_curr_date, wta_prev_date = _rankings_two_weeks("wta")
+    wta_changes  = _top10_changes(wta_curr, wta_prev, wta_meta, wta_curr_date, wta_prev_date)
+    wta_legends  = build_legends_tennis("wta")
+
+    payload = {
+        "UPDATED":     updated,
+        "ATP":         atp,
+        "WTA":         wta,
+        "ATP_CHANGES": atp_changes,
+        "WTA_CHANGES": wta_changes,
+        "ATP_LEGENDS": atp_legends,
+        "WTA_LEGENDS": wta_legends,
+    }
+
+    out_path = ROOT / "tennis_data.js"
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(f"// Auto-generated {updated}\n")
+        f.write(f"window.TENNIS_DATA = {json.dumps(payload, ensure_ascii=False, indent=2)};\n")
+
+    print(f"Written: {out_path}", file=sys.stderr)
+    print(f"  ATP top-{len(atp)}: {atp[0]['name']} (active={atp[0]['activeScore']})")
+    print(f"  WTA top-{len(wta)}: {wta[0]['name']} (active={wta[0]['activeScore']})")
+
+
+if __name__ == "__main__":
+    write_data()

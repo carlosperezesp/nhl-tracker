@@ -1,0 +1,294 @@
+#!/usr/bin/env python3
+"""MotoGP data: rider standings, last GP, legends. Uses Wikipedia API for live data."""
+from __future__ import annotations
+import hashlib, json, re, sys, time, urllib.request, urllib.parse
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT  = Path(__file__).resolve().parent.parent
+CACHE = ROOT / ".motogp_cache"
+CACHE.mkdir(exist_ok=True)
+
+CURRENT_YEAR = datetime.now(timezone.utc).year
+
+WIKI_API = "https://en.wikipedia.org/w/api.php"
+
+# ── Bike / manufacturer colors ────────────────────────────────────────────────
+BIKE_COLORS: dict[str, dict] = {
+    "Aprilia": {"primary": "#003366", "secondary": "#E8002D"},
+    "Ducati":  {"primary": "#CC0000", "secondary": "#FFD200"},
+    "KTM":     {"primary": "#E86825", "secondary": "#000000"},
+    "Yamaha":  {"primary": "#003399", "secondary": "#FFFFFF"},
+    "Honda":   {"primary": "#CC0000", "secondary": "#FFFFFF"},
+}
+
+def _bike_colors(bike: str) -> dict:
+    for key, val in BIKE_COLORS.items():
+        if key.lower() in bike.lower():
+            return val
+    return {"primary": "#555555", "secondary": "#FFFFFF"}
+
+# ── Country mapping ───────────────────────────────────────────────────────────
+WIKI_CC_TO_CC2: dict[str, str] = {
+    "ITA": "it", "ESP": "es", "SPA": "es", "JPN": "jp", "JAP": "jp",
+    "AUS": "au", "FRA": "fr", "GER": "de", "BRA": "br", "ZAF": "za",
+    "RSA": "za", "TUR": "tr", "GBR": "gb", "CHN": "cn", "FIN": "fi",
+    "NED": "nl", "ARG": "ar", "POR": "pt", "USA": "us", "MAL": "my",
+    "INA": "id", "THA": "th", "QAT": "qa",
+}
+
+def _flag(cc: str) -> str:
+    cc2 = WIKI_CC_TO_CC2.get(cc.upper(), cc.lower()[:2])
+    return f"https://flagcdn.com/24x18/{cc2}.png"
+
+# ── MotoGP/500cc all-time legends ─────────────────────────────────────────────
+# name, cc3, born, premier-class titles, premier-class wins, premier-class poles, active
+MOTOGP_LEGENDS_RAW = [
+    ("Giacomo Agostini",  "ITA", 1942, 8,  68, 54, False),  # 8 × 500cc
+    ("Valentino Rossi",   "ITA", 1979, 7,  89, 65, False),  # 7 × MotoGP/500cc
+    ("Marc Márquez",      "ESP", 1993, 6,  65, 63, True),   # through 2024
+    ("Mick Doohan",       "AUS", 1965, 5,  54, 58, False),
+    ("Eddie Lawson",      "USA", 1958, 4,  31, 18, False),
+    ("Kenny Roberts",     "USA", 1951, 3,  24, 22, False),
+    ("Wayne Rainey",      "USA", 1960, 3,  24, 19, False),
+    ("Jorge Lorenzo",     "ESP", 1987, 3,  47, 65, False),
+    ("Casey Stoner",      "AUS", 1985, 2,  45, 56, False),
+    ("Francesco Bagnaia", "ITA", 1997, 2,  31, 26, True),   # through 2024
+    ("Kevin Schwantz",    "USA", 1964, 1,  25, 25, False),
+    ("Jorge Martín",      "ESP", 1988, 1,  14, 20, True),   # 2024 champion
+]
+
+W_LEGEND = {"titles": 10.0, "wins": 0.20, "poles": 0.10}
+
+def _raw_score(row: tuple) -> float:
+    *_, titles, wins, poles, _active = row
+    return titles * W_LEGEND["titles"] + wins * W_LEGEND["wins"] + poles * W_LEGEND["poles"]
+
+def build_legends() -> list[dict]:
+    scored  = [(_raw_score(r), r) for r in MOTOGP_LEGENDS_RAW]
+    max_raw = max(s for s, _ in scored)
+    out = []
+    for raw, row in sorted(scored, reverse=True):
+        name, cc3, born, titles, wins, poles, active = row
+        colors = _bike_colors("")   # country-neutral; use fallback
+        cc3_upper = cc3.upper()
+        out.append({
+            "id":          name.lower().replace(" ", "_").replace("á","a").replace("é","e").replace("ó","o").replace("ú","u"),
+            "name":        name,
+            "country":     cc3_upper,
+            "logo":        _flag(cc3_upper),
+            "teamCode":    cc3_upper,
+            "primary":     "#C80000",
+            "secondary":   "#FFFFFF",
+            "legendScore": round(raw / max_raw * 100, 1),
+            "active":      active,
+            "stats":       {"titles": titles, "wins": wins, "poles": poles, "birth": born},
+        })
+    return out
+
+# ── Wikipedia helpers ─────────────────────────────────────────────────────────
+
+def _fetch_wiki_section(year: int, section: int, ttl_hours: float = 4.0) -> str:
+    title = urllib.parse.quote(f"{year} MotoGP World Championship")
+    url   = f"{WIKI_API}?action=parse&page={title}&prop=wikitext&section={section}&format=json"
+    key   = hashlib.md5(url.encode()).hexdigest()
+    path  = CACHE / key
+    if path.exists():
+        age_h = (time.time() - path.stat().st_mtime) / 3600
+        if age_h < ttl_hours:
+            return path.read_text()
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Hermes/1.0"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            d = json.loads(r.read())
+        wt = d.get("parse", {}).get("wikitext", {}).get("*", "")
+        path.write_text(wt)
+        return wt
+    except Exception as exc:
+        print(f"[WARN] Wikipedia fetch failed ({exc})", file=sys.stderr)
+        return path.read_text() if path.exists() else ""
+
+def _wiki_sections(year: int) -> dict[str, int]:
+    title = urllib.parse.quote(f"{year} MotoGP World Championship")
+    url   = f"{WIKI_API}?action=parse&page={title}&prop=sections&format=json"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Hermes/1.0"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            d = json.loads(r.read())
+        return {s["line"]: int(s["index"]) for s in d.get("parse", {}).get("sections", [])}
+    except Exception:
+        return {}
+
+# ── Standings parser ──────────────────────────────────────────────────────────
+
+def _parse_rider_standings(wt: str) -> tuple[list[dict], int, int]:
+    """Returns (riders, completed_rounds, total_rounds)."""
+    tables = wt.split("{|")
+    rider_table = next(
+        (t for t in tables if "Pos." in t and "Rider" in t and "Bike" in t), ""
+    )
+    if not rider_table:
+        return [], 0, 0
+
+    # Count total race columns: headers are [[2026 <name>|ABB]] links
+    header = rider_table.split("|-")[0] if "|-" in rider_table else ""
+    gp_cols = re.findall(r"\[\[2\d{3}[^\]|]+\|([A-Z]{2,4})\]\]", header)
+    total_rounds = len(gp_cols)
+
+    rows = rider_table.split("|-")
+    riders: list[dict] = []
+    for row in rows:
+        pos_m = re.search(r"^\s*!\s*(\d+)\s*$", row, re.MULTILINE)
+        if not pos_m:
+            continue
+        pos = int(pos_m.group(1))
+
+        rider_m = re.search(r"\{\{flagicon\|([^}]+)\}\}\s*\[\[([^\]|]+)", row)
+        if not rider_m:
+            continue
+        cc   = rider_m.group(1).strip()
+        name = re.sub(r"\s*\([^)]*\)", "", rider_m.group(2)).strip()
+
+        bike_m = re.search(r"\|\s*\[\[([^\]|]+)", row.split("\n", 3)[-1] if "\n" in row else "")
+        bike   = ""
+        for bm in re.finditer(r"\| \[\[([^\]|]+)[\]|]", row):
+            candidate = bm.group(1).strip()
+            if candidate in BIKE_COLORS:
+                bike = candidate
+                break
+
+        pts_all = re.findall(r"^\s*!\s*(\d+)\s*$", row, re.MULTILINE)
+        pts     = int(pts_all[-1]) if pts_all else 0
+
+        colors = _bike_colors(bike)
+        riders.append({
+            "position": pos,
+            "name":     name,
+            "country":  cc.upper(),
+            "bike":     bike,
+            "logo":     _flag(cc),
+            "primary":  colors["primary"],
+            "secondary":colors["secondary"],
+            "points":   float(pts),
+            "score":    0.0,
+        })
+
+    # Determine completed rounds from top rider's result cells
+    completed = 0
+    if rows and total_rounds > 0:
+        top_row = next((r for r in rows if re.search(r"^\s*!\s*1\s*$", r, re.MULTILINE)), "")
+        if top_row:
+            cells = re.findall(r"bgcolor=[\"#][^|]*\|\s*[^\n|]+", top_row)
+            completed = len(cells)
+
+    riders = [r for r in riders if r["position"] >= 1]
+    riders.sort(key=lambda x: x["position"])
+    max_season_pts = total_rounds * 25
+    for r in riders:
+        r["score"]    = round(r["points"] / max(max_season_pts, 1) * 100, 1)
+        r["stats"]    = {"pts": r["points"]}
+        r["seasonPct"] = r["score"]
+
+    return riders, completed, total_rounds, max_season_pts
+
+# ── Last race parser ──────────────────────────────────────────────────────────
+
+def _parse_last_race(wt: str) -> dict | None:
+    rows = wt.split("|-")
+    races: list[dict] = []
+    for row in rows:
+        rnd_m = re.search(r"^\s*!\s*(\d+)\s*$", row, re.MULTILINE)
+        if not rnd_m:
+            continue
+        rnd = int(rnd_m.group(1))
+        # GP name — first [[...Grand Prix...]] link text
+        gp_m = re.search(r"\{\{flagicon\|[^}]+\}\}\s*\[\[([^\]|]+Grand Prix[^\]|]*)", row)
+        if not gp_m:
+            continue
+        gp_name = gp_m.group(1).strip()
+        # Winning rider (3rd flagicon occurrence = winning rider column)
+        flagicons = re.findall(r"\{\{flagicon\|([^}]+)\}\}\s*\[\[([^\]|]+)\]\]", row)
+        if len(flagicons) < 3:
+            continue
+        winner_cc   = flagicons[2][0].strip()
+        winner_name = re.sub(r"\s*\([^)]*\)", "", flagicons[2][1]).strip()
+        # Constructor (last [[Aprilia/Ducati/KTM/...]] link)
+        ctor_m = re.findall(r"\[\[(" + "|".join(BIKE_COLORS.keys()) + r")\]\]", row)
+        bike   = ctor_m[0] if ctor_m else ""
+        colors = _bike_colors(bike)
+        races.append({
+            "round":   rnd,
+            "name":    gp_name,
+            "winner":  winner_name,
+            "country": winner_cc.upper(),
+            "bike":    bike,
+            "primary": colors["primary"],
+        })
+    return races[-1] if races else None
+
+# ── Importance ────────────────────────────────────────────────────────────────
+
+def _importance(riders: list[dict], completed: int, total: int) -> float:
+    if total == 0:
+        return 7.0
+    progress = completed / total
+    base     = 7.0 + progress * 2.0
+    if len(riders) >= 2:
+        leader    = riders[0]["points"]
+        remaining = (total - completed) * 25
+        gap       = leader - riders[1]["points"]
+        if gap > remaining:
+            return 7.0
+        contenders = sum(1 for r in riders if leader - r["points"] <= remaining)
+        if completed >= total - 1 and contenders >= 2:
+            return 10.0
+        if contenders >= 2:
+            base = min(10.0, base + contenders * 0.2)
+    return round(min(10.0, base), 1)
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+def write_data() -> None:
+    updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    year    = CURRENT_YEAR
+    print(f"[MotoGP] Fetching {year} season data…", file=sys.stderr)
+
+    sections = _wiki_sections(year)
+    riders_sec   = sections.get("Riders' standings",   sections.get("Riders' standings",   11))
+    gp_sec       = sections.get("Grands Prix",         10)
+
+    wt_riders = _fetch_wiki_section(year, riders_sec)
+    wt_gp     = _fetch_wiki_section(year, gp_sec)
+
+    legends              = build_legends()
+    riders, completed, total, max_season_pts = _parse_rider_standings(wt_riders)
+    last_race  = _parse_last_race(wt_gp)
+    importance = _importance(riders, completed, total)
+
+    payload = {
+        "UPDATED":        updated,
+        "SEASON":         str(year),
+        "ROUND":          completed,
+        "TOTAL_ROUNDS":   total,
+        "MAX_SEASON_PTS": max_season_pts,
+        "IMPORTANCE":     importance,
+        "RIDERS":         riders[:10],
+        "LAST_RACE":      last_race,
+        "LEGENDS":        legends,
+    }
+
+    out = ROOT / "motogp_data.js"
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(f"// Auto-generated {updated}\n")
+        f.write(f"window.MOTOGP_DATA = {json.dumps(payload, ensure_ascii=False, indent=2)};\n")
+
+    print(f"Written: {out}", file=sys.stderr)
+    print(f"  Round {completed}/{total} · importance={importance}")
+    if riders:
+        print(f"  Leader: {riders[0]['name']} ({riders[0]['points']} pts)")
+    if last_race:
+        print(f"  Last race: {last_race['name']} → {last_race['winner']}")
+
+
+if __name__ == "__main__":
+    write_data()

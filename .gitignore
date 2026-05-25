@@ -2,3 +2,14 @@
 __pycache__/
 *.pyc
 nhl-tracker-update.log
+.env
+.afl_cache/
+.f1_cache/
+.motogp_cache/
+.sumo_cache/
+.tennis_cache/
+.cycling_cache/
+.nba_cache/
+.mlb_cache/
+.nfl_cache/
+.vscode/

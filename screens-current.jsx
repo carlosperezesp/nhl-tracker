@@ -297,11 +297,11 @@ function Bracket({ bracket, onTeamClick }) {
       );
       return (
         <div
-          className={`match__row ${isWinner ? "match__row--winner" : ""} ${isLoser ? "match__row--loser" : ""}`}
+          className={`match__row ${isWinner ? "match__row--winner" : ""} ${isLoser ? "match__row--loser" : ""} ${onTeamClick ? "match__row--clickable" : ""}`}
           style={{ "--team-color": team.colors?.primary || "#666" }}
-          onClick={() => onTeamClick(team)}
-          role="button"
-          tabIndex={0}
+          onClick={onTeamClick ? () => onTeamClick(team) : undefined}
+          role={onTeamClick ? "button" : undefined}
+          tabIndex={onTeamClick ? 0 : undefined}
         >
           <span className="match__code">
             <span className="match__swatch" style={{ background: team.colors?.primary || "#666" }}>
@@ -367,4 +367,228 @@ function BracketRound({ label, matches, render }) {
   );
 }
 
-Object.assign(window, { CurrentSeason });
+// ───────────────────────── NBA Bracket ─────────────────────────
+function NBABracket({ bracket }) {
+  const teams = (window.NBA_DATA?.TEAMS || []);
+  const teamByCode = Object.fromEntries(teams.map(t => [t.code, t]));
+
+  function NBAMatch({ m }) {
+    const hi = m.hi ? teamByCode[m.hi] : null;
+    const lo = m.lo ? teamByCode[m.lo] : null;
+    const [hiW, loW] = m.seriesScore.includes("-")
+      ? m.seriesScore.split("-").map(n => parseInt(n, 10))
+      : [null, null];
+
+    function Row({ team, wins, isWinner, isLoser }) {
+      if (!team) return (
+        <div className="match__row match__row--empty">
+          <span className="match__code">—</span>
+          <span className="match__city">TBD</span>
+          <span className="match__wins">·</span>
+        </div>
+      );
+      const logoSrc = team.logo || `https://a.espncdn.com/i/teamlogos/nba/500/${team.code.toLowerCase()}.png`;
+      return (
+        <div
+          className={`match__row ${isWinner ? "match__row--winner" : ""} ${isLoser ? "match__row--loser" : ""}`}
+          style={{ "--team-color": team.colors?.primary || "#666" }}
+        >
+          <span className="match__code">
+            <span className="match__swatch" style={{ background: team.colors?.primary || "#666" }}>
+              <img src={logoSrc} alt="" onError={e => { e.target.style.display = "none"; }} />
+            </span>
+          </span>
+          <span className="match__city">{team.shortName || team.city}</span>
+          <span className="match__wins">{wins ?? "·"}</span>
+        </div>
+      );
+    }
+
+    const decided = !!m.winner;
+    const hasTeams = !!(hi || lo);
+    return (
+      <div className={`match ${decided ? "match--decided" : hasTeams ? "match--live" : ""}`}>
+        <Row team={hi} wins={hiW} isWinner={decided && m.winner === m.hi} isLoser={decided && m.winner !== m.hi} />
+        <Row team={lo} wins={loW} isWinner={decided && m.winner === m.lo} isLoser={decided && m.winner !== m.lo} />
+        {!decided && hasTeams && <div className="match__live">SERIES LIVE · {m.seriesScore}</div>}
+      </div>
+    );
+  }
+
+  return (
+    <div className="bracket">
+      <div className="bracket__conf bracket__conf--east">
+        <div className="bracket__conf-label">Eastern conference</div>
+        <div className="bracket__rounds">
+          <BracketRound label="Round 1"    matches={bracket.east.r1}   render={m => <NBAMatch m={m} />} />
+          <BracketRound label="Conf. semis" matches={bracket.east.r2}  render={m => <NBAMatch m={m} />} />
+          <BracketRound label="Conf. final" matches={bracket.east.conf} render={m => <NBAMatch m={m} />} />
+        </div>
+      </div>
+
+      <div className="bracket__center">
+        <div className="bracket__final">
+          <div className="bracket__final-label">NBA Finals</div>
+          <NBAMatch m={bracket.final?.[0] || { hi: null, lo: null, winner: null, seriesScore: "-" }} />
+        </div>
+      </div>
+
+      <div className="bracket__conf bracket__conf--west">
+        <div className="bracket__conf-label">Western conference</div>
+        <div className="bracket__rounds bracket__rounds--reverse">
+          <BracketRound label="Conf. final"  matches={bracket.west.conf} render={m => <NBAMatch m={m} />} />
+          <BracketRound label="Conf. semis"  matches={bracket.west.r2}   render={m => <NBAMatch m={m} />} />
+          <BracketRound label="Round 1"      matches={bracket.west.r1}   render={m => <NBAMatch m={m} />} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MLBBracket({ bracket }) {
+  const teams = (window.MLB_DATA?.TEAMS || []);
+  const teamByCode = Object.fromEntries(teams.map(t => [t.code, t]));
+
+  function MLBMatch({ m }) {
+    const hi = m.hi ? teamByCode[m.hi] : null;
+    const lo = m.lo ? teamByCode[m.lo] : null;
+    const [hiW, loW] = m.seriesScore.includes("-")
+      ? m.seriesScore.split("-").map(n => parseInt(n, 10))
+      : [null, null];
+
+    function Row({ team, wins, isWinner, isLoser }) {
+      if (!team) return (
+        <div className="match__row match__row--empty">
+          <span className="match__code">—</span>
+          <span className="match__city">TBD</span>
+          <span className="match__wins">·</span>
+        </div>
+      );
+      const logoSrc = team.logo || `https://a.espncdn.com/i/teamlogos/mlb/500/${team.code.toLowerCase()}.png`;
+      return (
+        <div
+          className={`match__row ${isWinner ? "match__row--winner" : ""} ${isLoser ? "match__row--loser" : ""}`}
+          style={{ "--team-color": team.colors?.primary || "#666" }}
+        >
+          <span className="match__code">
+            <span className="match__swatch" style={{ background: team.colors?.primary || "#666" }}>
+              <img src={logoSrc} alt="" onError={e => { e.target.style.display = "none"; }} />
+            </span>
+          </span>
+          <span className="match__city">{team.shortName || team.city}</span>
+          <span className="match__wins">{wins ?? "·"}</span>
+        </div>
+      );
+    }
+
+    const decided = !!m.winner;
+    const hasTeams = !!(hi || lo);
+    return (
+      <div className={`match ${decided ? "match--decided" : hasTeams ? "match--live" : ""}`}>
+        <Row team={hi} wins={hiW} isWinner={decided && m.winner === m.hi} isLoser={decided && m.winner !== m.hi} />
+        <Row team={lo} wins={loW} isWinner={decided && m.winner === m.lo} isLoser={decided && m.winner !== m.lo} />
+        {!decided && hasTeams && <div className="match__live">SERIES LIVE · {m.seriesScore}</div>}
+      </div>
+    );
+  }
+
+  const noPostseason = !bracket.ws?.[0]?.hi && !bracket.al?.lcs?.[0]?.hi && !bracket.nl?.lcs?.[0]?.hi;
+
+  return (
+    <div className="bracket">
+      <div className="bracket__conf bracket__conf--east">
+        <div className="bracket__conf-label">American League</div>
+        <div className="bracket__rounds">
+          <BracketRound label="Wild Card"  matches={bracket.al.wc}  render={m => <MLBMatch m={m} />} />
+          <BracketRound label="Div. Series" matches={bracket.al.ds}  render={m => <MLBMatch m={m} />} />
+          <BracketRound label="ALCS"        matches={bracket.al.lcs} render={m => <MLBMatch m={m} />} />
+        </div>
+      </div>
+
+      <div className="bracket__center">
+        {noPostseason ? (
+          <div className="bracket__final">
+            <div className="bracket__final-label">World Series</div>
+            <div style={{ padding: "12px 16px", color: "var(--muted)", fontSize: 13, textAlign: "center" }}>
+              Postseason starts<br />in October
+            </div>
+          </div>
+        ) : (
+          <div className="bracket__final">
+            <div className="bracket__final-label">World Series</div>
+            <MLBMatch m={bracket.ws?.[0] || { hi: null, lo: null, winner: null, seriesScore: "-" }} />
+          </div>
+        )}
+      </div>
+
+      <div className="bracket__conf bracket__conf--west">
+        <div className="bracket__conf-label">National League</div>
+        <div className="bracket__rounds bracket__rounds--reverse">
+          <BracketRound label="NLCS"        matches={bracket.nl.lcs} render={m => <MLBMatch m={m} />} />
+          <BracketRound label="Div. Series" matches={bracket.nl.ds}  render={m => <MLBMatch m={m} />} />
+          <BracketRound label="Wild Card"   matches={bracket.nl.wc}  render={m => <MLBMatch m={m} />} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NFLBracket({ bracket }) {
+  const teams = (window.NFL_DATA?.TEAMS || []);
+  const teamByCode = Object.fromEntries(teams.map(t => [t.code, t]));
+
+  function NFLMatch({ m }) {
+    if (!m || (!m.hi && !m.lo)) {
+      return <div className="match match--empty"><span className="match__placeholder">TBD</span></div>;
+    }
+    function Side({ code, score }) {
+      const team = teamByCode[code] || {};
+      const logoSrc = team.logo || `https://a.espncdn.com/i/teamlogos/nfl/500/${(code || "").toLowerCase()}.png`;
+      const primary = team.colors?.primary || "#666";
+      const isWinner = m.winner === code;
+      return (
+        <div className={`match__team${isWinner ? " match__team--winner" : ""}`}>
+          <span className="match__swatch" style={{ background: primary }}>
+            <img src={logoSrc} alt="" onError={e => { e.target.style.display = "none"; }} />
+          </span>
+          <span className="match__code">{code || "TBD"}</span>
+          <span className="match__score">{score != null ? score : ""}</span>
+        </div>
+      );
+    }
+    const [hiS, loS] = (m.seriesScore || "-").split("-").map(Number);
+    return (
+      <div className={`match${m.winner ? " match--decided" : ""}`}>
+        <Side code={m.hi} score={hiS} />
+        <Side code={m.lo} score={loS} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="bracket">
+      <div className="bracket__conf">
+        <div className="bracket__conf-label">AFC</div>
+        <div className="bracket__rounds">
+          <BracketRound label="Wild Card"    matches={bracket.afc.wc}   render={m => <NFLMatch m={m} />} />
+          <BracketRound label="Divisional"   matches={bracket.afc.div}  render={m => <NFLMatch m={m} />} />
+          <BracketRound label="AFC Champ."   matches={bracket.afc.conf} render={m => <NFLMatch m={m} />} />
+        </div>
+      </div>
+      <div className="bracket__finals">
+        <div className="bracket__conf-label">Super Bowl</div>
+        <NFLMatch m={bracket.sb?.[0] || { hi: null, lo: null, winner: null, seriesScore: "-" }} />
+      </div>
+      <div className="bracket__conf">
+        <div className="bracket__conf-label">NFC</div>
+        <div className="bracket__rounds bracket__rounds--reverse">
+          <BracketRound label="NFC Champ."   matches={bracket.nfc.conf} render={m => <NFLMatch m={m} />} />
+          <BracketRound label="Divisional"   matches={bracket.nfc.div}  render={m => <NFLMatch m={m} />} />
+          <BracketRound label="Wild Card"    matches={bracket.nfc.wc}   render={m => <NFLMatch m={m} />} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { CurrentSeason, NBABracket, MLBBracket, NFLBracket });

@@ -295,8 +295,11 @@ def goalie_score(player: dict) -> float:
     gp = max(1, stats["gp"])
     svpct = stats.get("svpct") or 0
     gaa = stats.get("gaa") or 4
-    # svpct/gaa are individual; wins and gp are team/workload — keep them small
-    return (svpct - 0.86) * 1100 - gaa * 8 + stats.get("w", 0) * 0.9 + stats.get("so", 0) * 3 + gp * 0.15
+    # Regress SV% toward league average for small samples (full weight at 25+ GP)
+    reliability = min(1.0, gp / 25)
+    adj_svpct = svpct * reliability + 0.910 * (1 - reliability)
+    adj_gaa = gaa * reliability + 3.0 * (1 - reliability)
+    return (adj_svpct - 0.86) * 1100 - adj_gaa * 8 + stats.get("w", 0) * 0.9 + stats.get("so", 0) * 3 + gp * 0.15
 
 
 def toi_minutes(value: str | None) -> float:

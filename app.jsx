@@ -1569,7 +1569,7 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer__inner mono mono--muted">
-        <span>Hermes · Sports Newsletter</span>
+        <span>Hermes</span>
         <span className="footer__dot">·</span>
         <span>Datos actualizados diariamente a las 06:00</span>
         <span className="footer__dot">·</span>

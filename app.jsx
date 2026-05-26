@@ -1097,6 +1097,7 @@ function NewsletterApp() {
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
                               {w.name}
+                              {w.age != null && <span style={{ fontSize: 11, color: "var(--muted,#888)", fontWeight: 400 }}>{w.age} años</span>}
                               {isWinner && <span style={{ fontSize: 12, background: "var(--accent,#b84832)", color: "#fff", borderRadius: 3, padding: "1px 5px", fontWeight: 700 }}>🏆 Campeón</span>}
                             </div>
                             <div style={{ fontSize: 11, color: "var(--muted,#888)", fontFamily: "monospace", marginTop: 1 }}>{w.rankShort}</div>
@@ -1126,7 +1127,10 @@ function NewsletterApp() {
                         <div key={w.name} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "10px 0", borderBottom: "1px solid var(--rule,#eee)" }}>
                           <span style={{ width: 20, fontSize: 12, flexShrink: 0, paddingTop: 2 }}>Y</span>
                           <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ fontWeight: 600, fontSize: 14 }}>{w.name}</div>
+                            <div style={{ fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
+                              {w.name}
+                              {w.age != null && <span style={{ fontSize: 11, color: "var(--muted,#888)", fontWeight: 400 }}>{w.age} años</span>}
+                            </div>
                             <div style={{ fontSize: 11, color: "var(--muted,#888)", fontFamily: "monospace", marginTop: 1 }}>{w.rankShort}</div>
                             <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
                               <div style={{ width: 70, height: 4, background: "var(--bar-bg,#dedad6)", borderRadius: 2, overflow: "hidden" }}>
@@ -1159,7 +1163,7 @@ function NewsletterApp() {
                       alive={new Set()}
                       score={p.legendScore}
                       scoreLabel="Legend"
-                      meta={`Sumo · ${p.country} · ${p.stats.birth}`}
+                      meta={`${p.country} · ${p.stats.yok_start ? `Yokozuna ${p.stats.yok_start}–${p.stats.yok_end || "hoy"}` : ""}`}
                       note={`${p.stats.yusho} yusho · ${p.stats.yokozuna_basho} basho como Yokozuna`}
                       logo={p.logo}
                     />

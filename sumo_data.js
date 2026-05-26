@@ -1,6 +1,6 @@
-// Auto-generated 2026-05-26 11:55 UTC
+// Auto-generated 2026-05-26 13:07 UTC
 window.SUMO_DATA = {
-  "UPDATED": "2026-05-26 11:55 UTC",
+  "UPDATED": "2026-05-26 13:07 UTC",
   "LEGENDS": [
     {
       "id": "hakuho",
@@ -14,7 +14,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 45,
         "yokozuna_basho": 84,
-        "birth": 1985
+        "birth": 1985,
+        "yok_start": 2007,
+        "yok_end": 2021
       }
     },
     {
@@ -29,7 +31,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 32,
         "yokozuna_basho": 58,
-        "birth": 1940
+        "birth": 1940,
+        "yok_start": 1961,
+        "yok_end": 1971
       }
     },
     {
@@ -44,7 +48,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 31,
         "yokozuna_basho": 58,
-        "birth": 1955
+        "birth": 1955,
+        "yok_start": 1981,
+        "yok_end": 1991
       }
     },
     {
@@ -59,7 +65,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 25,
         "yokozuna_basho": 60,
-        "birth": 1980
+        "birth": 1980,
+        "yok_start": 2003,
+        "yok_end": 2010
       }
     },
     {
@@ -74,7 +82,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 24,
         "yokozuna_basho": 63,
-        "birth": 1953
+        "birth": 1953,
+        "yok_start": 1974,
+        "yok_end": 1985
       }
     },
     {
@@ -89,7 +99,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 12,
         "yokozuna_basho": 38,
-        "birth": 1971
+        "birth": 1971,
+        "yok_start": 1999,
+        "yok_end": 2003
       }
     },
     {
@@ -104,7 +116,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 12,
         "yokozuna_basho": 35,
-        "birth": 1912
+        "birth": 1912,
+        "yok_start": 1936,
+        "yok_end": 1943
       }
     },
     {
@@ -119,7 +133,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 11,
         "yokozuna_basho": 36,
-        "birth": 1969
+        "birth": 1969,
+        "yok_start": 1993,
+        "yok_end": 2001
       }
     },
     {
@@ -134,7 +150,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 9,
         "yokozuna_basho": 30,
-        "birth": 1984
+        "birth": 1984,
+        "yok_start": 2012,
+        "yok_end": 2017
       }
     },
     {
@@ -149,7 +167,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 10,
         "yokozuna_basho": 18,
-        "birth": 1991
+        "birth": 1991,
+        "yok_start": 2021,
+        "yok_end": 2024
       }
     },
     {
@@ -164,7 +184,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 6,
         "yokozuna_basho": 42,
-        "birth": 1985
+        "birth": 1985,
+        "yok_start": 2014,
+        "yok_end": 2021
       }
     },
     {
@@ -179,7 +201,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 5,
         "yokozuna_basho": 6,
-        "birth": 2000
+        "birth": 2000,
+        "yok_start": 2025,
+        "yok_end": null
       }
     },
     {
@@ -194,7 +218,9 @@ window.SUMO_DATA = {
       "stats": {
         "yusho": 3,
         "yokozuna_basho": 8,
-        "birth": 1999
+        "birth": 1999,
+        "yok_start": 2024,
+        "yok_end": null
       }
     }
   ],
@@ -211,240 +237,280 @@ window.SUMO_DATA = {
       "rankValue": 101,
       "rankLabel": "Yokozuna 1 East",
       "name": "Hoshoryu",
+      "rikishiID": 19,
       "wins": 0,
       "losses": 2,
       "absences": 13,
       "rankShort": "Yokozuna",
       "yusho": 3,
-      "legendScore": 7.1
+      "legendScore": 7.1,
+      "age": 27
     },
     {
       "side": "West",
       "rankValue": 101,
       "rankLabel": "Yokozuna 1 West",
       "name": "Onosato",
+      "rikishiID": 8850,
       "wins": 0,
       "losses": 0,
       "absences": 15,
       "rankShort": "Yokozuna",
       "yusho": 5,
-      "legendScore": 10.5
+      "legendScore": 10.5,
+      "age": 25
     },
     {
       "side": "East",
       "rankValue": 201,
       "rankLabel": "Ozeki 1 East",
       "name": "Kotozakura",
+      "rikishiID": 20,
       "wins": 3,
       "losses": 9,
       "absences": 3,
       "rankShort": "Ozeki",
       "yusho": 1,
-      "legendScore": 1.9
+      "legendScore": 1.9,
+      "age": 28
     },
     {
       "side": "West",
       "rankValue": 201,
       "rankLabel": "Ozeki 1 West",
       "name": "Aonishiki",
+      "rikishiID": 8854,
       "wins": 0,
       "losses": 0,
       "absences": 15,
       "rankShort": "Ozeki",
       "yusho": 2,
-      "legendScore": 3.7
+      "legendScore": 3.7,
+      "age": 22
     },
     {
       "side": "East",
       "rankValue": 202,
       "rankLabel": "Ozeki 2 East",
       "name": "Kirishima",
+      "rikishiID": 7,
       "wins": 12,
       "losses": 3,
       "absences": 0,
       "rankShort": "Ozeki",
       "yusho": 3,
-      "legendScore": 5.6
+      "legendScore": 5.6,
+      "age": 30
     },
     {
       "side": "East",
       "rankValue": 301,
       "rankLabel": "Sekiwake 1 East",
       "name": "Atamifuji",
+      "rikishiID": 74,
       "wins": 9,
       "losses": 6,
       "absences": 0,
       "rankShort": "Sekiwake",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 23
     },
     {
       "side": "West",
       "rankValue": 301,
       "rankLabel": "Sekiwake 1 West",
       "name": "Kotoshoho",
+      "rikishiID": 8,
       "wins": 9,
       "losses": 6,
       "absences": 0,
       "rankShort": "Sekiwake",
       "yusho": 1,
-      "legendScore": 1.9
+      "legendScore": 1.9,
+      "age": 26
     },
     {
       "side": "East",
       "rankValue": 401,
       "rankLabel": "Komusubi 1 East",
       "name": "Wakatakakage",
+      "rikishiID": 12,
       "wins": 12,
       "losses": 3,
       "absences": 0,
       "rankShort": "Komusubi",
       "yusho": 2,
-      "legendScore": 3.7
+      "legendScore": 3.7,
+      "age": 31
     },
     {
       "side": "West",
       "rankValue": 401,
       "rankLabel": "Komusubi 1 West",
       "name": "Takayasu",
+      "rikishiID": 44,
       "wins": 2,
       "losses": 2,
       "absences": 11,
       "rankShort": "Komusubi",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 36
     },
     {
       "side": "East",
       "rankValue": 501,
       "rankLabel": "Maegashira 1 East",
       "name": "Fujinokawa",
+      "rikishiID": 615,
       "wins": 7,
       "losses": 8,
       "absences": 0,
       "rankShort": "Maegashira 1",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 21
     },
     {
       "side": "West",
       "rankValue": 501,
       "rankLabel": "Maegashira 1 West",
       "name": "Takanosho",
+      "rikishiID": 37,
       "wins": 7,
       "losses": 8,
       "absences": 0,
       "rankShort": "Maegashira 1",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 31
     },
     {
       "side": "East",
       "rankValue": 502,
       "rankLabel": "Maegashira 2 East",
       "name": "Yoshinofuji",
+      "rikishiID": 8857,
       "wins": 11,
       "losses": 4,
       "absences": 0,
       "rankShort": "Maegashira 2",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 24
     },
     {
       "side": "West",
       "rankValue": 502,
       "rankLabel": "Maegashira 2 West",
       "name": "Ichiyamamoto",
+      "rikishiID": 11,
       "wins": 6,
       "losses": 9,
       "absences": 0,
       "rankShort": "Maegashira 2",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 32
     },
     {
       "side": "East",
       "rankValue": 503,
       "rankLabel": "Maegashira 3 East",
       "name": "Hiradoumi",
+      "rikishiID": 24,
       "wins": 7,
       "losses": 8,
       "absences": 0,
       "rankShort": "Maegashira 3",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 26
     },
     {
       "side": "West",
       "rankValue": 503,
       "rankLabel": "Maegashira 3 West",
       "name": "Oho",
+      "rikishiID": 41,
       "wins": 9,
       "losses": 6,
       "absences": 0,
       "rankShort": "Maegashira 3",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 26
     },
     {
       "side": "East",
       "rankValue": 504,
       "rankLabel": "Maegashira 4 East",
       "name": "Daieisho",
+      "rikishiID": 9,
       "wins": 7,
       "losses": 8,
       "absences": 0,
       "rankShort": "Maegashira 4",
       "yusho": 1,
-      "legendScore": 1.9
+      "legendScore": 1.9,
+      "age": 32
     },
     {
       "side": "West",
       "rankValue": 504,
       "rankLabel": "Maegashira 4 West",
       "name": "Gonoyama",
+      "rikishiID": 56,
       "wins": 8,
       "losses": 7,
       "absences": 0,
       "rankShort": "Maegashira 4",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 28
     },
     {
       "side": "East",
       "rankValue": 505,
       "rankLabel": "Maegashira 5 East",
       "name": "Wakamotoharu",
+      "rikishiID": 13,
       "wins": 5,
       "losses": 10,
       "absences": 0,
       "rankShort": "Maegashira 5",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 32
     },
     {
       "side": "West",
       "rankValue": 505,
       "rankLabel": "Maegashira 5 West",
       "name": "Shodai",
+      "rikishiID": 33,
       "wins": 6,
       "losses": 9,
       "absences": 0,
       "rankShort": "Maegashira 5",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 34
     },
     {
       "side": "East",
       "rankValue": 506,
       "rankLabel": "Maegashira 6 East",
       "name": "Churanoumi",
+      "rikishiID": 71,
       "wins": 9,
       "losses": 6,
       "absences": 0,
       "rankShort": "Maegashira 6",
       "yusho": 0,
-      "legendScore": 0.0
+      "legendScore": 0.0,
+      "age": 33
     }
   ]
 };

@@ -2,7 +2,7 @@
 """Sumo data: Yokozuna legends (hardcoded) + live banzuke from sumo-api.com."""
 from __future__ import annotations
 import hashlib, json, sys, time, urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date as _date
 from pathlib import Path
 
 ROOT  = Path(__file__).resolve().parent.parent
@@ -32,19 +32,19 @@ def _flag(cc3: str) -> str:
 # ── Yokozuna legends (hardcoded — authoritative source: JSA official records) ─
 # yusho = Emperor's Cup wins; yokozuna_basho = basho competed at Yokozuna rank
 YOKOZUNA_LEGENDS = [
-    {"name": "Hakuho",      "country": "MGL", "birth": 1985, "yusho": 45, "yokozuna_basho": 84},
-    {"name": "Taiho",       "country": "JPN", "birth": 1940, "yusho": 32, "yokozuna_basho": 58},
-    {"name": "Chiyonofuji", "country": "JPN", "birth": 1955, "yusho": 31, "yokozuna_basho": 58},
-    {"name": "Asashoryu",   "country": "MGL", "birth": 1980, "yusho": 25, "yokozuna_basho": 60},
-    {"name": "Kitanoumi",   "country": "JPN", "birth": 1953, "yusho": 24, "yokozuna_basho": 63},
-    {"name": "Musashimaru", "country": "USA", "birth": 1971, "yusho": 12, "yokozuna_basho": 38},
-    {"name": "Futabayama",  "country": "JPN", "birth": 1912, "yusho": 12, "yokozuna_basho": 35},
-    {"name": "Terunofuji",  "country": "MGL", "birth": 1991, "yusho": 10, "yokozuna_basho": 18},
-    {"name": "Akebono",     "country": "USA", "birth": 1969, "yusho": 11, "yokozuna_basho": 36},
-    {"name": "Harumafuji",  "country": "MGL", "birth": 1984, "yusho":  9, "yokozuna_basho": 30},
-    {"name": "Kakuryu",     "country": "MGL", "birth": 1985, "yusho":  6, "yokozuna_basho": 42},
-    {"name": "Hoshoryu",    "country": "MGL", "birth": 1999, "yusho":  3, "yokozuna_basho":  8},  # 70th Yokozuna
-    {"name": "Onosato",     "country": "JPN", "birth": 2000, "yusho":  5, "yokozuna_basho":  6},  # 71st Yokozuna
+    {"name": "Hakuho",      "country": "MGL", "birth": 1985, "yusho": 45, "yokozuna_basho": 84, "yok_start": 2007, "yok_end": 2021},
+    {"name": "Taiho",       "country": "JPN", "birth": 1940, "yusho": 32, "yokozuna_basho": 58, "yok_start": 1961, "yok_end": 1971},
+    {"name": "Chiyonofuji", "country": "JPN", "birth": 1955, "yusho": 31, "yokozuna_basho": 58, "yok_start": 1981, "yok_end": 1991},
+    {"name": "Asashoryu",   "country": "MGL", "birth": 1980, "yusho": 25, "yokozuna_basho": 60, "yok_start": 2003, "yok_end": 2010},
+    {"name": "Kitanoumi",   "country": "JPN", "birth": 1953, "yusho": 24, "yokozuna_basho": 63, "yok_start": 1974, "yok_end": 1985},
+    {"name": "Musashimaru", "country": "USA", "birth": 1971, "yusho": 12, "yokozuna_basho": 38, "yok_start": 1999, "yok_end": 2003},
+    {"name": "Futabayama",  "country": "JPN", "birth": 1912, "yusho": 12, "yokozuna_basho": 35, "yok_start": 1936, "yok_end": 1943},
+    {"name": "Terunofuji",  "country": "MGL", "birth": 1991, "yusho": 10, "yokozuna_basho": 18, "yok_start": 2021, "yok_end": 2024},
+    {"name": "Akebono",     "country": "USA", "birth": 1969, "yusho": 11, "yokozuna_basho": 36, "yok_start": 1993, "yok_end": 2001},
+    {"name": "Harumafuji",  "country": "MGL", "birth": 1984, "yusho":  9, "yokozuna_basho": 30, "yok_start": 2012, "yok_end": 2017},
+    {"name": "Kakuryu",     "country": "MGL", "birth": 1985, "yusho":  6, "yokozuna_basho": 42, "yok_start": 2014, "yok_end": 2021},
+    {"name": "Hoshoryu",    "country": "MGL", "birth": 1999, "yusho":  3, "yokozuna_basho":  8, "yok_start": 2024, "yok_end": None},
+    {"name": "Onosato",     "country": "JPN", "birth": 2000, "yusho":  5, "yokozuna_basho":  6, "yok_start": 2025, "yok_end": None},
 ]
 
 # ── Cache helpers ─────────────────────────────────────────────────────────────
@@ -115,16 +115,35 @@ def _fetch_banzuke(basho_id: str) -> list[dict]:
             losses   = w.get("losses") or sum(1 for b in record if b.get("result") == "loss")
             absences = w.get("absences") or sum(1 for b in record if b.get("result") == "absent")
             rows.append({
-                "side":      side.capitalize(),
-                "rankValue": w.get("rankValue", 999),
-                "rankLabel": w.get("rank", ""),
-                "name":      w.get("shikonaEn") or w.get("shikona", ""),
-                "wins":      wins,
-                "losses":    losses,
-                "absences":  absences,
+                "side":       side.capitalize(),
+                "rankValue":  w.get("rankValue", 999),
+                "rankLabel":  w.get("rank", ""),
+                "name":       w.get("shikonaEn") or w.get("shikona", ""),
+                "rikishiID":  w.get("rikishiID"),
+                "wins":       wins,
+                "losses":     losses,
+                "absences":   absences,
             })
     rows.sort(key=lambda x: x["rankValue"])
     return rows[:20]
+
+def _fetch_rikishi_age(rikishi_id: int) -> int | None:
+    """Fetch wrestler birth date and return current age. Cached 30 days (birth never changes)."""
+    if not rikishi_id:
+        return None
+    url  = f"{SUMO_API}/rikishi/{rikishi_id}"
+    data = _fetch_json(url, ttl_hours=720.0)
+    if not isinstance(data, dict):
+        return None
+    bd = data.get("birthDate", "")
+    if not bd:
+        return None
+    try:
+        born = datetime.fromisoformat(bd.replace("Z", "+00:00")).date()
+        today = _date.today()
+        return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+    except Exception:
+        return None
 
 def _fetch_basho_info(basho_id: str, ttl_hours: float = 6.0) -> dict | None:
     url  = f"{SUMO_API}/basho/{basho_id}"
@@ -189,6 +208,8 @@ def build_legends() -> list[dict]:
                 "yusho":          y["yusho"],
                 "yokozuna_basho": y["yokozuna_basho"],
                 "birth":          y["birth"],
+                "yok_start":      y.get("yok_start"),
+                "yok_end":        y.get("yok_end"),
             },
         })
     return out
@@ -216,17 +237,19 @@ def write_data() -> None:
 
     for w in banzuke:
         name = w["name"]
-        # Simplify rank label: drop East/West, drop number for sanyaku
         w["rankShort"] = _short_rank(w.get("rankLabel", ""))
-        # Legend score: use authoritative data for Yokozunas, career API count for others
         if name in full_legend_map:
             lg = full_legend_map[name]
-            w["yusho"]      = lg["stats"]["yusho"]
+            w["yusho"]       = lg["stats"]["yusho"]
             w["legendScore"] = lg["legendScore"]
         else:
             yusho = career_yusho.get(name, 0)
             w["yusho"]       = yusho
             w["legendScore"] = round(yusho * 5 / max_raw * 100, 1) if yusho else 0.0
+        # Fetch age from rikishi profile (cached 30 days)
+        age = _fetch_rikishi_age(w.get("rikishiID"))
+        if age is not None:
+            w["age"] = age
 
     payload = {
         "UPDATED":    updated,

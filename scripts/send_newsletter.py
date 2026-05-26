@@ -1210,7 +1210,10 @@ def sumo_html(d: dict) -> str:
             lg_score   = w.get("legendScore", 0.0)
             fill_px    = round(60 * min(100.0, lg_score) / 100)
             is_winner  = w["name"] == winner
-            name_html  = f'<b>{w["name"]}</b>'
+            age        = w.get("age")
+            age_html   = (f' <span style="font-size:10px;color:{MUTED};font-weight:400">{age} años</span>'
+                          if age else "")
+            name_html  = f'<b>{w["name"]}</b>{age_html}'
             if is_winner:
                 name_html += f' <span style="background:{ACCENT};color:#fff;font-size:9px;border-radius:3px;padding:1px 5px;vertical-align:middle">🏆 Campeón</span>'
             lg_bar = (
@@ -1250,8 +1253,10 @@ def sumo_html(d: dict) -> str:
 
     def lg_meta(p):
         st = p.get("stats", {})
-        return (f"{p.get('country','')} · {st.get('yusho',0)} yusho · "
-                f"{st.get('yokozuna_basho',0)} basho como Yokozuna")
+        era = ""
+        if st.get("yok_start"):
+            era = f' · Yokozuna {st["yok_start"]}–{st["yok_end"] or "hoy"}'
+        return f"{p.get('country','')}{era}"
 
     winner      = basho.get("winner","")
     basho_id    = basho.get("id","")

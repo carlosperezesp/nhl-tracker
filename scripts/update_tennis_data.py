@@ -432,41 +432,41 @@ def _legend_score(pid: str, tour: str, career: dict, weeks_no1: dict[str, int]) 
     return round(raw * 100, 1)
 
 # ── All-time legends (hardcoded) ─────────────────────────────────────────────
-# name, ioc3, born, gs, year_end_no1, weeks_no1, active
+# name, ioc3, born, gs, year_end_no1, weeks_no1, active, era_start, era_end
 # Score: gs×12 + year_end_no1×3 + floor(weeks_no1/10)
 
 LEGENDS_ATP_RAW = [
-    ("Novak Djokovic",  "SRB", 1987, 24, 7, 428, True),
-    ("Rafael Nadal",    "ESP", 1986, 22, 2, 209, False),
-    ("Roger Federer",   "SUI", 1981, 20, 5, 310, False),
-    ("Pete Sampras",    "USA", 1971, 14, 6, 286, False),
-    ("Björn Borg",      "SWE", 1956, 11, 3, 109, False),
-    ("Andre Agassi",    "USA", 1970,  8, 1, 101, False),
-    ("Jimmy Connors",   "USA", 1952,  8, 5, 268, False),
-    ("Ivan Lendl",      "CZE", 1960,  8, 8, 270, False),
-    ("John McEnroe",    "USA", 1959,  7, 4, 170, False),
-    ("Carlos Alcaraz",  "ESP", 2003,  7, 1,  40, True),   # through mid-2026
-    ("Stefan Edberg",   "SWE", 1966,  6, 2,  72, False),
-    ("Boris Becker",    "GER", 1967,  6, 1,  12, False),
-    ("Jannik Sinner",   "ITA", 2001,  4, 1,  50, True),
-    ("Mats Wilander",   "SWE", 1964,  7, 3,  20, False),
+    ("Novak Djokovic",  "SRB", 1987, 24, 7, 428, True,  2004, None),
+    ("Rafael Nadal",    "ESP", 1986, 22, 2, 209, False, 2005, 2024),
+    ("Roger Federer",   "SUI", 1981, 20, 5, 310, False, 2003, 2022),
+    ("Pete Sampras",    "USA", 1971, 14, 6, 286, False, 1990, 2002),
+    ("Björn Borg",      "SWE", 1956, 11, 3, 109, False, 1973, 1983),
+    ("Andre Agassi",    "USA", 1970,  8, 1, 101, False, 1986, 2006),
+    ("Jimmy Connors",   "USA", 1952,  8, 5, 268, False, 1972, 1996),
+    ("Ivan Lendl",      "CZE", 1960,  8, 8, 270, False, 1980, 1994),
+    ("John McEnroe",    "USA", 1959,  7, 4, 170, False, 1978, 1992),
+    ("Carlos Alcaraz",  "ESP", 2003,  7, 1,  40, True,  2022, None),
+    ("Stefan Edberg",   "SWE", 1966,  6, 2,  72, False, 1983, 1996),
+    ("Boris Becker",    "GER", 1967,  6, 1,  12, False, 1985, 1999),
+    ("Jannik Sinner",   "ITA", 2001,  4, 1,  50, True,  2024, None),
+    ("Mats Wilander",   "SWE", 1964,  7, 3,  20, False, 1982, 1991),
 ]
 
 LEGENDS_WTA_RAW = [
-    ("Steffi Graf",          "GER", 1969, 22, 8, 377, False),
-    ("Serena Williams",      "USA", 1981, 23, 5, 319, False),
-    ("Martina Navratilova",  "CZE", 1956, 18, 7, 332, False),
-    ("Chris Evert",          "USA", 1954, 18, 7, 260, False),
-    ("Monica Seles",         "USA", 1973,  9, 7, 178, False),
-    ("Iga Swiatek",          "POL", 2001,  6, 5, 125, True),   # through mid-2026 approx
-    ("Martina Hingis",       "SUI", 1980,  5, 4, 209, False),
-    ("Venus Williams",       "USA", 1980,  7, 3,  11, False),
-    ("Justine Henin",        "BEL", 1982,  7, 3,  61, False),
-    ("Aryna Sabalenka",      "BLR", 2004,  5, 2,  60, True),   # through mid-2026 approx
-    ("Maria Sharapova",      "RUS", 1987,  5, 0,  21, False),
-    ("Lindsay Davenport",    "USA", 1976,  3, 3,  98, False),
-    ("Kim Clijsters",        "BEL", 1983,  4, 1,   0, False),
-    ("Billie Jean King",     "USA", 1943, 12, 0,  40, False),
+    ("Steffi Graf",          "GER", 1969, 22, 8, 377, False, 1984, 1999),
+    ("Serena Williams",      "USA", 1981, 23, 5, 319, False, 1999, 2022),
+    ("Martina Navratilova",  "CZE", 1956, 18, 7, 332, False, 1978, 2006),
+    ("Chris Evert",          "USA", 1954, 18, 7, 260, False, 1972, 1989),
+    ("Monica Seles",         "USA", 1973,  9, 7, 178, False, 1989, 2008),
+    ("Iga Swiatek",          "POL", 2001,  6, 5, 125, True,  2020, None),
+    ("Martina Hingis",       "SUI", 1980,  5, 4, 209, False, 1994, 2007),
+    ("Venus Williams",       "USA", 1980,  7, 3,  11, False, 1997, 2023),
+    ("Justine Henin",        "BEL", 1982,  7, 3,  61, False, 2001, 2011),
+    ("Aryna Sabalenka",      "BLR", 2004,  5, 2,  60, True,  2021, None),
+    ("Maria Sharapova",      "RUS", 1987,  5, 0,  21, False, 2003, 2020),
+    ("Lindsay Davenport",    "USA", 1976,  3, 3,  98, False, 1994, 2010),
+    ("Kim Clijsters",        "BEL", 1983,  4, 1,   0, False, 1997, 2012),
+    ("Billie Jean King",     "USA", 1943, 12, 0,  40, False, 1961, 1983),
 ]
 
 def _legend_score_tennis(gs: int, year_end_no1: int, weeks_no1: int) -> float:
@@ -478,7 +478,7 @@ def build_legends_tennis(tour: str) -> list[dict]:
     max_raw  = max(s for s, _ in scored)
     out = []
     for raw, row in sorted(scored, reverse=True):
-        name, ioc3, born, gs, year_end_no1, weeks_no1, active = row
+        name, ioc3, born, gs, year_end_no1, weeks_no1, active, era_start, era_end = row
         primary = COUNTRY_COLORS.get(ioc3, "#555555")
         out.append({
             "id":          name.lower().replace(" ", "_").replace("ö","o").replace("é","e").replace("ñ","n"),
@@ -490,13 +490,28 @@ def build_legends_tennis(tour: str) -> list[dict]:
             "secondary":   "#FFFFFF",
             "legendScore": round(raw / max_raw * 100, 1),
             "active":      active,
-            "stats":       {"gs": gs, "year_end_no1": year_end_no1, "weeks_no1": weeks_no1, "birth": born},
+            "stats":       {
+                "gs": gs, "year_end_no1": year_end_no1, "weeks_no1": weeks_no1,
+                "birth": born, "era_start": era_start, "era_end": era_end,
+            },
         })
     return out
 
 # ── Main builder ──────────────────────────────────────────────────────────────
 
-def build_tour_data(tour: str) -> list[dict]:
+def _prev_rank_map(prev: list[dict]) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for r in prev:
+        try:
+            rk  = int(r.get("rank", 9999))
+            pid = r.get("player", "").strip()
+            if pid and rk <= 500:
+                out[pid] = rk
+        except ValueError:
+            pass
+    return out
+
+def build_tour_data(tour: str, prev_ranks: dict[str, int] | None = None) -> list[dict]:
     print(f"[{tour.upper()}] loading player metadata…", file=sys.stderr)
     player_meta = _players(tour)
 
@@ -565,6 +580,7 @@ def build_tour_data(tour: str) -> list[dict]:
             "id":          pid,
             "name":        name,
             "rank":        rank,
+            "prevRank":    prev_ranks.get(pid) if prev_ranks else None,
             "country":     ioc,
             "logo":        _flag_url(ioc),
             "teamCode":    ioc,
@@ -641,16 +657,16 @@ def write_data() -> None:
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     print("Building ATP data…", file=sys.stderr)
-    atp          = build_tour_data("atp")
     atp_meta     = _players("atp")
     atp_curr, atp_prev, atp_curr_date, atp_prev_date = _rankings_two_weeks("atp")
+    atp          = build_tour_data("atp", _prev_rank_map(atp_prev))
     atp_changes  = _top10_changes(atp_curr, atp_prev, atp_meta, atp_curr_date, atp_prev_date)
     atp_legends  = build_legends_tennis("atp")
 
     print("Building WTA data…", file=sys.stderr)
-    wta          = build_tour_data("wta")
     wta_meta     = _players("wta")
     wta_curr, wta_prev, wta_curr_date, wta_prev_date = _rankings_two_weeks("wta")
+    wta          = build_tour_data("wta", _prev_rank_map(wta_prev))
     wta_changes  = _top10_changes(wta_curr, wta_prev, wta_meta, wta_curr_date, wta_prev_date)
     wta_legends  = build_legends_tennis("wta")
 

@@ -193,6 +193,68 @@ def _parse_rider_standings(wt: str) -> tuple[list[dict], int, int]:
 
 # ── Last race parser ──────────────────────────────────────────────────────────
 
+def _fetch_race_podium(gp_name: str, year: int) -> list[dict]:
+    """Fetch P1–P3 from the individual Wikipedia race article (cached 24h)."""
+    slug  = f"{year} {gp_name}"
+    title = urllib.parse.quote(slug)
+    url   = f"{WIKI_API}?action=parse&page={title}&prop=wikitext&format=json"
+    key   = hashlib.md5(url.encode()).hexdigest()
+    path  = CACHE / key
+    if path.exists():
+        age_h = (time.time() - path.stat().st_mtime) / 3600
+        if age_h < 24.0:
+            wt = path.read_text()
+        else:
+            wt = ""
+    else:
+        wt = ""
+    if not wt:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Hermes/1.0"})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                d = json.loads(r.read())
+            wt = d.get("parse", {}).get("wikitext", {}).get("*", "")
+            path.write_text(wt)
+        except Exception as exc:
+            print(f"[WARN] race article fetch failed ({exc})", file=sys.stderr)
+            return []
+    # Wikipedia race classification rows look like: "! 1\n| ... {{flagicon|SPA}} '''[[Rider]]'''\n..."
+    podium: list[dict] = []
+    seen_pos: set[int] = set()
+    for row in re.split(r"\n\s*\|-", wt):
+        pos_m = re.search(r"^\s*!\s*([123])\s*$", row, re.MULTILINE)
+        if not pos_m:
+            continue
+        pos = int(pos_m.group(1))
+        if pos in seen_pos:
+            continue
+        icons = re.findall(r"\{\{flagicon\|([^}]+)\}\}[^[]*\[\[([^\]|]+)", row)
+        if not icons:
+            continue
+        cc   = icons[0][0].strip().upper()
+        name = re.sub(r"\s*\([^)]*\)", "", icons[0][1]).strip()
+        if not name or "Grand Prix" in name or "Racing" in name:
+            continue
+        bike = ""
+        for bm in re.finditer(r"\[\[([^\]|]+)[\]|]", row):
+            if bm.group(1).strip() in BIKE_COLORS:
+                bike = bm.group(1).strip()
+                break
+        colors = _bike_colors(bike)
+        podium.append({
+            "pos":     pos,
+            "name":    name,
+            "country": cc,
+            "logo":    _flag(cc),
+            "bike":    bike,
+            "primary": colors["primary"],
+        })
+        seen_pos.add(pos)
+        if len(seen_pos) == 3:
+            break
+    podium.sort(key=lambda x: x["pos"])
+    return podium
+
 def _parse_last_race(wt: str) -> dict | None:
     rows = wt.split("|-")
     races: list[dict] = []
@@ -224,7 +286,19 @@ def _parse_last_race(wt: str) -> dict | None:
             "bike":    bike,
             "primary": colors["primary"],
         })
-    return races[-1] if races else None
+    if not races:
+        return None
+    last = races[-1]
+    # Attempt to enrich with full podium from individual race article
+    podium = _fetch_race_podium(last["name"], CURRENT_YEAR)
+    if podium:
+        last["podium"] = podium
+    else:
+        last["podium"] = [{
+            "pos": 1, "name": last["winner"], "country": last["country"],
+            "logo": _flag(last["country"]), "bike": last["bike"], "primary": last["primary"],
+        }]
+    return last
 
 # ── Importance ────────────────────────────────────────────────────────────────
 

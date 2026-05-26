@@ -1,6 +1,6 @@
-// Auto-generated 2026-05-25 21:30 UTC
+// Auto-generated 2026-05-26 15:31 UTC
 window.MOTOGP_DATA = {
-  "UPDATED": "2026-05-25 21:30 UTC",
+  "UPDATED": "2026-05-26 15:31 UTC",
   "SEASON": "2026",
   "ROUND": 6,
   "TOTAL_ROUNDS": 22,
@@ -164,7 +164,33 @@ window.MOTOGP_DATA = {
     "winner": "Fabio Di Giannantonio",
     "country": "ITA",
     "bike": "Ducati",
-    "primary": "#CC0000"
+    "primary": "#CC0000",
+    "podium": [
+      {
+        "pos": 1,
+        "name": "Álex Márquez",
+        "country": "SPA",
+        "logo": "https://flagcdn.com/24x18/es.png",
+        "bike": "Ducati",
+        "primary": "#CC0000"
+      },
+      {
+        "pos": 2,
+        "name": "Pedro Acosta",
+        "country": "SPA",
+        "logo": "https://flagcdn.com/24x18/es.png",
+        "bike": "KTM",
+        "primary": "#E86825"
+      },
+      {
+        "pos": 3,
+        "name": "Fabio Di Giannantonio",
+        "country": "ITA",
+        "logo": "https://flagcdn.com/24x18/it.png",
+        "bike": "Ducati",
+        "primary": "#CC0000"
+      }
+    ]
   },
   "LEGENDS": [
     {

@@ -1,11 +1,12 @@
-// Auto-generated 2026-05-26 13:42 UTC
+// Auto-generated 2026-05-26 14:53 UTC
 window.TENNIS_DATA = {
-  "UPDATED": "2026-05-26 13:42 UTC",
+  "UPDATED": "2026-05-26 14:53 UTC",
   "ATP": [
     {
       "id": "206173",
       "name": "Jannik Sinner",
       "rank": 1,
+      "prevRank": 1,
       "country": "ITA",
       "logo": "https://flagcdn.com/24x18/it.png",
       "teamCode": "ITA",
@@ -29,6 +30,7 @@ window.TENNIS_DATA = {
       "id": "207989",
       "name": "Carlos Alcaraz",
       "rank": 2,
+      "prevRank": 2,
       "country": "ESP",
       "logo": "https://flagcdn.com/24x18/es.png",
       "teamCode": "ESP",
@@ -52,6 +54,7 @@ window.TENNIS_DATA = {
       "id": "104925",
       "name": "Novak Djokovic",
       "rank": 4,
+      "prevRank": 4,
       "country": "SRB",
       "logo": "https://flagcdn.com/24x18/rs.png",
       "teamCode": "SRB",
@@ -75,6 +78,7 @@ window.TENNIS_DATA = {
       "id": "100644",
       "name": "Alexander Zverev",
       "rank": 3,
+      "prevRank": 3,
       "country": "GER",
       "logo": "https://flagcdn.com/24x18/de.png",
       "teamCode": "GER",
@@ -98,6 +102,7 @@ window.TENNIS_DATA = {
       "id": "209950",
       "name": "Arthur Fils",
       "rank": 20,
+      "prevRank": 19,
       "country": "FRA",
       "logo": "https://flagcdn.com/24x18/fr.png",
       "teamCode": "FRA",
@@ -121,6 +126,7 @@ window.TENNIS_DATA = {
       "id": "106421",
       "name": "Daniil Medvedev",
       "rank": 8,
+      "prevRank": 7,
       "country": "RUS",
       "logo": "https://flagcdn.com/24x18/ru.png",
       "teamCode": "RUS",
@@ -144,6 +150,7 @@ window.TENNIS_DATA = {
       "id": "134770",
       "name": "Casper Ruud",
       "rank": 16,
+      "prevRank": 17,
       "country": "NOR",
       "logo": "https://flagcdn.com/24x18/no.png",
       "teamCode": "NOR",
@@ -167,6 +174,7 @@ window.TENNIS_DATA = {
       "id": "126205",
       "name": "Tommy Paul",
       "rank": 21,
+      "prevRank": 26,
       "country": "USA",
       "logo": "https://flagcdn.com/24x18/us.png",
       "teamCode": "USA",
@@ -190,6 +198,7 @@ window.TENNIS_DATA = {
       "id": "207518",
       "name": "Lorenzo Musetti",
       "rank": 11,
+      "prevRank": 11,
       "country": "ITA",
       "logo": "https://flagcdn.com/24x18/it.png",
       "teamCode": "ITA",
@@ -213,6 +222,7 @@ window.TENNIS_DATA = {
       "id": "200282",
       "name": "Alex De Minaur",
       "rank": 7,
+      "prevRank": 9,
       "country": "AUS",
       "logo": "https://flagcdn.com/24x18/au.png",
       "teamCode": "AUS",
@@ -236,6 +246,7 @@ window.TENNIS_DATA = {
       "id": "208103",
       "name": "Jiri Lehecka",
       "rank": 12,
+      "prevRank": 14,
       "country": "CZE",
       "logo": "https://flagcdn.com/24x18/cz.png",
       "teamCode": "CZE",
@@ -259,6 +270,7 @@ window.TENNIS_DATA = {
       "id": "212588",
       "name": "Rafael Jodar",
       "rank": 29,
+      "prevRank": 29,
       "country": "ESP",
       "logo": "https://flagcdn.com/24x18/es.png",
       "teamCode": "ESP",
@@ -282,6 +294,7 @@ window.TENNIS_DATA = {
       "id": "210097",
       "name": "Ben Shelton",
       "rank": 5,
+      "prevRank": 6,
       "country": "USA",
       "logo": "https://flagcdn.com/24x18/us.png",
       "teamCode": "USA",
@@ -305,6 +318,7 @@ window.TENNIS_DATA = {
       "id": "122330",
       "name": "Alexander Bublik",
       "rank": 10,
+      "prevRank": 10,
       "country": "KAZ",
       "logo": "https://flagcdn.com/24x18/kz.png",
       "teamCode": "KAZ",
@@ -328,6 +342,7 @@ window.TENNIS_DATA = {
       "id": "126203",
       "name": "Taylor Fritz",
       "rank": 9,
+      "prevRank": 8,
       "country": "USA",
       "logo": "https://flagcdn.com/24x18/us.png",
       "teamCode": "USA",
@@ -353,6 +368,7 @@ window.TENNIS_DATA = {
       "id": "214544",
       "name": "Aryna Sabalenka",
       "rank": 1,
+      "prevRank": 1,
       "country": "BLR",
       "logo": "https://flagcdn.com/24x18/by.png",
       "teamCode": "BLR",
@@ -376,6 +392,7 @@ window.TENNIS_DATA = {
       "id": "214981",
       "name": "Elena Rybakina",
       "rank": 2,
+      "prevRank": 2,
       "country": "KAZ",
       "logo": "https://flagcdn.com/24x18/kz.png",
       "teamCode": "KAZ",
@@ -399,6 +416,7 @@ window.TENNIS_DATA = {
       "id": "221103",
       "name": "Coco Gauff",
       "rank": 4,
+      "prevRank": 4,
       "country": "USA",
       "logo": "https://flagcdn.com/24x18/us.png",
       "teamCode": "USA",
@@ -422,6 +440,7 @@ window.TENNIS_DATA = {
       "id": "202468",
       "name": "Jessica Pegula",
       "rank": 5,
+      "prevRank": 5,
       "country": "USA",
       "logo": "https://flagcdn.com/24x18/us.png",
       "teamCode": "USA",
@@ -445,6 +464,7 @@ window.TENNIS_DATA = {
       "id": "216347",
       "name": "Iga Swiatek",
       "rank": 3,
+      "prevRank": 3,
       "country": "POL",
       "logo": "https://flagcdn.com/24x18/pl.png",
       "teamCode": "POL",
@@ -468,6 +488,7 @@ window.TENNIS_DATA = {
       "id": "202494",
       "name": "Elina Svitolina",
       "rank": 7,
+      "prevRank": 7,
       "country": "UKR",
       "logo": "https://flagcdn.com/24x18/ua.png",
       "teamCode": "UKR",
@@ -491,6 +512,7 @@ window.TENNIS_DATA = {
       "id": "259799",
       "name": "Mirra Andreeva",
       "rank": 8,
+      "prevRank": 8,
       "country": "RUS",
       "logo": "https://flagcdn.com/24x18/ru.png",
       "teamCode": "RUS",
@@ -514,6 +536,7 @@ window.TENNIS_DATA = {
       "id": "216146",
       "name": "Marta Kostyuk",
       "rank": 15,
+      "prevRank": 15,
       "country": "UKR",
       "logo": "https://flagcdn.com/24x18/ua.png",
       "teamCode": "UKR",
@@ -537,6 +560,7 @@ window.TENNIS_DATA = {
       "id": "216153",
       "name": "Amanda Anisimova",
       "rank": 6,
+      "prevRank": 6,
       "country": "USA",
       "logo": "https://flagcdn.com/24x18/us.png",
       "teamCode": "USA",
@@ -560,6 +584,7 @@ window.TENNIS_DATA = {
       "id": "214096",
       "name": "Karolina Muchova",
       "rank": 10,
+      "prevRank": 10,
       "country": "CZE",
       "logo": "https://flagcdn.com/24x18/cz.png",
       "teamCode": "CZE",
@@ -583,6 +608,7 @@ window.TENNIS_DATA = {
       "id": "201514",
       "name": "Sorana Cirstea",
       "rank": 18,
+      "prevRank": 18,
       "country": "ROU",
       "logo": "https://flagcdn.com/24x18/ro.png",
       "teamCode": "ROU",
@@ -606,6 +632,7 @@ window.TENNIS_DATA = {
       "id": "239475",
       "name": "Victoria Mboko",
       "rank": 9,
+      "prevRank": 9,
       "country": "CAN",
       "logo": "https://flagcdn.com/24x18/ca.png",
       "teamCode": "CAN",
@@ -629,6 +656,7 @@ window.TENNIS_DATA = {
       "id": "202505",
       "name": "Belinda Bencic",
       "rank": 11,
+      "prevRank": 11,
       "country": "SUI",
       "logo": "https://flagcdn.com/24x18/ch.png",
       "teamCode": "SUI",
@@ -652,6 +680,7 @@ window.TENNIS_DATA = {
       "id": "214954",
       "name": "Marketa Vondrousova",
       "rank": 44,
+      "prevRank": 44,
       "country": "CZE",
       "logo": "https://flagcdn.com/24x18/cz.png",
       "teamCode": "CZE",
@@ -675,6 +704,7 @@ window.TENNIS_DATA = {
       "id": "201619",
       "name": "Madison Keys",
       "rank": 19,
+      "prevRank": 19,
       "country": "USA",
       "logo": "https://flagcdn.com/24x18/us.png",
       "teamCode": "USA",
@@ -722,7 +752,9 @@ window.TENNIS_DATA = {
         "gs": 24,
         "year_end_no1": 7,
         "weeks_no1": 428,
-        "birth": 1987
+        "birth": 1987,
+        "era_start": 2004,
+        "era_end": null
       }
     },
     {
@@ -739,7 +771,9 @@ window.TENNIS_DATA = {
         "gs": 22,
         "year_end_no1": 2,
         "weeks_no1": 209,
-        "birth": 1986
+        "birth": 1986,
+        "era_start": 2005,
+        "era_end": 2024
       }
     },
     {
@@ -756,7 +790,9 @@ window.TENNIS_DATA = {
         "gs": 20,
         "year_end_no1": 5,
         "weeks_no1": 310,
-        "birth": 1981
+        "birth": 1981,
+        "era_start": 2003,
+        "era_end": 2022
       }
     },
     {
@@ -773,7 +809,9 @@ window.TENNIS_DATA = {
         "gs": 14,
         "year_end_no1": 6,
         "weeks_no1": 286,
-        "birth": 1971
+        "birth": 1971,
+        "era_start": 1990,
+        "era_end": 2002
       }
     },
     {
@@ -790,7 +828,9 @@ window.TENNIS_DATA = {
         "gs": 11,
         "year_end_no1": 3,
         "weeks_no1": 109,
-        "birth": 1956
+        "birth": 1956,
+        "era_start": 1973,
+        "era_end": 1983
       }
     },
     {
@@ -807,7 +847,9 @@ window.TENNIS_DATA = {
         "gs": 8,
         "year_end_no1": 8,
         "weeks_no1": 270,
-        "birth": 1960
+        "birth": 1960,
+        "era_start": 1980,
+        "era_end": 1994
       }
     },
     {
@@ -824,7 +866,9 @@ window.TENNIS_DATA = {
         "gs": 8,
         "year_end_no1": 5,
         "weeks_no1": 268,
-        "birth": 1952
+        "birth": 1952,
+        "era_start": 1972,
+        "era_end": 1996
       }
     },
     {
@@ -841,7 +885,9 @@ window.TENNIS_DATA = {
         "gs": 7,
         "year_end_no1": 4,
         "weeks_no1": 170,
-        "birth": 1959
+        "birth": 1959,
+        "era_start": 1978,
+        "era_end": 1992
       }
     },
     {
@@ -858,7 +904,9 @@ window.TENNIS_DATA = {
         "gs": 8,
         "year_end_no1": 1,
         "weeks_no1": 101,
-        "birth": 1970
+        "birth": 1970,
+        "era_start": 1986,
+        "era_end": 2006
       }
     },
     {
@@ -875,7 +923,9 @@ window.TENNIS_DATA = {
         "gs": 7,
         "year_end_no1": 3,
         "weeks_no1": 20,
-        "birth": 1964
+        "birth": 1964,
+        "era_start": 1982,
+        "era_end": 1991
       }
     },
     {
@@ -892,7 +942,9 @@ window.TENNIS_DATA = {
         "gs": 7,
         "year_end_no1": 1,
         "weeks_no1": 40,
-        "birth": 2003
+        "birth": 2003,
+        "era_start": 2022,
+        "era_end": null
       }
     },
     {
@@ -909,7 +961,9 @@ window.TENNIS_DATA = {
         "gs": 6,
         "year_end_no1": 2,
         "weeks_no1": 72,
-        "birth": 1966
+        "birth": 1966,
+        "era_start": 1983,
+        "era_end": 1996
       }
     },
     {
@@ -926,7 +980,9 @@ window.TENNIS_DATA = {
         "gs": 6,
         "year_end_no1": 1,
         "weeks_no1": 12,
-        "birth": 1967
+        "birth": 1967,
+        "era_start": 1985,
+        "era_end": 1999
       }
     },
     {
@@ -943,7 +999,9 @@ window.TENNIS_DATA = {
         "gs": 4,
         "year_end_no1": 1,
         "weeks_no1": 50,
-        "birth": 2001
+        "birth": 2001,
+        "era_start": 2024,
+        "era_end": null
       }
     }
   ],
@@ -962,7 +1020,9 @@ window.TENNIS_DATA = {
         "gs": 22,
         "year_end_no1": 8,
         "weeks_no1": 377,
-        "birth": 1969
+        "birth": 1969,
+        "era_start": 1984,
+        "era_end": 1999
       }
     },
     {
@@ -979,7 +1039,9 @@ window.TENNIS_DATA = {
         "gs": 23,
         "year_end_no1": 5,
         "weeks_no1": 319,
-        "birth": 1981
+        "birth": 1981,
+        "era_start": 1999,
+        "era_end": 2022
       }
     },
     {
@@ -996,7 +1058,9 @@ window.TENNIS_DATA = {
         "gs": 18,
         "year_end_no1": 7,
         "weeks_no1": 332,
-        "birth": 1956
+        "birth": 1956,
+        "era_start": 1978,
+        "era_end": 2006
       }
     },
     {
@@ -1013,7 +1077,9 @@ window.TENNIS_DATA = {
         "gs": 18,
         "year_end_no1": 7,
         "weeks_no1": 260,
-        "birth": 1954
+        "birth": 1954,
+        "era_start": 1972,
+        "era_end": 1989
       }
     },
     {
@@ -1030,7 +1096,9 @@ window.TENNIS_DATA = {
         "gs": 12,
         "year_end_no1": 0,
         "weeks_no1": 40,
-        "birth": 1943
+        "birth": 1943,
+        "era_start": 1961,
+        "era_end": 1983
       }
     },
     {
@@ -1047,7 +1115,9 @@ window.TENNIS_DATA = {
         "gs": 9,
         "year_end_no1": 7,
         "weeks_no1": 178,
-        "birth": 1973
+        "birth": 1973,
+        "era_start": 1989,
+        "era_end": 2008
       }
     },
     {
@@ -1064,7 +1134,9 @@ window.TENNIS_DATA = {
         "gs": 7,
         "year_end_no1": 3,
         "weeks_no1": 61,
-        "birth": 1982
+        "birth": 1982,
+        "era_start": 2001,
+        "era_end": 2011
       }
     },
     {
@@ -1081,7 +1153,9 @@ window.TENNIS_DATA = {
         "gs": 6,
         "year_end_no1": 5,
         "weeks_no1": 125,
-        "birth": 2001
+        "birth": 2001,
+        "era_start": 2020,
+        "era_end": null
       }
     },
     {
@@ -1098,7 +1172,9 @@ window.TENNIS_DATA = {
         "gs": 7,
         "year_end_no1": 3,
         "weeks_no1": 11,
-        "birth": 1980
+        "birth": 1980,
+        "era_start": 1997,
+        "era_end": 2023
       }
     },
     {
@@ -1115,7 +1191,9 @@ window.TENNIS_DATA = {
         "gs": 5,
         "year_end_no1": 4,
         "weeks_no1": 209,
-        "birth": 1980
+        "birth": 1980,
+        "era_start": 1994,
+        "era_end": 2007
       }
     },
     {
@@ -1132,7 +1210,9 @@ window.TENNIS_DATA = {
         "gs": 5,
         "year_end_no1": 2,
         "weeks_no1": 60,
-        "birth": 2004
+        "birth": 2004,
+        "era_start": 2021,
+        "era_end": null
       }
     },
     {
@@ -1149,7 +1229,9 @@ window.TENNIS_DATA = {
         "gs": 5,
         "year_end_no1": 0,
         "weeks_no1": 21,
-        "birth": 1987
+        "birth": 1987,
+        "era_start": 2003,
+        "era_end": 2020
       }
     },
     {
@@ -1166,7 +1248,9 @@ window.TENNIS_DATA = {
         "gs": 3,
         "year_end_no1": 3,
         "weeks_no1": 98,
-        "birth": 1976
+        "birth": 1976,
+        "era_start": 1994,
+        "era_end": 2010
       }
     },
     {
@@ -1183,7 +1267,9 @@ window.TENNIS_DATA = {
         "gs": 4,
         "year_end_no1": 1,
         "weeks_no1": 0,
-        "birth": 1983
+        "birth": 1983,
+        "era_start": 1997,
+        "era_end": 2012
       }
     }
   ],

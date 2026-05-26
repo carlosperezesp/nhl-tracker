@@ -13,6 +13,7 @@ CURRENT_YEAR = datetime.now(timezone.utc).year
 
 ESPN_STANDINGS   = "https://site.api.espn.com/apis/v2/sports/racing/f1/standings"
 ESPN_SCOREBOARD  = "https://site.api.espn.com/apis/site/v2/sports/racing/f1/scoreboard"
+ESPN_SCHEDULE    = "https://site.api.espn.com/apis/site/v2/sports/racing/f1/schedule"
 
 # ── 2026 driver → constructor mapping ────────────────────────────────────────
 # Updated each season; constructor IDs match ESPN team names (lowercased)
@@ -246,14 +247,8 @@ def _standings() -> tuple[list[dict], list[dict], int, int]:
     return driver_list, ctor_list, round_num, total_races
 
 
-def _last_race() -> dict | None:
-    data = _fetch(ESPN_SCOREBOARD, ttl_hours=1.0)
-    if not data:
-        return None
-    events = data.get("events", [])
-    if not events:
-        return None
-    ev    = events[0]
+def _parse_event(ev: dict) -> dict | None:
+    """Extract podium + metadata from an ESPN F1 event dict."""
     comps = ev.get("competitions", [{}])[0].get("competitors", [])
     comps_sorted = sorted(comps, key=lambda c: c.get("order", 999))
     podium = []
@@ -267,6 +262,8 @@ def _last_race() -> dict | None:
             "time":     "",
             "primary":  "#555555",
         })
+    if not podium:
+        return None
     circuit = ev.get("circuit", {})
     return {
         "name":    ev.get("name", ""),
@@ -275,6 +272,33 @@ def _last_race() -> dict | None:
         "round":   0,
         "podium":  podium,
     }
+
+def _last_race() -> dict | None:
+    data = _fetch(ESPN_SCOREBOARD, ttl_hours=1.0)
+    if not data:
+        return None
+    events = data.get("events", [])
+    # Find most recent completed non-sprint grand prix
+    for ev in events:
+        if "sprint" in ev.get("name", "").lower():
+            continue
+        result = _parse_event(ev)
+        if result and result["podium"]:
+            return result
+    # Fallback: any completed event
+    return _parse_event(events[0]) if events else None
+
+def _last_sprint() -> dict | None:
+    """Return the most recent sprint race result, or None if no sprint this season."""
+    data = _fetch(ESPN_SCOREBOARD, ttl_hours=1.0)
+    if not data:
+        return None
+    for ev in data.get("events", []):
+        if "sprint" in ev.get("name", "").lower():
+            result = _parse_event(ev)
+            if result and result["podium"]:
+                return result
+    return None
 
 # ── Legends ───────────────────────────────────────────────────────────────────
 
@@ -310,6 +334,7 @@ def write_data() -> None:
     legends                              = build_legends()
     drivers, constructors, round_num, total_races = _standings()
     last_race                            = _last_race()
+    last_sprint                          = _last_sprint()
     importance = _importance(drivers, round_num, total_races)
 
     # Enrich last race podium with team colors
@@ -344,6 +369,7 @@ def write_data() -> None:
         "DRIVERS":      drivers[:10],
         "CONSTRUCTORS": constructors[:5],
         "LAST_RACE":    last_race,
+        "LAST_SPRINT":  last_sprint,
         "LEGENDS":      legends,
     }
 

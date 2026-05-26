@@ -1,6 +1,6 @@
-// Auto-generated 2026-05-25 21:30 UTC
+// Auto-generated 2026-05-26 14:53 UTC
 window.F1_DATA = {
-  "UPDATED": "2026-05-25 21:30 UTC",
+  "UPDATED": "2026-05-26 14:53 UTC",
   "SEASON": "2026",
   "ROUND": 5,
   "TOTAL_ROUNDS": 24,
@@ -299,6 +299,7 @@ window.F1_DATA = {
       }
     ]
   },
+  "LAST_SPRINT": null,
   "LEGENDS": [
     {
       "id": "lewis_hamilton",

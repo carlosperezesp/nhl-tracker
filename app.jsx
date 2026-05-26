@@ -46,9 +46,9 @@ function NewsletterRankRow({ rank, item, alive, score, scoreDisplay, scoreLabel,
           <span className="newsletter-row__score-value">{displayed}</span>
         )}
         {scoreB !== undefined && (
-          <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 2 }}>
-            <span style={{ fontSize: 8, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted,#888)", fontFamily: "monospace" }}>{scoreBLabel}</span>
-            <span style={{ fontFamily: "monospace", fontSize: 11, color: "var(--muted,#888)", lineHeight: 1.2 }}>{typeof scoreB === "number" ? scoreB.toFixed(1) : scoreB}</span>
+          <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 4, marginLeft: 10, minWidth: 44 }}>
+            <span style={{ fontSize: 9, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted,#888)", fontFamily: "monospace" }}>{scoreBLabel}</span>
+            <span style={{ fontFamily: "monospace", fontSize: 14, fontWeight: 600, color: "var(--ink-2,#666)", lineHeight: 1.2 }}>{typeof scoreB === "number" ? scoreB.toFixed(1) : scoreB}</span>
           </span>
         )}
       </span>
@@ -165,17 +165,14 @@ function NewsletterApp() {
   }
   function tennisPlayerMeta(player, tour) {
     const gs = player.stats?.gs || 0;
-    const wk = player.stats?.weeks_no1 || 0;
     const gsStr = gs > 0 ? ` · ${gs} GS` : "";
-    const wkStr = wk > 0 ? ` · ${wk} sem. #1` : "";
-    return `${tour} · #${player.rank} ranking${gsStr}${wkStr}`;
-  }
-  function tennisPlayerNote(player) {
-    const surfParts = [];
-    if (player.surface?.hard != null) surfParts.push(`H:${Math.round(player.surface.hard * 100)}%`);
-    if (player.surface?.clay != null) surfParts.push(`C:${Math.round(player.surface.clay * 100)}%`);
-    if (player.surface?.grass != null) surfParts.push(`G:${Math.round(player.surface.grass * 100)}%`);
-    return surfParts.join(" · ");
+    let arrow = "";
+    if (player.prevRank != null) {
+      const diff = player.prevRank - player.rank;
+      if (diff > 0) arrow = ` ▲${diff}`;
+      else if (diff < 0) arrow = ` ▼${Math.abs(diff)}`;
+    }
+    return `${tour} · #${player.rank}${arrow}${gsStr}`;
   }
 
   // NBA data
@@ -738,22 +735,15 @@ function NewsletterApp() {
           const atpChanges  = TENNIS.ATP_CHANGES  || { entered: [], exited: [] };
           const wtaChanges  = TENNIS.WTA_CHANGES  || { entered: [], exited: [] };
 
-          // Merge historical legends with active players by legendScore.
-          // Active players use the richer formula score (normalized to Djokovic/Graf=100).
+          // Legends list = hardcoded historical list only; active players get their richer score.
           function buildLegendsMerged(histKey, activeList) {
             const activeByName = Object.fromEntries(activeList.map(p => [p.name, p]));
-            const hist = (TENNIS[histKey] || []).map(p => {
+            return (TENNIS[histKey] || []).map(p => {
               const act = activeByName[p.name];
-              // Use richer active legendScore for current players so scores are on same scale
               return { ...p, colors: { primary: p.primary, secondary: p.secondary },
                         legendScore: act ? act.legendScore : p.legendScore,
                         active: act ? true : (p.active || false) };
-            });
-            const seenNames = new Set(hist.map(p => p.name));
-            const activeExtra = activeList
-              .filter(p => p.legendScore > 0 && !seenNames.has(p.name))
-              .map(p => ({ ...p, colors: { primary: p.primary, secondary: p.secondary }, active: true }));
-            return [...hist, ...activeExtra].sort((a, b) => b.legendScore - a.legendScore).slice(0, 12);
+            }).sort((a, b) => b.legendScore - a.legendScore).slice(0, 12);
           }
           const atpLegends = buildLegendsMerged("ATP_LEGENDS", tennisATPFull);
           const wtaLegends = buildLegendsMerged("WTA_LEGENDS", tennisWTAFull);
@@ -820,7 +810,6 @@ function NewsletterApp() {
                       scoreB={player.legendScore}
                       scoreBLabel="Legend"
                       meta={tennisPlayerMeta(player, "ATP")}
-                      note={tennisPlayerNote(player)}
                       logo={player.logo}
                     />
                   ))}
@@ -845,7 +834,6 @@ function NewsletterApp() {
                       scoreB={player.legendScore}
                       scoreBLabel="Legend"
                       meta={tennisPlayerMeta(player, "WTA")}
-                      note={tennisPlayerNote(player)}
                       logo={player.logo}
                     />
                   ))}
@@ -859,7 +847,9 @@ function NewsletterApp() {
                 sub="Score histórico: GS (×12) + Year-end #1 (×3) + semanas en #1 (÷10). Djokovic como referencia: 100."
               >
                 <div className="newsletter-list">
-                  {atpLegends.map((p, i) => (
+                  {atpLegends.map((p, i) => {
+                    const era = p.stats?.era_start ? `${p.stats.era_start}–${p.stats.era_end || "hoy"}` : (p.stats?.birth || "");
+                    return (
                     <NewsletterRankRow
                       key={p.id}
                       rank={i + 1}
@@ -867,11 +857,12 @@ function NewsletterApp() {
                       alive={new Set()}
                       score={p.legendScore}
                       scoreLabel="Legend"
-                      meta={`ATP · ${p.country} · ${p.stats?.birth || ""}${p.active ? " · 🟢 Activo" : ""}`}
+                      meta={`ATP · ${p.country} · ${era}${p.active ? " · 🟢 Activo" : ""}`}
                       note={`${p.stats?.gs || 0} GS · ${p.stats?.year_end_no1 || 0}× #1 año · ${p.stats?.weeks_no1 || 0} sem #1`}
                       logo={p.logo}
                     />
-                  ))}
+                    );
+                  })}
                 </div>
               </NewsletterSection>
 
@@ -881,7 +872,9 @@ function NewsletterApp() {
                 sub="Score histórico: GS (×12) + Year-end #1 (×3) + semanas en #1 (÷10). Graf como referencia: 100."
               >
                 <div className="newsletter-list">
-                  {wtaLegends.map((p, i) => (
+                  {wtaLegends.map((p, i) => {
+                    const era = p.stats?.era_start ? `${p.stats.era_start}–${p.stats.era_end || "hoy"}` : (p.stats?.birth || "");
+                    return (
                     <NewsletterRankRow
                       key={p.id}
                       rank={i + 1}
@@ -889,11 +882,12 @@ function NewsletterApp() {
                       alive={new Set()}
                       score={p.legendScore}
                       scoreLabel="Legend"
-                      meta={`WTA · ${p.country} · ${p.stats?.birth || ""}${p.active ? " · 🟢 Activo" : ""}`}
+                      meta={`WTA · ${p.country} · ${era}${p.active ? " · 🟢 Activo" : ""}`}
                       note={`${p.stats?.gs || 0} GS · ${p.stats?.year_end_no1 || 0}× #1 año · ${p.stats?.weeks_no1 || 0} sem #1`}
                       logo={p.logo}
                     />
-                  ))}
+                    );
+                  })}
                 </div>
               </NewsletterSection>
             </>
@@ -1250,6 +1244,7 @@ function NewsletterApp() {
           const f1MaxSeason  = F1.MAX_SEASON_PTS || F1.TOTAL_ROUNDS * 25;
           const f1Remaining  = (F1.TOTAL_ROUNDS - F1.ROUND) * 25;
           const f1Threshold  = Math.round(Math.min((drivers[1]?.points || 0) + f1Remaining + 1, f1MaxSeason) / f1MaxSeason * 1000) / 10;
+          const f1DriverByName = Object.fromEntries((F1.DRIVERS || []).map(d => [d.name, d]));
           return (
             <>
               <header className="newsletter-hero" style={{ marginTop: 48 }}>
@@ -1327,31 +1322,74 @@ function NewsletterApp() {
               </NewsletterSection>
 
               {/* Last race podium */}
-              {lastRace && lastRace.podium && lastRace.podium.length > 0 && (
+              {lastRace && lastRace.podium && lastRace.podium.length > 0 && (() => {
+                const podiumNames = new Set(lastRace.podium.map(p => p.name));
+                const champNotInPodium = drivers.slice(0, 2).filter(d => !podiumNames.has(d.name));
+                return (
                 <NewsletterSection
-                  kicker="Last Race"
+                  kicker="Última carrera"
                   title={lastRace.name}
                   sub={`${lastRace.circuit} · ${lastRace.date}`}
                 >
                   <div className="newsletter-list">
-                    {lastRace.podium.map((p, i) => (
+                    {lastRace.podium.map((p, i) => {
+                      const dInfo = f1DriverByName[p.name] || {};
+                      return (
                       <div key={i} className="newsletter-row">
-                        <span className="newsletter-row__rank">{`P${p.position}`}</span>
+                        <span className="newsletter-row__rank" style={{ minWidth: 28 }}>{`P${p.position}`}</span>
                         <span className="newsletter-row__identity" style={{ flex: 1 }}>
-                          <span
-                            className="newsletter-row__dot"
-                            style={{ background: p.primary }}
-                          />
+                          <span className="newsletter-row__dot" style={{ background: p.primary }} />
+                          {dInfo.logo && <img src={dInfo.logo} alt={dInfo.country} style={{ width: 20, height: 15, borderRadius: 2, marginRight: 6, flexShrink: 0 }} />}
                           <span className="newsletter-row__copy">
                             <span className="newsletter-row__name">{p.name}</span>
-                            <span className="newsletter-row__meta">{p.team}</span>
+                            <span className="newsletter-row__meta">{p.team || dInfo.team}</span>
                           </span>
                         </span>
-                        {p.time && (
-                          <span style={{ fontSize: 12, color: "var(--ink-2)" }}>{p.time}</span>
-                        )}
+                        {p.time && <span style={{ fontSize: 12, color: "var(--ink-2)" }}>{p.time}</span>}
                       </div>
-                    ))}
+                      );
+                    })}
+                  </div>
+                  {champNotInPodium.length > 0 && (
+                    <div style={{ marginTop: 12, fontSize: 12, color: "var(--ink-2,#666)", fontFamily: "monospace" }}>
+                      {champNotInPodium.map(d => (
+                        <div key={d.name} style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+                          <span style={{ width: 8, height: 8, borderRadius: 2, background: d.primary, flexShrink: 0, display: "inline-block" }} />
+                          <img src={d.logo} alt={d.country} style={{ width: 18, height: 13, borderRadius: 2 }} />
+                          <span>{d.name}</span>
+                          <span style={{ color: "var(--muted,#999)" }}>— {d.points} pts campeonato · no entró en el podio</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </NewsletterSection>
+                );
+              })()}
+
+              {/* Sprint race */}
+              {F1.LAST_SPRINT && F1.LAST_SPRINT.podium && F1.LAST_SPRINT.podium.length > 0 && (
+                <NewsletterSection
+                  kicker="Sprint Race"
+                  title={F1.LAST_SPRINT.name}
+                  sub={`${F1.LAST_SPRINT.circuit} · ${F1.LAST_SPRINT.date}`}
+                >
+                  <div className="newsletter-list">
+                    {F1.LAST_SPRINT.podium.map((p, i) => {
+                      const dInfo = f1DriverByName[p.name] || {};
+                      return (
+                      <div key={i} className="newsletter-row">
+                        <span className="newsletter-row__rank" style={{ minWidth: 28 }}>{`P${p.position}`}</span>
+                        <span className="newsletter-row__identity" style={{ flex: 1 }}>
+                          <span className="newsletter-row__dot" style={{ background: p.primary }} />
+                          {dInfo.logo && <img src={dInfo.logo} alt={dInfo.country} style={{ width: 20, height: 15, borderRadius: 2, marginRight: 6, flexShrink: 0 }} />}
+                          <span className="newsletter-row__copy">
+                            <span className="newsletter-row__name">{p.name}</span>
+                            <span className="newsletter-row__meta">{p.team || dInfo.team}</span>
+                          </span>
+                        </span>
+                      </div>
+                      );
+                    })}
                   </div>
                 </NewsletterSection>
               )}
@@ -1360,7 +1398,7 @@ function NewsletterApp() {
               <NewsletterSection
                 kicker="F1 Legends"
                 title="Road to Glory · Leyendas de la F1"
-                sub="Score histórico ponderando títulos (×15), victorias (×0.5), poles (×0.3) y podios (×0.15). Hamilton como referencia: 100."
+                sub="Score histórico: títulos (×15), victorias (×0.5), poles (×0.3), podios (×0.15). Hamilton como referencia: 100."
               >
                 <div className="newsletter-list">
                   {legends.map((p, i) => (
@@ -1368,10 +1406,10 @@ function NewsletterApp() {
                       key={p.id}
                       rank={i + 1}
                       item={p}
-                      alive={new Set(legends.filter(l => l.active).map(l => l.id))}
+                      alive={new Set()}
                       score={p.legendScore}
                       scoreLabel="Legend"
-                      meta={`F1 · ${p.country} · ${p.stats.birth}`}
+                      meta={`F1 · ${p.country} · ${p.stats.birth}${p.active ? " · 🟢 Activo" : ""}`}
                       note={`${p.stats.titles} títulos · ${p.stats.wins} victorias · ${p.stats.poles} poles`}
                       logo={p.logo}
                     />
@@ -1555,19 +1593,24 @@ function NewsletterApp() {
 
               {last && (
                 <NewsletterSection
-                  kicker={`Round ${last.round}`}
+                  kicker={`Round ${last.round} · Última carrera`}
                   title={last.name}
-                  sub={`Ganador del GP · ${last.bike}`}
+                  sub={last.bike ? `${last.bike}` : "Resultado GP"}
                 >
-                  <div className="newsletter-row" style={{ padding: "8px 0" }}>
-                    <span className="newsletter-row__rank">P1</span>
-                    <span className="newsletter-row__identity">
-                      <span className="newsletter-row__dot" style={{ background: last.primary }} />
-                      <span className="newsletter-row__copy">
-                        <span className="newsletter-row__name">{last.winner}</span>
-                        <span className="newsletter-row__meta">{last.bike}</span>
-                      </span>
-                    </span>
+                  <div className="newsletter-list">
+                    {(last.podium || [{ pos: 1, name: last.winner, country: last.country, logo: null, bike: last.bike, primary: last.primary }]).map((p, i) => (
+                      <div key={i} className="newsletter-row">
+                        <span className="newsletter-row__rank" style={{ minWidth: 28 }}>{`P${p.pos || p.position || i + 1}`}</span>
+                        <span className="newsletter-row__identity" style={{ flex: 1 }}>
+                          <span className="newsletter-row__dot" style={{ background: p.primary || last.primary }} />
+                          {p.logo && <img src={p.logo} alt={p.country} style={{ width: 20, height: 15, borderRadius: 2, marginRight: 6, flexShrink: 0 }} />}
+                          <span className="newsletter-row__copy">
+                            <span className="newsletter-row__name">{p.name}</span>
+                            <span className="newsletter-row__meta">{p.bike || last.bike}</span>
+                          </span>
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </NewsletterSection>
               )}
@@ -1583,10 +1626,10 @@ function NewsletterApp() {
                       key={p.id}
                       rank={i + 1}
                       item={p}
-                      alive={new Set(legends.filter(l => l.active).map(l => l.id))}
+                      alive={new Set()}
                       score={p.legendScore}
                       scoreLabel="Legend"
-                      meta={`MotoGP · ${p.country} · ${p.stats.birth}`}
+                      meta={`MotoGP · ${p.country} · ${p.stats.birth}${p.active ? " · 🟢 Activo" : ""}`}
                       note={`${p.stats.titles} títulos · ${p.stats.wins} victorias · ${p.stats.poles} poles`}
                       logo={p.logo}
                     />

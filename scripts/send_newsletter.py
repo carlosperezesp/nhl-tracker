@@ -1189,32 +1189,70 @@ def sumo_html(d: dict) -> str:
     basho     = d.get("BASHO_INFO") or {}
     legends   = d.get("LEGENDS", [])
 
-    def banzuke_html() -> str:
-        yokozuna = [w for w in banzuke if "Yokozuna" in w.get("rankLabel","")]
-        ozeki    = [w for w in banzuke if "Ozeki" in w.get("rankLabel","")]
-        top_wr   = (yokozuna + ozeki)[:10]
-        rows = ""
-        for w in top_wr:
-            record  = f"{w.get('wins',0)}–{w.get('losses',0)}"
-            if w.get("absences", 0) > 0:
-                record += f"–{w['absences']}A"
-            rank = w.get("rankLabel","").replace(" East","E").replace(" West","W")
-            rows += (
+    legend_map = {lg["name"].lower(): lg["legendScore"] for lg in legends}
+
+    def record_str(w: dict) -> str:
+        if w.get("wins", 0) == 0 and w.get("losses", 0) == 0:
+            return f'Kyujo ({w.get("absences",0)}A)'
+        r = f'{w.get("wins",0)}W–{w.get("losses",0)}L'
+        if w.get("absences", 0) > 0:
+            r += f'–{w["absences"]}A'
+        return r
+
+    def standings_html() -> str:
+        winner = basho.get("winner", "")
+        # Top 5 by wins, excluding pure-absence entries
+        active  = [w for w in banzuke if w.get("wins", 0) > 0 or w.get("losses", 0) > 0]
+        top5    = sorted(active, key=lambda w: -w.get("wins", 0))[:5]
+        top5_names = {w["name"] for w in top5}
+        yokozunas  = [w for w in banzuke if "Yokozuna" in w.get("rankLabel", "") and w["name"] not in top5_names]
+
+        def wrestler_row(w: dict, label: str = "") -> str:
+            short_rank = w.get("rankLabel","").replace(" East","E").replace(" West","W")
+            lg_score   = legend_map.get(w["name"].lower(), 0.0)
+            fill_px    = round(60 * min(100.0, lg_score) / 100)
+            is_winner  = w["name"] == winner
+            name_html  = f'<b>{w["name"]}</b>'
+            if is_winner:
+                name_html += f' <span style="background:{ACCENT};color:#fff;font-size:9px;border-radius:3px;padding:1px 5px;vertical-align:middle">🏆 Campeón</span>'
+            lg_bar = (
+                f'<table cellpadding="0" cellspacing="0" border="0" '
+                f'style="display:inline-table;width:60px;height:4px;background:{BAR_BG};'
+                f'border-spacing:0;vertical-align:middle">'
+                f'<tr><td style="width:{fill_px}px;background:{BAR_FILL};height:4px;padding:0"></td>'
+                f'<td style="background:{BAR_BG};height:4px;padding:0"></td></tr></table>'
+                f' <span style="font-size:9px;color:{MUTED};font-family:monospace">'
+                f'{lg_score:.0f}/100</span>'
+            )
+            return (
                 f'<tr style="border-bottom:1px solid {RULE}">'
-                f'<td style="padding:7px 8px 7px 0;font-size:11px;color:{MUTED};'
-                f'font-family:monospace;white-space:nowrap">{rank}</td>'
-                f'<td style="padding:7px 4px;font-size:13px;font-weight:600;color:{INK}">'
-                f'{swatch(ACCENT, 8)}{w.get("name","")}</td>'
-                f'<td style="padding:7px 0;font-size:12px;font-family:monospace;'
-                f'color:{INK2};text-align:right">{record}</td>'
+                f'<td style="padding:8px 6px 8px 0;font-size:13px;color:{INK};vertical-align:top">'
+                f'{name_html}'
+                f'<div style="font-size:10px;color:{MUTED};font-family:monospace;margin-top:2px">{short_rank}</div>'
+                f'<div style="margin-top:4px">{lg_bar}</div>'
+                f'</td>'
+                f'<td style="padding:8px 0;font-size:12px;font-family:monospace;font-weight:600;'
+                f'color:{INK2};text-align:right;vertical-align:top;white-space:nowrap">'
+                f'{record_str(w)}</td>'
                 f'</tr>'
             )
+
+        sep_style = (f'font-size:9px;letter-spacing:.1em;text-transform:uppercase;'
+                     f'color:{MUTED};font-family:monospace;padding:6px 0 4px;'
+                     f'border-bottom:2px solid {INK};display:block;margin-bottom:2px')
+        rows = f'<tr><td colspan="2"><span style="{sep_style}">Top por victorias</span></td></tr>'
+        for w in top5:
+            rows += wrestler_row(w)
+        if yokozunas:
+            rows += f'<tr><td colspan="2"><span style="{sep_style}">Yokozunas</span></td></tr>'
+            for w in yokozunas:
+                rows += wrestler_row(w)
         return (f'<table cellpadding="0" cellspacing="0" border="0" '
                 f'style="width:100%;border-collapse:collapse">{rows}</table>')
 
     def lg_meta(p):
         st = p.get("stats", {})
-        return (f"{p.get('country','')} · {st.get('yusho',0)} campeonatos (yusho) · "
+        return (f"{p.get('country','')} · {st.get('yusho',0)} yusho · "
                 f"{st.get('yokozuna_basho',0)} basho como Yokozuna")
 
     winner      = basho.get("winner","")
@@ -1224,7 +1262,8 @@ def sumo_html(d: dict) -> str:
     basho_note  = f"Basho {basho_id} · {start} – {end}" if basho_id else "Sin basho activo"
     winner_html = (
         f'<div style="font-size:13px;color:{INK};padding:10px 0">'
-        f'{swatch(ACCENT)}<b>Campeón: {winner}</b> <span style="color:{MUTED}">({basho_note})</span></div>'
+        f'{swatch(ACCENT)}<b>Campeón: {winner}</b>'
+        f' <span style="color:{MUTED}">({basho_note})</span></div>'
         if winner else
         f'<div style="padding:10px 0;font-size:13px;color:{MUTED};font-family:monospace">'
         f'{basho_note}</div>'
@@ -1233,12 +1272,11 @@ def sumo_html(d: dict) -> str:
     return (
         f'<div style="margin-top:32px"></div>'
         + sport_header("Sumo", "2026", d.get("UPDATED",""), title="Sumo — Banzuke")
-        + section("Último basho", "Campeón del torneo",
-                  basho_note, winner_html)
-        + section("Banzuke — Yokozuna y Ōzeki",
-                  "Luchadores de mayor rango activos",
-                  "Registro en el último basho.",
-                  banzuke_html())
+        + section("Último basho", "Campeón del torneo", basho_note, winner_html)
+        + section(f"Clasificación — {basho_id}",
+                  "Top 5 + Yokozunas",
+                  "Ordenado por victorias · Score de leyendas (Hakuho=100) junto a cada luchador.",
+                  standings_html())
         + section("Road to Glory · Leyendas del Sumo",
                   "Los mejores de la historia",
                   "Score: yusho × 10 + basho como Yokozuna × 0.5",

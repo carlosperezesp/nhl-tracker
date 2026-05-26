@@ -1037,12 +1037,33 @@ function NewsletterApp() {
           const sumoLegends = (SUMO.LEGENDS || []).map(p => ({ ...p, colors: { primary: p.primary, secondary: p.secondary } })).slice(0, 10);
           const banzuke     = SUMO.BANZUKE || [];
           const bashoInfo   = SUMO.BASHO_INFO;
+          const legendMap   = Object.fromEntries((SUMO.LEGENDS || []).map(lg => [lg.name.toLowerCase(), lg]));
+
           function bashoLabel(id) {
             if (!id) return "";
             const month = parseInt(id.slice(4));
             const names = {1:"Hatsu (Enero)",3:"Haru (Marzo)",5:"Natsu (Mayo)",7:"Nagoya (Julio)",9:"Aki (Septiembre)",11:"Kyushu (Noviembre)"};
             return `${id.slice(0,4)} ${names[month] || id}`;
           }
+
+          // Top 5 by wins (exclude pure kyujo with 0 wins AND 0 losses)
+          const ranked = [...banzuke]
+            .filter(w => w.wins > 0 || w.losses > 0)
+            .sort((a, b) => b.wins - a.wins);
+          const top5 = ranked.slice(0, 5);
+          const top5Names = new Set(top5.map(w => w.name));
+          // Always include Yokozunas even if outside top 5
+          const yokozunas = banzuke.filter(w => w.rankLabel.includes("Yokozuna") && !top5Names.has(w.name));
+          const displayList = [...top5, ...yokozunas];
+
+          function recordStr(w) {
+            if (w.wins === 0 && w.losses === 0) return `Kyujo (${w.absences}A)`;
+            return `${w.wins}W–${w.losses}L${w.absences > 0 ? `–${w.absences}A` : ""}`;
+          }
+          function shortRank(label) {
+            return label.replace(" East","E").replace(" West","W");
+          }
+
           return (
             <>
               <header className="newsletter-hero" style={{ marginTop: 48 }}>
@@ -1052,15 +1073,88 @@ function NewsletterApp() {
                   <span>Actualizado {SUMO.UPDATED}</span>
                 </div>
                 <div className="newsletter-hero__title-row">
-                  <h1>Sumo · Yokozuna Leyendas</h1>
+                  <h1>Sumo · {bashoLabel(SUMO.BASHO_ID)}</h1>
                   <p>
-                    Ranking histórico de Yokozuna por yusho (Copa del Emperador) y basho compitiendo como Yokozuna.
-                    {bashoInfo?.winner && ` Ganador del Natsu 2026: ${bashoInfo.winner}.`}
+                    {bashoInfo?.winner
+                      ? `Campeón del torneo: ${bashoInfo.winner}. Score de leyendas: Hakuho=100.`
+                      : "Score de leyendas: Hakuho=100."}
                   </p>
                 </div>
               </header>
+
+              {banzuke.length > 0 && (
+                <NewsletterSection
+                  kicker={`Clasificación — ${bashoLabel(SUMO.BASHO_ID)}`}
+                  title="Top 5 + Yokozunas"
+                  sub="Ordenado por victorias. Score de leyendas (Hakuho=100) al lado de cada luchador."
+                >
+                  <div className="newsletter-list">
+                    {top5.length > 0 && (
+                      <div style={{ fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted,#888)", fontFamily: "monospace", padding: "4px 0 6px", borderBottom: "2px solid var(--ink,#1a1714)" }}>
+                        Top por victorias
+                      </div>
+                    )}
+                    {top5.map((w, i) => {
+                      const lg = legendMap[w.name.toLowerCase()];
+                      const lgScore = lg ? lg.legendScore : 0;
+                      const isWinner = bashoInfo?.winner === w.name;
+                      return (
+                        <div key={w.name} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "10px 0", borderBottom: "1px solid var(--rule,#eee)" }}>
+                          <span style={{ width: 20, fontSize: 15, color: "var(--muted,#888)", fontVariantNumeric: "tabular-nums", flexShrink: 0, paddingTop: 2 }}>{i + 1}</span>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
+                              {w.name}
+                              {isWinner && <span style={{ fontSize: 12, background: "var(--accent,#b84832)", color: "#fff", borderRadius: 3, padding: "1px 5px", fontWeight: 700 }}>🏆 Campeón</span>}
+                            </div>
+                            <div style={{ fontSize: 11, color: "var(--muted,#888)", fontFamily: "monospace", marginTop: 1 }}>{shortRank(w.rankLabel)}</div>
+                            <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+                              <div style={{ width: 70, height: 4, background: "var(--bar-bg,#dedad6)", borderRadius: 2, overflow: "hidden" }}>
+                                <div style={{ width: `${lgScore}%`, height: "100%", background: lgScore > 0 ? "var(--bar-fill,#4a4745)" : "transparent", borderRadius: 2 }} />
+                              </div>
+                              <span style={{ fontSize: 10, color: "var(--muted,#888)", fontFamily: "monospace" }}>
+                                {lgScore > 0 ? `${lgScore.toFixed(0)}/100` : "0/100"}
+                              </span>
+                            </div>
+                          </div>
+                          <span style={{ fontFamily: "monospace", fontSize: 13, fontWeight: 600, color: "var(--ink,#1a1714)", whiteSpace: "nowrap", paddingTop: 2 }}>
+                            {recordStr(w)}
+                          </span>
+                        </div>
+                      );
+                    })}
+                    {yokozunas.length > 0 && (
+                      <div style={{ fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted,#888)", fontFamily: "monospace", padding: "8px 0 6px", borderBottom: "2px solid var(--ink,#1a1714)", marginTop: 4 }}>
+                        Yokozunas
+                      </div>
+                    )}
+                    {yokozunas.map(w => {
+                      const lg = legendMap[w.name.toLowerCase()];
+                      const lgScore = lg ? lg.legendScore : 0;
+                      return (
+                        <div key={w.name} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "10px 0", borderBottom: "1px solid var(--rule,#eee)" }}>
+                          <span style={{ width: 20, fontSize: 12, flexShrink: 0, paddingTop: 2 }}>Y</span>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontWeight: 600, fontSize: 14 }}>{w.name}</div>
+                            <div style={{ fontSize: 11, color: "var(--muted,#888)", fontFamily: "monospace", marginTop: 1 }}>{shortRank(w.rankLabel)}</div>
+                            <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+                              <div style={{ width: 70, height: 4, background: "var(--bar-bg,#dedad6)", borderRadius: 2, overflow: "hidden" }}>
+                                <div style={{ width: `${lgScore}%`, height: "100%", background: "var(--bar-fill,#4a4745)", borderRadius: 2 }} />
+                              </div>
+                              <span style={{ fontSize: 10, color: "var(--muted,#888)", fontFamily: "monospace" }}>{lgScore.toFixed(0)}/100</span>
+                            </div>
+                          </div>
+                          <span style={{ fontFamily: "monospace", fontSize: 13, color: "var(--muted,#888)", whiteSpace: "nowrap", paddingTop: 2 }}>
+                            {recordStr(w)}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </NewsletterSection>
+              )}
+
               <NewsletterSection
-                kicker="Yokozuna Legends"
+                kicker="Road to Glory · Yokozuna Legends"
                 title="Top 10 Yokozuna históricos"
                 sub="Score basado en yusho (×5 pts) + basho como Yokozuna (×0.5 pts). Hakuho como referencia: 100."
               >
@@ -1080,30 +1174,6 @@ function NewsletterApp() {
                   ))}
                 </div>
               </NewsletterSection>
-              {banzuke.length > 0 && (
-                <NewsletterSection
-                  kicker="Banzuke"
-                  title={`Makuuchi banzuke — ${bashoLabel(SUMO.BASHO_ID)}`}
-                  sub="Los 20 mejores luchadores de la división principal, ordenados por rango."
-                >
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 32px" }}>
-                    {banzuke.map((w, i) => (
-                      <div key={`${w.side}-${i}`} className="newsletter-row" style={{ padding: "5px 0" }}>
-                        <span className="newsletter-row__rank" style={{ fontSize: 11 }}>{String(i + 1).padStart(2, "0")}</span>
-                        <span className="newsletter-row__identity" style={{ flex: 1 }}>
-                          <span className="newsletter-row__copy">
-                            <span className="newsletter-row__name" style={{ fontSize: 13 }}>{w.name}</span>
-                            <span className="newsletter-row__meta">{w.rankLabel}</span>
-                          </span>
-                        </span>
-                        <span style={{ fontSize: 12, fontVariantNumeric: "tabular-nums", color: "var(--ink-2)" }}>
-                          {w.wins}-{w.losses}{w.absences > 0 ? `-${w.absences}` : ""}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </NewsletterSection>
-              )}
             </>
           );
         })()}

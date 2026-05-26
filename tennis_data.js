@@ -1,6 +1,6 @@
-// Auto-generated 2026-05-25 21:47 UTC
+// Auto-generated 2026-05-26 13:42 UTC
 window.TENNIS_DATA = {
-  "UPDATED": "2026-05-25 21:47 UTC",
+  "UPDATED": "2026-05-26 13:42 UTC",
   "ATP": [
     {
       "id": "206173",
@@ -1186,5 +1186,6 @@ window.TENNIS_DATA = {
         "birth": 1983
       }
     }
-  ]
+  ],
+  "IMPORTANCE": 10.0
 };

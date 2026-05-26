@@ -1811,7 +1811,7 @@ window.NBA_DATA = {
       "last": "Powell",
       "pos": "G",
       "teamCode": "MIA",
-      "age": 32,
+      "age": 33,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/2595516.png",
       "colors": {
         "primary": "#98002e",
@@ -6779,7 +6779,7 @@ window.NBA_DATA = {
       "last": "Barlow",
       "pos": "F",
       "teamCode": "PHI",
-      "age": 22,
+      "age": 23,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4870562.png",
       "colors": {
         "primary": "#006bb6",
@@ -11667,8 +11667,8 @@ window.NBA_DATA = {
         {
           "hi": "NY",
           "lo": "CLE",
-          "winner": null,
-          "seriesScore": "3-0"
+          "winner": "NY",
+          "seriesScore": "4-0"
         }
       ]
     },
@@ -11715,8 +11715,8 @@ window.NBA_DATA = {
       ],
       "conf": [
         {
-          "hi": "SA",
-          "lo": "OKC",
+          "hi": "OKC",
+          "lo": "SA",
           "winner": null,
           "seriesScore": "2-2"
         }
@@ -12564,7 +12564,8 @@ window.NBA_DATA = {
     ]
   },
   "SEASON": "2025-26",
-  "LAST_UPDATE": "2026-05-25 21:27 UTC",
+  "IMPORTANCE": 7.0,
+  "LAST_UPDATE": "2026-05-26 13:45 UTC",
   "SOURCE": {
     "name": "ESPN API",
     "baseUrl": "sports.core.api.espn.com"

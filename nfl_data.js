@@ -2023,7 +2023,8 @@ window.NFL_DATA = {
   ],
   "SEASON": "2025",
   "SEASON_STATUS": "offseason",
-  "LAST_UPDATE": "2026-05-25 21:27 UTC",
+  "IMPORTANCE": 3.0,
+  "LAST_UPDATE": "2026-05-26 13:43 UTC",
   "SOURCE": {
     "name": "ESPN API",
     "baseUrl": "site.api.espn.com"

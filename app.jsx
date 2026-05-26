@@ -202,8 +202,9 @@ function NewsletterApp() {
 
   return (
     <div className="app app--newsletter">
-      <main className="newsletter">
+      <main className="newsletter" style={{ display: "flex", flexDirection: "column" }}>
 
+        <div style={{ order: -Math.round((D?.IMPORTANCE || 5) * 10) }}>
         {/* ── NHL ─────────────────────────────────────────── */}
         <header className="newsletter-hero">
           <div className="newsletter-hero__masthead">
@@ -319,7 +320,9 @@ function NewsletterApp() {
             ))}
           </div>
         </NewsletterSection>
+        </div>
 
+        <div style={{ order: -Math.round((NBA?.IMPORTANCE || 6) * 10) }}>
         {/* ── NBA ─────────────────────────────────────────── */}
         {NBA && (
           <>
@@ -441,7 +444,9 @@ function NewsletterApp() {
             </NewsletterSection>
           </>
         )}
+        </div>
 
+        <div style={{ order: -Math.round((MLB?.IMPORTANCE || 8) * 10) }}>
         {/* ── MLB ─────────────────────────────────────────── */}
         {MLB && (
           <>
@@ -611,7 +616,9 @@ function NewsletterApp() {
             </NewsletterSection>
           </>
         )}
+        </div>
 
+        <div style={{ order: -Math.round((NFL?.IMPORTANCE || 3) * 10) }}>
         {/* ── NFL ─────────────────────────────────────────── */}
         {NFL && (
           <>
@@ -695,7 +702,9 @@ function NewsletterApp() {
             )}
           </>
         )}
+        </div>
 
+        <div style={{ order: -Math.round((TENNIS?.IMPORTANCE || 7) * 10) }}>
         {/* ── TENNIS ─────────────────────────────────────────── */}
         {TENNIS && (() => {
           const atpChanges  = TENNIS.ATP_CHANGES  || { entered: [], exited: [] };
@@ -840,7 +849,9 @@ function NewsletterApp() {
             </>
           );
         })()}
+        </div>
 
+        <div style={{ order: -Math.round((window.CYCLING_DATA?.IMPORTANCE || 4) * 10) }}>
         {/* ── CYCLING ─────────────────────────────────────────── */}
         {window.CYCLING_DATA && (() => {
           const CYC = window.CYCLING_DATA;
@@ -1030,7 +1041,9 @@ function NewsletterApp() {
             </>
           );
         })()}
+        </div>
 
+        <div style={{ order: -Math.round((window.SUMO_DATA?.IMPORTANCE || 8) * 10) }}>
         {/* ── SUMO ─────────────────────────────────────────── */}
         {window.SUMO_DATA && (() => {
           const SUMO = window.SUMO_DATA;
@@ -1173,7 +1186,9 @@ function NewsletterApp() {
             </>
           );
         })()}
+        </div>
 
+        <div style={{ order: -Math.round((window.F1_DATA?.IMPORTANCE || 7) * 10) }}>
         {/* ── F1 ───────────────────────────────────────────── */}
         {window.F1_DATA && (() => {
           const F1 = window.F1_DATA;
@@ -1316,7 +1331,9 @@ function NewsletterApp() {
             </>
           );
         })()}
+        </div>
 
+        <div style={{ order: -Math.round((window.AFL_DATA?.IMPORTANCE || 7) * 10) }}>
         {/* ── AFL ──────────────────────────────────────────── */}
         {window.AFL_DATA && (() => {
           const AFL     = window.AFL_DATA;
@@ -1432,7 +1449,9 @@ function NewsletterApp() {
             </>
           );
         })()}
+        </div>
 
+        <div style={{ order: -Math.round((window.MOTOGP_DATA?.IMPORTANCE || 7) * 10) }}>
         {/* ── MotoGP ───────────────────────────────────────── */}
         {window.MOTOGP_DATA && (() => {
           const MG         = window.MOTOGP_DATA;
@@ -1527,6 +1546,7 @@ function NewsletterApp() {
             </>
           );
         })()}
+        </div>
 
         {/* ── PLACEHOLDERS ─────────────────────────────────── */}
         {["Cricket", "Rugby", "Golf", "Boxeo", "Snooker", "Ciclismo — UCI WorldTour live", "Euroliga", "NASCAR · IndyCar"].map(sport => (

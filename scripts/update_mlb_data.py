@@ -668,6 +668,19 @@ def _add_two_way_pitchers(players: list[dict], season_year: int) -> list[dict]:
     return sorted(batters + all_pitchers, key=lambda p: (-p["score"], p["name"]))
 
 
+def _mlb_importance(bracket: dict) -> float:
+    ws = (bracket.get("ws") or [{}])[0]
+    if ws.get("hi"):
+        return 10.0  # World Series
+    for conf in ("al", "nl"):
+        for rnd in ("lcs", "ds", "wc"):
+            for s in bracket.get(conf, {}).get(rnd) or []:
+                if s.get("hi"):
+                    return 10.0  # Playoffs
+    month = datetime.now(timezone.utc).month
+    return 8.0 if 4 <= month <= 10 else 3.0
+
+
 def write_data(output: Path) -> None:
     print("Fetching MLB standings…")
     standings_raw = fetch_json(API_STANDINGS)
@@ -699,6 +712,8 @@ def write_data(output: Path) -> None:
 
     road_to_glory = build_road_to_glory(players, teams)
 
+    importance = _mlb_importance(bracket)
+
     payload = {
         "TEAMS":           teams,
         "PLAYERS":         players,
@@ -709,6 +724,7 @@ def write_data(output: Path) -> None:
         "ROAD_TO_GLORY":   road_to_glory,
         "METHODOLOGY":     METHODOLOGY,
         "SEASON":          str(season_year),
+        "IMPORTANCE":      importance,
         "LAST_UPDATE":     datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "SOURCE":          {"name": "ESPN API", "baseUrl": "sports.core.api.espn.com"},
     }

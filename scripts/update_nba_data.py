@@ -554,6 +554,19 @@ def build_road_to_glory(players: list[dict], teams: list[dict]) -> dict:
     }
 
 
+def _nba_importance(bracket: dict) -> float:
+    final = (bracket.get("final") or [{}])[0]
+    if final.get("hi"):
+        return 9.0  # NBA Finals
+    for conf in ("east", "west"):
+        for rnd in ("r3", "r2", "r1"):
+            for s in bracket.get(conf, {}).get(rnd) or []:
+                if s.get("hi"):
+                    return 7.0  # Playoffs
+    month = datetime.now(timezone.utc).month
+    return 6.0 if (month >= 10 or month <= 6) else 3.0
+
+
 def write_data(output: Path) -> None:
     print("Fetching NBA standings…")
     standings_raw = fetch_json(API_STANDINGS)
@@ -581,6 +594,8 @@ def write_data(output: Path) -> None:
 
     season_label = f"{season_year - 1}-{str(season_year)[2:]}"
 
+    importance = _nba_importance(bracket)
+
     payload = {
         "TEAMS":           teams,
         "PLAYERS":         players,
@@ -590,6 +605,7 @@ def write_data(output: Path) -> None:
         "ROAD_TO_GLORY":   road_to_glory,
         "METHODOLOGY":     METHODOLOGY,
         "SEASON":          season_label,
+        "IMPORTANCE":      importance,
         "LAST_UPDATE":     datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "SOURCE":          {"name": "ESPN API", "baseUrl": "sports.core.api.espn.com"},
     }

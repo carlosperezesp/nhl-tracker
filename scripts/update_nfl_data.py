@@ -326,6 +326,20 @@ def build_bracket(season_year: int) -> dict:
     return bracket
 
 
+def _nfl_importance(status: str, bracket: dict) -> float:
+    if status == "offseason":
+        return 3.0
+    sb = (bracket.get("sb") or [{}])[0]
+    if sb.get("hi"):
+        return 10.0  # Super Bowl
+    for conf in ("afc", "nfc"):
+        for rnd in ("conf", "div", "wc"):
+            for s in bracket.get(conf, {}).get(rnd) or []:
+                if s.get("hi"):
+                    return 9.0  # Playoffs
+    return 8.0  # Regular season
+
+
 def write_data(output: Path) -> None:
     season_year, status = _season_and_status()
 
@@ -346,15 +360,18 @@ def write_data(output: Path) -> None:
     print("Fetching NFL bracket…")
     bracket = build_bracket(season_year)
 
+    importance = _nfl_importance(status, bracket)
+
     payload = {
-        "TEAMS":        teams,
-        "PLAYERS":      players,
-        "BRACKET":      bracket,
-        "DIVISIONS":    list(NFL_DIVISIONS.keys()),
-        "SEASON":       str(season_year),
+        "TEAMS":         teams,
+        "PLAYERS":       players,
+        "BRACKET":       bracket,
+        "DIVISIONS":     list(NFL_DIVISIONS.keys()),
+        "SEASON":        str(season_year),
         "SEASON_STATUS": status,
-        "LAST_UPDATE":  datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-        "SOURCE":       {"name": "ESPN API", "baseUrl": "site.api.espn.com"},
+        "IMPORTANCE":    importance,
+        "LAST_UPDATE":   datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        "SOURCE":        {"name": "ESPN API", "baseUrl": "site.api.espn.com"},
     }
 
     output.write_text(

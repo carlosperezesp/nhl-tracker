@@ -1,6 +1,6 @@
-// Auto-generated 2026-05-26 06:00 UTC
+// Auto-generated 2026-05-26 13:42 UTC
 window.CYCLING_DATA = {
-  "UPDATED": "2026-05-26 06:00 UTC",
+  "UPDATED": "2026-05-26 13:42 UTC",
   "LEGENDS": [
     {
       "id": "eddy_merckx",
@@ -543,5 +543,6 @@ window.CYCLING_DATA = {
       "time": "59h 15' 22\"",
       "legendScore": 0.0
     }
-  }
+  },
+  "IMPORTANCE": 9.0
 };

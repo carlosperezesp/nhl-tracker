@@ -189,6 +189,22 @@ def _legend_score(y: int, yb: int, max_raw: float) -> float:
     raw = y * 5.0 + yb * 0.5
     return round(raw / max_raw * 100, 1)
 
+def _sumo_importance(banzuke: list) -> float:
+    active = [w for w in banzuke if w.get("wins", 0) or w.get("losses", 0) or w.get("absences", 0)]
+    if not active:
+        return 8.0  # Between basho or no data
+    max_bouts = max(w.get("wins", 0) + w.get("losses", 0) + w.get("absences", 0) for w in active)
+    remaining = max(0, 15 - max_bouts)
+    sorted_w = sorted(active, key=lambda w: -w.get("wins", 0))
+    lead = sorted_w[0].get("wins", 0) - (sorted_w[1].get("wins", 0) if len(sorted_w) >= 2 else 0)
+    # Champion already decided: gently above base
+    if remaining == 0 or lead > remaining:
+        return round(8.0 + 0.5 * (max_bouts / 15), 1)
+    # Race alive: scale 8→10 as basho completes, with tension bonus for tight lead
+    completion = max_bouts / 15
+    tension = max(0.0, 1.0 - lead / max(1, remaining))  # 1 = very tight
+    return round(8.0 + 2.0 * completion * (0.5 + 0.5 * tension), 1)
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def build_legends() -> list[dict]:
@@ -251,12 +267,15 @@ def write_data() -> None:
         if age is not None:
             w["age"] = age
 
+    importance = _sumo_importance(banzuke)
+
     payload = {
         "UPDATED":    updated,
         "LEGENDS":    legends,
         "BASHO_ID":   basho_id,
         "BASHO_INFO": basho_info,
         "BANZUKE":    banzuke,
+        "IMPORTANCE": importance,
     }
 
     out = ROOT / "sumo_data.js"

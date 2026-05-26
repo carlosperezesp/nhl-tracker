@@ -812,6 +812,19 @@ def build_road_to_glory(player_comparisons: list[dict], current_teams: list[dict
     }
 
 
+def _nhl_importance(bracket: dict) -> float:
+    final = (bracket.get("final") or [{}])[0]
+    if final.get("hi"):
+        return 8.0  # Stanley Cup Finals
+    for conf in ("east", "west"):
+        for rnd in ("r3", "r2", "r1"):
+            for s in bracket.get(conf, {}).get(rnd) or []:
+                if s.get("hi"):
+                    return 6.0  # Playoffs
+    month = datetime.now(timezone.utc).month
+    return 5.0 if (month >= 10 or month <= 4) else 3.0
+
+
 def write_data(output: Path) -> None:
     standings_data = fetch_json("/standings/now")
     standings = standings_data.get("standings", [])
@@ -831,6 +844,8 @@ def write_data(output: Path) -> None:
     player_comparisons = build_player_comparisons(players, extra_ids=_young_prospect_ids(players))
     road_to_glory = build_road_to_glory(player_comparisons, teams, players)
 
+    importance = _nhl_importance(bracket)
+
     payload = {
         "TEAMS": teams,
         "PLAYERS": players,
@@ -841,6 +856,7 @@ def write_data(output: Path) -> None:
         "ROAD_TO_GLORY": road_to_glory,
         "METHODOLOGY": METHODOLOGY,
         "SEASON": season_label(season_id),
+        "IMPORTANCE": importance,
         "LAST_UPDATE": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "SOURCE": {
             "name": "NHL API",

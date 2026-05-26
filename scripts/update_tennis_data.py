@@ -3,7 +3,7 @@
 from __future__ import annotations
 import csv, hashlib, json, math, os, re, sys, time, urllib.request
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date as _date
 from io import StringIO
 from pathlib import Path
 
@@ -608,6 +608,35 @@ def build_tour_data(tour: str) -> list[dict]:
     return scored[:TOP_N]
 
 
+# Tournament windows: (month_start, day_start, month_end, day_end, importance)
+_TENNIS_CALENDAR = [
+    # Grand Slams
+    (1, 12, 1, 26, 10.0),   # Australian Open
+    (5, 25, 6,  8, 10.0),   # Roland Garros
+    (6, 30, 7, 13, 10.0),   # Wimbledon
+    (8, 25, 9,  7, 10.0),   # US Open
+    # Masters 1000
+    (3,  4, 3, 17,  8.0),   # Indian Wells
+    (3, 19, 3, 30,  8.0),   # Miami
+    (4,  6, 4, 20,  8.0),   # Monte Carlo
+    (4, 27, 5, 11,  8.0),   # Madrid
+    (5, 12, 5, 25,  8.0),   # Rome
+    (8,  5, 8, 24,  8.0),   # Canada + Cincinnati
+    (10, 4, 10, 12, 8.0),   # Shanghai
+    (10, 26, 11, 8, 8.0),   # Paris Bercy
+]
+
+def _tennis_importance() -> float:
+    today = _date.today()
+    year  = today.year
+    for m0, d0, m1, d1, score in _TENNIS_CALENDAR:
+        start = _date(year, m0, d0)
+        end   = _date(year, m1, d1)
+        if start <= today <= end:
+            return score
+    return 7.0  # Ongoing tour, smaller events
+
+
 def write_data() -> None:
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
@@ -625,6 +654,8 @@ def write_data() -> None:
     wta_changes  = _top10_changes(wta_curr, wta_prev, wta_meta, wta_curr_date, wta_prev_date)
     wta_legends  = build_legends_tennis("wta")
 
+    importance = _tennis_importance()
+
     payload = {
         "UPDATED":     updated,
         "ATP":         atp,
@@ -633,6 +664,7 @@ def write_data() -> None:
         "WTA_CHANGES": wta_changes,
         "ATP_LEGENDS": atp_legends,
         "WTA_LEGENDS": wta_legends,
+        "IMPORTANCE":  importance,
     }
 
     out_path = ROOT / "tennis_data.js"

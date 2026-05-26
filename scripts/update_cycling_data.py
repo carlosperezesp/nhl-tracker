@@ -355,6 +355,17 @@ def fetch_race_data(race: dict, legends: list[dict]) -> dict:
     }
 
 
+def _cycling_importance(current_race: dict | None) -> float:
+    if not current_race:
+        return 4.0
+    name = current_race.get("name", "")
+    if "Tour de France" in name:
+        return 10.0
+    if "Giro" in name or "Vuelta" in name:
+        return 9.0
+    return 7.0  # Monuments, Worlds, other stage races
+
+
 def write_data() -> None:
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     legends = build_legends()
@@ -367,10 +378,13 @@ def write_data() -> None:
         except Exception as exc:
             print(f"[WARN] Race data fetch failed: {exc}", file=sys.stderr)
 
+    importance = _cycling_importance(current_race)
+
     payload = {
         "UPDATED":      updated,
         "LEGENDS":      legends,
         "CURRENT_RACE": current_race,
+        "IMPORTANCE":   importance,
     }
 
     out = ROOT / "cycling_data.js"

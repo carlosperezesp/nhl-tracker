@@ -33,17 +33,19 @@ function NewsletterRankRow({ rank, item, alive, score, scoreDisplay, scoreLabel,
   if (typeof prevRank === "number") {
     const diff = prevRank - rank;
     if (diff > 0)
-      changeEl = <span style={{ fontSize: "0.65em", fontWeight: 700, color: "#2a7a2a", marginLeft: 3 }}>↑{diff}</span>;
+      changeEl = <span style={{ fontSize: 11, fontWeight: 700, color: "#2a7a2a", lineHeight: 1 }}>↑{diff}</span>;
     else if (diff < 0)
-      changeEl = <span style={{ fontSize: "0.65em", fontWeight: 700, color: "#a02020", marginLeft: 3 }}>↓{-diff}</span>;
-    // diff === 0 → misma posición, sin indicador
+      changeEl = <span style={{ fontSize: 11, fontWeight: 700, color: "#a02020", lineHeight: 1 }}>↓{-diff}</span>;
   } else if (prevRank === null) {
-    changeEl = <span style={{ fontSize: "0.6em", fontWeight: 700, color: "#1a5fa8", marginLeft: 3, letterSpacing: "0.04em" }}>NEW</span>;
+    changeEl = <span style={{ fontSize: 9, fontWeight: 700, color: "#1a5fa8", letterSpacing: "0.05em", lineHeight: 1 }}>NEW</span>;
   }
 
   return (
     <div className={`newsletter-row ${!isAlive ? "newsletter-row--out" : ""}`}>
-      <span className="newsletter-row__rank">{String(rank).padStart(2, "0")}{changeEl}</span>
+      <span className="newsletter-row__rank" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+        <span>{String(rank).padStart(2, "0")}</span>
+        {changeEl}
+      </span>
       <span className="newsletter-row__identity">
         <TeamSwatch colors={item.colors} code={item.teamCode} logo={logo} />
         <span className="newsletter-row__copy">
@@ -1495,15 +1497,17 @@ function NewsletterApp() {
                     const maxPts = ladder[0].pts || 1;
                     const score  = Math.round(t.pts / maxPts * 100);
                     const pr = t.prevRank;
-                    const changeEl = typeof pr === "number"
-                      ? (pr - (i+1) > 0 ? <span style={{ fontSize: "0.65em", fontWeight: 700, color: "#2a7a2a", marginLeft: 3 }}>↑{pr-(i+1)}</span>
-                         : pr - (i+1) < 0 ? <span style={{ fontSize: "0.65em", fontWeight: 700, color: "#a02020", marginLeft: 3 }}>↓{(i+1)-pr}</span>
-                         : null)
-                      : pr === null ? <span style={{ fontSize: "0.6em", fontWeight: 700, color: "#1a5fa8", marginLeft: 3 }}>NEW</span>
+                    const diff2 = typeof pr === "number" ? pr - (i+1) : null;
+                    const changeEl = diff2 != null && diff2 !== 0
+                      ? <span style={{ fontSize: 11, fontWeight: 700, color: diff2 > 0 ? "#2a7a2a" : "#a02020", lineHeight: 1 }}>{diff2 > 0 ? `↑${diff2}` : `↓${-diff2}`}</span>
+                      : pr === null ? <span style={{ fontSize: 9, fontWeight: 700, color: "#1a5fa8", letterSpacing: "0.05em", lineHeight: 1 }}>NEW</span>
                       : null;
                     return (
                       <div key={t.name} className="newsletter-row">
-                        <span className="newsletter-row__rank">{String(i + 1).padStart(2, "0")}{changeEl}</span>
+                        <span className="newsletter-row__rank" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+                          <span>{String(i + 1).padStart(2, "0")}</span>
+                          {changeEl}
+                        </span>
                         <span className="newsletter-row__identity" style={{ flex: 1 }}>
                           <span
                             className="newsletter-row__dot"

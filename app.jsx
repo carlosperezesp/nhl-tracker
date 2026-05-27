@@ -184,13 +184,20 @@ function NewsletterApp() {
   function tennisPlayerMeta(player, tour) {
     const gs = player.stats?.gs || 0;
     const gsStr = gs > 0 ? ` · ${gs} GS` : "";
-    let arrow = "";
-    if (player.prevRank != null) {
-      const diff = player.prevRank - player.rank;
-      if (diff > 0) arrow = ` ▲${diff}`;
-      else if (diff < 0) arrow = ` ▼${Math.abs(diff)}`;
+    return `${tour} · #${player.rank}${gsStr}`;
+  }
+
+  // Convierte el delta del ranking oficial ATP/WTA en un prevRank relativo a la posición
+  // en la lista para que lo renderice el indicador visual coloreado.
+  // Si ya tenemos prevListRank (posición en lista Hermes) lo usamos; si no, usamos el delta ATP.
+  function tennisPrevRank(player, listIndex) {
+    if (typeof player.prevListRank === "number") return player.prevListRank;
+    if (player.prevRank != null && player.rank != null) {
+      // delta ATP: positivo = subió en ranking, negativo = bajó
+      const atpDelta = player.prevRank - player.rank;  // subió si prevRank > rank
+      return (listIndex + 1) + atpDelta;
     }
-    return `${tour} · #${player.rank}${arrow}${gsStr}`;
+    return undefined;
   }
 
   // NBA data
@@ -835,7 +842,7 @@ function NewsletterApp() {
                     <NewsletterRankRow
                       key={player.id}
                       rank={i + 1}
-                      prevRank={player.prevListRank}
+                      prevRank={tennisPrevRank(player, i)}
                       item={player}
                       alive={new Set()}
                       score={player.activeScore}
@@ -860,7 +867,7 @@ function NewsletterApp() {
                     <NewsletterRankRow
                       key={player.id}
                       rank={i + 1}
-                      prevRank={player.prevListRank}
+                      prevRank={tennisPrevRank(player, i)}
                       item={player}
                       alive={new Set()}
                       score={player.activeScore}

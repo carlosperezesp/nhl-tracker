@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Build rugby_data.js from historical international rugby results.
+"""Build rugby_data.js from a broad men's international rugby results dataset.
 
-Source CSV: data_sources/rugby_results.csv
-Coverage: men's international rugby union tests from 1871 to 2024.
+Base CSV: data_sources/rugby_mens_data.csv
+Coverage: men's international rugby union results from 1871 to 2023, 150+ teams.
+Recent extension: ESPN scorepanel results after the base CSV end date.
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ from datetime import date, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "data_sources" / "rugby_results.csv"
+SOURCE = ROOT / "data_sources" / "rugby_mens_data.csv"
 OUT = ROOT / "rugby_data.js"
 
 BASE_ELO = 1500.0
@@ -44,15 +45,15 @@ EXCLUDED_RANKING_TEAMS = {
     "Barbarians",
 }
 
-RANKING_TEAMS = set(ESPN_TEAMS)
-
 ESPN_URL = (
     "https://site.web.api.espn.com/apis/site/v2/sports/rugby/scorepanel"
     "?contentorigin=espn&dates={year}&lang=en&limit=200&region=us&team={team_id}&tz=UTC"
 )
 
 NAME_ALIASES = {
+    "British & Irish Lions": "British and Irish Lions",
     "United States of America": "United States",
+    "USA": "United States",
 }
 
 TEAM_META = {
@@ -71,6 +72,7 @@ TEAM_META = {
     "South Africa": {"code": "RSA", "colors": {"primary": "#007a4d", "secondary": "#ffb612"}},
     "Tonga": {"code": "TON", "colors": {"primary": "#c8102e", "secondary": "#ffffff"}},
     "United States": {"code": "USA", "colors": {"primary": "#3c3b6e", "secondary": "#b22234"}},
+    "Uruguay": {"code": "URU", "colors": {"primary": "#6ec6e8", "secondary": "#ffffff"}},
     "Wales": {"code": "WAL", "colors": {"primary": "#c8102e", "secondary": "#ffffff"}},
 }
 
@@ -113,7 +115,26 @@ def margin_multiplier(diff: int, elo_diff: float) -> float:
 
 def read_matches() -> list[dict]:
     with SOURCE.open(newline="", encoding="utf-8") as f:
-        rows = list(csv.DictReader(f))
+        raw_rows = list(csv.DictReader(f))
+    rows = []
+    for row in raw_rows:
+        match_date = datetime.utcfromtimestamp(int(row["unix_epoc_secs"]) / 1000).date()
+        home = normalize_team(row["team_a_name"])
+        away = normalize_team(row["team_b_name"])
+        location = normalize_team(row.get("location", ""))
+        rows.append({
+            "date": match_date.isoformat(),
+            "home_team": home,
+            "away_team": away,
+            "home_score": row["team_a_score"],
+            "away_score": row["team_b_score"],
+            "competition": row.get("competition", ""),
+            "stadium": "",
+            "city": "",
+            "country": location,
+            "neutral": str(location not in {home, away}),
+            "world_cup": str("World Cup" in row.get("competition", "")),
+        })
     rows.sort(key=lambda r: (r["date"], r["home_team"], r["away_team"]))
     return rows
 
@@ -212,7 +233,10 @@ def fetch_espn_results(start_date: date) -> list[dict]:
 def top_team(ratings: dict[str, float]) -> str | None:
     if not ratings:
         return None
-    return max(ratings.items(), key=lambda kv: (kv[1], kv[0]))[0]
+    eligible = [(name, rating) for name, rating in ratings.items() if name not in EXCLUDED_RANKING_TEAMS]
+    if not eligible:
+        return None
+    return max(eligible, key=lambda kv: (kv[1], kv[0]))[0]
 
 
 def team_code(name: str) -> str:
@@ -304,10 +328,7 @@ def build() -> dict:
         world_cup_counts[winner] += 1
 
     teams = []
-    ranking_pool = [
-        (name, elo) for name, elo in ratings.items()
-        if name in RANKING_TEAMS and name not in EXCLUDED_RANKING_TEAMS
-    ]
+    ranking_pool = [(name, elo) for name, elo in ratings.items() if name not in EXCLUDED_RANKING_TEAMS]
     for name, elo in sorted(ranking_pool, key=lambda kv: -kv[1])[:10]:
         rec = records[name]
         peak_date, peak_elo = max(rating_snapshots[name], key=lambda item: item[1])
@@ -370,11 +391,12 @@ def build() -> dict:
         "SEASON": "1871-present",
         "UPDATED": last_date.isoformat(),
         "SOURCE": {
-            "name": "International Rugby Union results from 1871-2024 + ESPN rugby results",
-            "file": "data_sources/rugby_results.csv",
+            "name": "Men's international rugby results from 1871-2023 + ESPN rugby results",
+            "file": "data_sources/rugby_mens_data.csv",
             "incremental": "ESPN scorepanel by national team/year",
             "historicalThrough": historical_last_date.isoformat(),
             "incrementalMatches": len(recent_matches),
+            "teams": len(ratings),
             "matches": len(matches),
             "through": last_date.isoformat(),
         },

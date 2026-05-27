@@ -14,6 +14,32 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "nfl_data.js"
 
+
+# ── Prev-rank helper ─────────────────────────────────────────────────────────
+
+def _prev_rank_map(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = str(item.get("id") or item.get("name", ""))
+            if k:
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
 API_STANDINGS  = "https://site.api.espn.com/apis/v2/sports/football/nfl/standings"
 API_SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
 API_PLAYERS    = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/byathlete"
@@ -341,6 +367,8 @@ def _nfl_importance(status: str, bracket: dict) -> float:
 
 
 def write_data(output: Path) -> None:
+    prev_players = _prev_rank_map(output, "NFL_DATA", "PLAYERS")
+
     season_year, status = _season_and_status()
 
     print(f"Season {season_year} ({status}). Fetching NFL standings…")
@@ -361,6 +389,10 @@ def write_data(output: Path) -> None:
     bracket = build_bracket(season_year)
 
     importance = _nfl_importance(status, bracket)
+
+    # ── Asignar prevRank ──────────────────────────────────────────────────────
+    for p in sorted(players, key=lambda x: x["score"], reverse=True)[:10]:
+        p["prevRank"] = prev_players.get(str(p.get("id") or p.get("name", "")))
 
     payload = {
         "TEAMS":         teams,

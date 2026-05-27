@@ -10,6 +10,32 @@ CACHE = ROOT / ".afl_cache"
 CACHE.mkdir(exist_ok=True)
 
 CURRENT_YEAR = datetime.now(timezone.utc).year
+
+
+# ── Prev-rank helper ─────────────────────────────────────────────────────────
+
+def _prev_rank_map(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = str(item.get("id") or item.get("name", ""))
+            if k:
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
 SQUIGGLE     = "https://api.squiggle.com.au"
 AFL_REGULAR_ROUNDS = 23  # rounds before finals
 
@@ -174,6 +200,10 @@ def _importance(round_num: int) -> float:
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def write_data() -> None:
+    out_path = ROOT / "afl_data.js"
+    prev_ladder  = _prev_rank_map(out_path, "AFL_DATA", "LADDER")
+    prev_legends = _prev_rank_map(out_path, "AFL_DATA", "LEGENDS")
+
     updated  = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     year     = CURRENT_YEAR
     print(f"[AFL] Fetching {year} season data…", file=sys.stderr)
@@ -182,6 +212,12 @@ def write_data() -> None:
     ladder               = _ladder(year)
     last_round, results  = _last_round(year)
     importance           = _importance(last_round)
+
+    # ── Asignar prevRank ──────────────────────────────────────────────────────
+    for t in ladder[:8]:
+        t["prevRank"] = prev_ladder.get(str(t.get("name", "")))
+    for lg in legends:
+        lg["prevRank"] = prev_legends.get(str(lg.get("id") or lg.get("name", "")))
 
     payload = {
         "UPDATED":    updated,

@@ -17,6 +17,64 @@ API = "https://api-web.nhle.com/v1"
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "data.js"
 
+
+# ── Prev-rank helper ─────────────────────────────────────────────────────────
+
+def _prev_rank_map(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    """Read the existing JS data file and return {str(id_key): 1-based-rank}.
+
+    *path: sequence of dict keys to navigate from root to the list, e.g.
+        _prev_rank_map(fp, "NHL_DATA", "PLAYERS")
+        _prev_rank_map(fp, "NHL_DATA", "ROAD_TO_GLORY", "players")
+    Uses 'id' as the key; falls back to 'name'.
+    """
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):          # track up to top-20
+            k = str(item.get("id") or item.get("name", ""))
+            if k:
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
+
+def _prev_rank_map_teams(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    """Like _prev_rank_map but uses 'teamCode-era' as key (for RTG team lists)."""
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = f"{item.get('teamCode','')}-{item.get('era','')}"
+            if k != "-":
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
 DIVISIONS = {
     "A": "Atlantic",
     "M": "Metro",
@@ -826,6 +884,12 @@ def _nhl_importance(bracket: dict) -> float:
 
 
 def write_data(output: Path) -> None:
+    # ── Capturar rankings anteriores ANTES de sobreescribir ──────────────────
+    prev_players       = _prev_rank_map(output, "NHL_DATA", "PLAYERS")
+    prev_rtg_players   = _prev_rank_map(output, "NHL_DATA", "ROAD_TO_GLORY", "players")
+    prev_rtg_young     = _prev_rank_map(output, "NHL_DATA", "ROAD_TO_GLORY", "youngProspects")
+    prev_rtg_teams     = _prev_rank_map_teams(output, "NHL_DATA", "ROAD_TO_GLORY", "teams")
+
     standings_data = fetch_json("/standings/now")
     standings = standings_data.get("standings", [])
     if not standings:
@@ -843,6 +907,20 @@ def write_data(output: Path) -> None:
     bracket = build_bracket(season_id)
     player_comparisons = build_player_comparisons(players, extra_ids=_young_prospect_ids(players))
     road_to_glory = build_road_to_glory(player_comparisons, teams, players)
+
+    # ── Asignar prevRank a cada lista ────────────────────────────────────────
+    top_players = sorted(players, key=lambda p: p["score"], reverse=True)[:10]
+    for i, p in enumerate(top_players):
+        p["prevRank"] = prev_players.get(str(p["id"]))
+
+    for i, p in enumerate(road_to_glory.get("players", [])[:10]):
+        p["prevRank"] = prev_rtg_players.get(str(p["id"]))
+
+    for i, p in enumerate(road_to_glory.get("youngProspects", [])[:10]):
+        p["prevRank"] = prev_rtg_young.get(str(p["id"]))
+
+    for i, t in enumerate(road_to_glory.get("teams", [])[:10]):
+        t["prevRank"] = prev_rtg_teams.get(f"{t.get('teamCode','')}-{t.get('era','')}")
 
     importance = _nhl_importance(bracket)
 

@@ -11,6 +11,32 @@ CACHE.mkdir(exist_ok=True)
 
 WIKI_API = "https://en.wikipedia.org/w/api.php"
 
+
+# ── Prev-rank helper ─────────────────────────────────────────────────────────
+
+def _prev_rank_map(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = str(item.get("id") or item.get("name", ""))
+            if k:
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
 # ── Country helpers ───────────────────────────────────────────────────────────
 CC3_TO_CC2: dict[str, str] = {
     "BEL": "be", "FRA": "fr", "ITA": "it", "ESP": "es", "GBR": "gb",
@@ -367,8 +393,13 @@ def _cycling_importance(current_race: dict | None) -> float:
 
 
 def write_data() -> None:
+    out_path = ROOT / "cycling_data.js"
+    prev_legends = _prev_rank_map(out_path, "CYCLING_DATA", "LEGENDS")
+
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     legends = build_legends()
+    for lg in legends:
+        lg["prevRank"] = prev_legends.get(str(lg.get("id") or lg.get("name", "")))
 
     race_meta   = _active_race()
     current_race = None

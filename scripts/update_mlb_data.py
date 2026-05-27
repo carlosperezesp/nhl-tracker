@@ -16,6 +16,56 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "mlb_data.js"
 
+
+# ── Prev-rank helpers ────────────────────────────────────────────────────────
+
+def _prev_rank_map(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = str(item.get("id") or item.get("name", ""))
+            if k:
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
+
+def _prev_rank_map_teams(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = f"{item.get('teamCode','')}-{item.get('era','')}"
+            if k != "-":
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
 API_STANDINGS  = "https://site.api.espn.com/apis/v2/sports/baseball/mlb/standings"
 API_PLAYERS    = "https://site.web.api.espn.com/apis/common/v3/sports/baseball/mlb/statistics/byathlete"
 API_SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
@@ -682,6 +732,26 @@ def _mlb_importance(bracket: dict) -> float:
 
 
 def write_data(output: Path) -> None:
+    # ── Capturar rankings anteriores ANTES de sobreescribir ──────────────────
+    # Pitchers y batters son sublistas del mismo PLAYERS array
+    import re as _re2, json as _json2
+    def _prev_typed_map(stat_type: str) -> "dict[str, int]":
+        try:
+            text = output.read_text(encoding="utf-8")
+            text = _re2.sub(r"^window\.MLB_DATA\s*=\s*", "", text, flags=_re2.MULTILINE).rstrip().rstrip(";")
+            items = _json2.loads(text).get("PLAYERS", [])
+            filtered = [p for p in items if (p.get("stats") or {}).get("type") == stat_type]
+            filtered.sort(key=lambda x: x.get("score", 0), reverse=True)
+            return {str(p.get("id") or p.get("name", "")): i + 1 for i, p in enumerate(filtered[:20])}
+        except Exception:
+            return {}
+
+    prev_pitchers    = _prev_typed_map("pitching")
+    prev_batters     = _prev_typed_map("batting")
+    prev_rtg_players = _prev_rank_map(output, "MLB_DATA", "ROAD_TO_GLORY", "players")
+    prev_rtg_young   = _prev_rank_map(output, "MLB_DATA", "ROAD_TO_GLORY", "youngProspects")
+    prev_rtg_teams   = _prev_rank_map_teams(output, "MLB_DATA", "ROAD_TO_GLORY", "teams")
+
     print("Fetching MLB standings…")
     standings_raw = fetch_json(API_STANDINGS)
     teams, team_by_id = build_teams(standings_raw)
@@ -711,6 +781,26 @@ def write_data(output: Path) -> None:
         with_mlb_colors(item)
 
     road_to_glory = build_road_to_glory(players, teams)
+
+    # ── Asignar prevRank ──────────────────────────────────────────────────────
+    pitchers_top = sorted(
+        [p for p in players if (p.get("stats") or {}).get("type") == "pitching"],
+        key=lambda x: x["score"], reverse=True
+    )[:10]
+    batters_top = sorted(
+        [p for p in players if (p.get("stats") or {}).get("type") == "batting"],
+        key=lambda x: x["score"], reverse=True
+    )[:10]
+    for p in pitchers_top:
+        p["prevRank"] = prev_pitchers.get(str(p.get("id") or p.get("name", "")))
+    for p in batters_top:
+        p["prevRank"] = prev_batters.get(str(p.get("id") or p.get("name", "")))
+    for p in road_to_glory.get("players", [])[:10]:
+        p["prevRank"] = prev_rtg_players.get(str(p.get("id") or p.get("name", "")))
+    for p in road_to_glory.get("youngProspects", [])[:10]:
+        p["prevRank"] = prev_rtg_young.get(str(p.get("id") or p.get("name", "")))
+    for t in road_to_glory.get("teams", [])[:10]:
+        t["prevRank"] = prev_rtg_teams.get(f"{t.get('teamCode','')}-{t.get('era','')}")
 
     importance = _mlb_importance(bracket)
 

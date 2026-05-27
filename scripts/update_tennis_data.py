@@ -653,7 +653,24 @@ def _tennis_importance() -> float:
     return 7.0  # Ongoing tour, smaller events
 
 
+def _prev_list_rank_map(tour_key: str) -> "dict[str, int]":
+    """Return {player_id: 1-based list rank} from the current tennis_data.js for 'ATP' or 'WTA'."""
+    import re as _re, json as _json
+    try:
+        out_path = ROOT / "tennis_data.js"
+        text = out_path.read_text(encoding="utf-8")
+        text = _re.sub(r"^window\.TENNIS_DATA\s*=\s*", "", text, flags=_re.MULTILINE).rstrip().rstrip(";")
+        players = _json.loads(text).get(tour_key, [])
+        return {str(p.get("id", "")): i + 1 for i, p in enumerate(players[:20]) if p.get("id")}
+    except Exception:
+        return {}
+
+
 def write_data() -> None:
+    # Capturar posiciones en lista Hermes ANTES de sobreescribir
+    prev_atp_list = _prev_list_rank_map("ATP")
+    prev_wta_list = _prev_list_rank_map("WTA")
+
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     print("Building ATP data…", file=sys.stderr)
@@ -662,6 +679,9 @@ def write_data() -> None:
     atp          = build_tour_data("atp", _prev_rank_map(atp_prev))
     atp_changes  = _top10_changes(atp_curr, atp_prev, atp_meta, atp_curr_date, atp_prev_date)
     atp_legends  = build_legends_tennis("atp")
+    # Añadir prevListRank (posición en nuestra lista por activeScore, semana anterior)
+    for i, p in enumerate(atp):
+        p["prevListRank"] = prev_atp_list.get(str(p.get("id", "")))
 
     print("Building WTA data…", file=sys.stderr)
     wta_meta     = _players("wta")
@@ -669,6 +689,8 @@ def write_data() -> None:
     wta          = build_tour_data("wta", _prev_rank_map(wta_prev))
     wta_changes  = _top10_changes(wta_curr, wta_prev, wta_meta, wta_curr_date, wta_prev_date)
     wta_legends  = build_legends_tennis("wta")
+    for i, p in enumerate(wta):
+        p["prevListRank"] = prev_wta_list.get(str(p.get("id", "")))
 
     importance = _tennis_importance()
 

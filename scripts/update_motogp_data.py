@@ -11,6 +11,32 @@ CACHE.mkdir(exist_ok=True)
 
 CURRENT_YEAR = datetime.now(timezone.utc).year
 
+
+# ── Prev-rank helper ─────────────────────────────────────────────────────────
+
+def _prev_rank_map(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = str(item.get("id") or item.get("name", ""))
+            if k:
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
 WIKI_API = "https://en.wikipedia.org/w/api.php"
 
 # ── Bike / manufacturer colors ────────────────────────────────────────────────
@@ -323,6 +349,10 @@ def _importance(riders: list[dict], completed: int, total: int) -> float:
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def write_data() -> None:
+    out_path = ROOT / "motogp_data.js"
+    prev_riders  = _prev_rank_map(out_path, "MOTOGP_DATA", "RIDERS")
+    prev_legends = _prev_rank_map(out_path, "MOTOGP_DATA", "LEGENDS")
+
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     year    = CURRENT_YEAR
     print(f"[MotoGP] Fetching {year} season data…", file=sys.stderr)
@@ -338,6 +368,12 @@ def write_data() -> None:
     riders, completed, total, max_season_pts = _parse_rider_standings(wt_riders)
     last_race  = _parse_last_race(wt_gp)
     importance = _importance(riders, completed, total)
+
+    # ── Asignar prevRank ──────────────────────────────────────────────────────
+    for r in riders[:10]:
+        r["prevRank"] = prev_riders.get(str(r.get("name", "")))
+    for lg in legends:
+        lg["prevRank"] = prev_legends.get(str(lg.get("id") or lg.get("name", "")))
 
     payload = {
         "UPDATED":        updated,

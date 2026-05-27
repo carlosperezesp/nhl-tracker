@@ -11,6 +11,32 @@ CACHE.mkdir(exist_ok=True)
 
 SUMO_API = "https://sumo-api.com/api"
 
+
+# ── Prev-rank helper ─────────────────────────────────────────────────────────
+
+def _prev_rank_map(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = str(item.get("id") or item.get("name", ""))
+            if k:
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
 # Country code mapping (JSA codes → ISO 2-letter for flags)
 JSA_TO_CC2: dict[str, str] = {
     "JPN": "jp", "MGL": "mn", "MON": "mn",
@@ -231,8 +257,13 @@ def build_legends() -> list[dict]:
     return out
 
 def write_data() -> None:
+    out_path = ROOT / "sumo_data.js"
+    prev_legends = _prev_rank_map(out_path, "SUMO_DATA", "LEGENDS")
+
     updated    = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     legends    = build_legends()
+    for lg in legends:
+        lg["prevRank"] = prev_legends.get(str(lg.get("id") or lg.get("name", "")))
     basho_id   = _current_basho_id()
     basho_info = _fetch_basho_info(basho_id)
     banzuke    = _fetch_banzuke(basho_id)

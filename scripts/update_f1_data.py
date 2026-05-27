@@ -11,6 +11,32 @@ CACHE.mkdir(exist_ok=True)
 
 CURRENT_YEAR = datetime.now(timezone.utc).year
 
+
+# ── Prev-rank helper ─────────────────────────────────────────────────────────
+
+def _prev_rank_map(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = str(item.get("id") or item.get("name", ""))
+            if k:
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
 ESPN_STANDINGS   = "https://site.api.espn.com/apis/v2/sports/racing/f1/standings"
 ESPN_SCOREBOARD  = "https://site.api.espn.com/apis/site/v2/sports/racing/f1/scoreboard"
 ESPN_SCHEDULE    = "https://site.api.espn.com/apis/site/v2/sports/racing/f1/schedule"
@@ -328,6 +354,10 @@ def build_legends() -> list[dict]:
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def write_data() -> None:
+    out_path = ROOT / "f1_data.js"
+    prev_drivers = _prev_rank_map(out_path, "F1_DATA", "DRIVERS")
+    prev_legends = _prev_rank_map(out_path, "F1_DATA", "LEGENDS")
+
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     print(f"[F1] Fetching {CURRENT_YEAR} season data…", file=sys.stderr)
 
@@ -355,9 +385,15 @@ def write_data() -> None:
 
     # score = progress toward theoretical season max (total_races × 25 pts)
     max_season_pts = total_races * 25
-    for d in drivers:
+    for i, d in enumerate(drivers[:10]):
         d["score"] = round(d["points"] / max(max_season_pts, 1) * 100, 1)
         d["stats"] = {"pts": d["points"], "wins": d["wins"]}
+        d["prevRank"] = prev_drivers.get(str(d.get("name", "")))
+    for d in drivers[10:]:
+        d["score"] = round(d["points"] / max(max_season_pts, 1) * 100, 1)
+        d["stats"] = {"pts": d["points"], "wins": d["wins"]}
+    for lg in legends:
+        lg["prevRank"] = prev_legends.get(str(lg.get("id") or lg.get("name", "")))
 
     payload = {
         "UPDATED":        updated,

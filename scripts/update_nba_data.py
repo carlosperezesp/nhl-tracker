@@ -16,6 +16,56 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "nba_data.js"
 
+
+# ── Prev-rank helpers ────────────────────────────────────────────────────────
+
+def _prev_rank_map(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = str(item.get("id") or item.get("name", ""))
+            if k:
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
+
+def _prev_rank_map_teams(filepath: Path, js_var: str, *path: str) -> "dict[str, int]":
+    import re as _re, json as _json
+    try:
+        text = filepath.read_text(encoding="utf-8")
+        text = _re.sub(
+            r"^window\." + _re.escape(js_var) + r"\s*=\s*", "", text, flags=_re.MULTILINE
+        ).rstrip().rstrip(";")
+        obj = _json.loads(text)
+        for key in path:
+            obj = obj.get(key) if isinstance(obj, dict) else None
+            if obj is None:
+                return {}
+        if not isinstance(obj, list):
+            return {}
+        result: dict[str, int] = {}
+        for i, item in enumerate(obj[:20]):
+            k = f"{item.get('teamCode','')}-{item.get('era','')}"
+            if k != "-":
+                result[k] = i + 1
+        return result
+    except Exception:
+        return {}
+
 API_STANDINGS  = "https://site.api.espn.com/apis/v2/sports/basketball/nba/standings"
 API_PLAYERS    = "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/statistics/byathlete"
 API_SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard"
@@ -568,6 +618,12 @@ def _nba_importance(bracket: dict) -> float:
 
 
 def write_data(output: Path) -> None:
+    # ── Capturar rankings anteriores ANTES de sobreescribir ──────────────────
+    prev_players     = _prev_rank_map(output, "NBA_DATA", "PLAYERS")
+    prev_rtg_players = _prev_rank_map(output, "NBA_DATA", "ROAD_TO_GLORY", "players")
+    prev_rtg_young   = _prev_rank_map(output, "NBA_DATA", "ROAD_TO_GLORY", "youngProspects")
+    prev_rtg_teams   = _prev_rank_map_teams(output, "NBA_DATA", "ROAD_TO_GLORY", "teams")
+
     print("Fetching NBA standings…")
     standings_raw = fetch_json(API_STANDINGS)
     teams, team_by_id = build_teams(standings_raw)
@@ -591,6 +647,16 @@ def write_data(output: Path) -> None:
         with_nba_colors(item)
 
     road_to_glory = build_road_to_glory(players, teams)
+
+    # ── Asignar prevRank ──────────────────────────────────────────────────────
+    for p in sorted(players, key=lambda x: x["score"], reverse=True)[:10]:
+        p["prevRank"] = prev_players.get(str(p["id"]))
+    for p in road_to_glory.get("players", [])[:10]:
+        p["prevRank"] = prev_rtg_players.get(str(p["id"]))
+    for p in road_to_glory.get("youngProspects", [])[:10]:
+        p["prevRank"] = prev_rtg_young.get(str(p["id"]))
+    for t in road_to_glory.get("teams", [])[:10]:
+        t["prevRank"] = prev_rtg_teams.get(f"{t.get('teamCode','')}-{t.get('era','')}")
 
     season_label = f"{season_year - 1}-{str(season_year)[2:]}"
 

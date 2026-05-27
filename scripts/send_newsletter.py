@@ -1380,13 +1380,79 @@ def sumo_html(d: dict) -> str:
     )
 
 
+# ── Rugby ─────────────────────────────────────────────────────────
+
+def rugby_html(d: dict) -> str:
+    teams = sorted(d.get("TEAMS", []), key=lambda t: -t.get("elo", 0))[:10]
+    dynasties = d.get("ROAD_TO_GLORY", {}).get("dynasties", [])[:10]
+    threshold = d.get("ROAD_TO_GLORY", {}).get("dynastyThreshold", 73)
+
+    def wc_label(count: int) -> str:
+        return f"{count} Mundial{'es' if count != 1 else ''}"
+
+    def rugby_rows(items: list[dict]) -> str:
+        rows = ""
+        for i, t in enumerate(items, 1):
+            color = t.get("colors", {}).get("primary", ACCENT)
+            rows += (
+                f'<tr style="border-bottom:1px solid {RULE}">'
+                f'<td style="padding:12px 14px 12px 0;font-size:26px;color:{MUTED};'
+                f'font-family:{SERIF};font-variant-numeric:tabular-nums;width:42px;'
+                f'vertical-align:top;text-align:right">{i:02d}</td>'
+                f'<td style="padding:12px 16px 12px 0;vertical-align:top">'
+                f'<div style="font-size:19px;line-height:1.15;font-family:{SERIF};'
+                f'font-weight:500;color:{INK}">{swatch(color)}{t.get("name","")}</div>'
+                f'<div style="font-size:10.5px;color:{MUTED};font-family:{MONO};margin-top:4px">'
+                f'Rugby Union · {t.get("country","")}</div>'
+                f'<div style="font-size:10.5px;color:{INK2};font-family:{MONO};margin-top:2px">'
+                f'{t.get("note","")}</div>'
+                f'</td>'
+                f'<td style="padding:12px 12px 12px 8px;text-align:right;vertical-align:top;white-space:nowrap">'
+                f'<div style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:{MUTED};'
+                f'font-family:{MONO}">Elo</div>'
+                f'<div style="font-size:28px;font-weight:500;color:{ACCENT};font-family:{SERIF};'
+                f'font-variant-numeric:tabular-nums">{t.get("elo",0):.2f}</div>'
+                f'</td>'
+                f'<td style="padding:12px 0 12px 8px;text-align:right;vertical-align:top;white-space:nowrap">'
+                f'<div style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:{MUTED};'
+                f'font-family:{MONO}">Mundiales</div>'
+                f'<div style="font-size:28px;font-weight:500;color:{INK};font-family:{SERIF};'
+                f'font-variant-numeric:tabular-nums">{t.get("worldCups",0)}</div>'
+                f'</td>'
+                f'</tr>'
+            )
+        return (f'<table cellpadding="0" cellspacing="0" border="0" '
+                f'style="width:100%;border-collapse:collapse">{rows}</table>')
+
+    def dynasty_meta(t):
+        return f'{t.get("era","")} · {t.get("weeksNo1",0)} semanas #1/Elo'
+
+    def dynasty_note(t):
+        return (f'{wc_label(t.get("worldCups",0))} en la época: '
+                f'{t.get("worldCupYears","ninguno")}. {t.get("note","")}')
+
+    return (
+        f'<div style="margin-top:32px"></div>'
+        + sport_header("Rugby", d.get("SEASON",""), d.get("UPDATED",""), title="Rugby Union")
+        + section("Rugby Elo",
+                  "Top 10 selecciones — Elo actual",
+                  "Ranking por rating internacional. La última columna muestra Mundiales ganados por cada selección.",
+                  rugby_rows(teams))
+        + section("Road to Glory",
+                  "Dinastías de Elo",
+                  f"Umbral de gran dinastía: {threshold}. Score: duración en la cima + Mundiales conquistados durante la época.",
+                  team_list_html(dynasties, "dynastyScore", "Dynasty",
+                                 dynasty_meta, dynasty_note, threshold))
+    )
+
+
 # ── Assemble ──────────────────────────────────────────────────────
 
 def build_email(nhl: dict, nba: dict, mlb: dict,
                 nfl: dict | None = None, f1: dict | None = None,
                 motogp: dict | None = None, afl: dict | None = None,
                 tennis: dict | None = None, cycling: dict | None = None,
-                sumo: dict | None = None) -> str:
+                sumo: dict | None = None, rugby: dict | None = None) -> str:
     today = date.today().strftime("%-d de %B de %Y")
     body  = (
         nhl_html(nhl)
@@ -1399,12 +1465,13 @@ def build_email(nhl: dict, nba: dict, mlb: dict,
         + (tennis_html(tennis) if tennis  else "")
         + (cycling_html(cycling) if cycling else "")
         + (sumo_html(sumo)     if sumo    else "")
+        + (rugby_html(rugby)    if rugby   else "")
     )
     footer = (
         f'<div style="background:{PAPER};border-top:1px solid {RULE};padding:18px 28px;'
         f'font-size:10px;color:{MUTED};font-family:{MONO};letter-spacing:.04em">'
         f'Hermes Newsletter &nbsp;·&nbsp; {today} &nbsp;·&nbsp; '
-        f'NHL · NBA · MLB · NFL · F1 · MotoGP · AFL · Tennis · Cycling · Sumo'
+        f'NHL · NBA · MLB · NFL · F1 · MotoGP · AFL · Tennis · Cycling · Sumo · Rugby'
         f'</div>'
     )
     return (
@@ -1473,12 +1540,13 @@ def main() -> int:
     tennis  = load_js_data(ROOT / "tennis_data.js")
     cycling = load_js_data(ROOT / "cycling_data.js")
     sumo    = load_js_data(ROOT / "sumo_data.js")
+    rugby   = load_js_data(ROOT / "rugby_data.js")
 
     if not nhl:
         print("Error: data.js vacío.", file=sys.stderr)
         return 1
 
-    html    = build_email(nhl, nba, mlb, nfl, f1, motogp, afl, tennis, cycling, sumo)
+    html    = build_email(nhl, nba, mlb, nfl, f1, motogp, afl, tennis, cycling, sumo, rugby)
     today   = date.today().strftime("%d %b %Y")
     subject = f"Hermes Newsletter · {today}"
 

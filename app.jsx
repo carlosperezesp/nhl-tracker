@@ -21,7 +21,7 @@ function getAlivePlayoffTeams(bracket) {
   return alive;
 }
 
-function NewsletterRankRow({ rank, item, alive, score, scoreDisplay, scoreLabel, meta, note, threshold, logo, scoreB, scoreBLabel, scoreBThreshold, prevRank }) {
+function NewsletterRankRow({ rank, item, alive, score, scoreDisplay, scoreLabel, meta, note, threshold, logo, scoreB, scoreBDisplay, scoreBLabel, scoreBThreshold, prevRank }) {
   const isAlive = alive.size === 0 || alive.has(item.teamCode);
   const displayed = scoreDisplay !== undefined ? scoreDisplay : score;
   
@@ -88,10 +88,10 @@ function NewsletterRankRow({ rank, item, alive, score, scoreDisplay, scoreLabel,
           {scoreBThreshold !== undefined ? (
             <span className="newsletter-row__threshold">
               <ThresholdBar value={scoreB} threshold={scoreBThreshold} width={104} />
-              <span className="newsletter-row__score-value">{typeof scoreB === "number" ? scoreB.toFixed(1) : scoreB}</span>
+              <span className="newsletter-row__score-value">{scoreBDisplay !== undefined ? scoreBDisplay : (typeof scoreB === "number" ? scoreB.toFixed(1) : scoreB)}</span>
             </span>
           ) : (
-            <span className="newsletter-row__score-value">{typeof scoreB === "number" ? scoreB.toFixed(1) : scoreB}</span>
+            <span className="newsletter-row__score-value">{scoreBDisplay !== undefined ? scoreBDisplay : (typeof scoreB === "number" ? scoreB.toFixed(1) : scoreB)}</span>
           )}
         </span>
       )}
@@ -1884,8 +1884,88 @@ function NewsletterApp() {
         })()}
         </div>
 
+        <div style={{ order: -Math.round((window.RUGBY_DATA?.IMPORTANCE || 3) * 10) }}>
+        {/* ── RUGBY ─────────────────────────────────────────── */}
+        {window.RUGBY_DATA && (() => {
+          const RUG = window.RUGBY_DATA;
+          const teams = [...(RUG.TEAMS || [])].sort((a, b) => b.elo - a.elo).slice(0, 10);
+          const dynasties = (RUG.ROAD_TO_GLORY?.dynasties || []).slice(0, 10);
+          const dynastyThreshold = RUG.ROAD_TO_GLORY?.dynastyThreshold || 73;
+
+          function wcLabel(count) {
+            return `${count} Mundial${count === 1 ? "" : "es"}`;
+          }
+
+          return (
+            <>
+              <header className="newsletter-hero" style={{ marginTop: 48 }}>
+                <div className="newsletter-hero__masthead">
+                  <span>Rugby Tracker</span>
+                  <span>World Rugby · Elo</span>
+                  <span>Actualizado {RUG.UPDATED}</span>
+                </div>
+                <div className="newsletter-hero__title-row">
+                  <h1>Rugby Union</h1>
+                  <p>
+                    Top 10 por rating Elo/World Rugby y legado de selecciones: rachas largas en la cima
+                    y Mundiales conquistados dentro de cada época.
+                  </p>
+                </div>
+              </header>
+
+              <NewsletterSection
+                kicker="Rugby Elo"
+                title="Top 10 selecciones — Elo actual"
+                sub="Ranking por rating internacional. La segunda métrica muestra Mundiales ganados por cada selección."
+              >
+                <div className="newsletter-list">
+                  {teams.map((team, i) => (
+                    <NewsletterRankRow
+                      key={team.teamCode}
+                      rank={i + 1}
+                      item={team}
+                      alive={new Set()}
+                      score={team.elo}
+                      scoreDisplay={team.elo.toFixed(2)}
+                      scoreLabel="Elo"
+                      scoreB={team.worldCups}
+                      scoreBDisplay={team.worldCups}
+                      scoreBLabel="Mundiales"
+                      meta={`Rugby Union · ${team.country}`}
+                      note={`${wcLabel(team.worldCups)} · ${team.note}`}
+                    />
+                  ))}
+                </div>
+              </NewsletterSection>
+
+              <NewsletterSection
+                kicker="Road to Glory"
+                title="Dinastías de Elo"
+                sub={`Umbral de gran dinastía: ${dynastyThreshold.toFixed(1)}. Score: duración en la cima + Mundiales conquistados durante la época.`}
+              >
+                <div className="newsletter-list">
+                  {dynasties.map((team, i) => (
+                    <NewsletterRankRow
+                      key={`${team.teamCode}-${team.era}`}
+                      rank={i + 1}
+                      item={team}
+                      alive={new Set()}
+                      score={team.dynastyScore}
+                      scoreLabel="Dynasty"
+                      threshold={dynastyThreshold}
+                      meta={`${team.era} · ${team.weeksNo1} semanas #1/Elo`}
+                      note={`${wcLabel(team.worldCups)} en la época: ${team.worldCupYears}. ${team.note}`}
+                    />
+                  ))}
+                </div>
+              </NewsletterSection>
+            </>
+          );
+        })()}
+        </div>
+
         {/* ── PLACEHOLDERS ─────────────────────────────────── */}
-        {["Cricket", "Rugby", "Golf", "Boxeo", "Snooker", "Ciclismo — UCI WorldTour live", "Euroliga", "NASCAR · IndyCar"].map(sport => (
+        {["Cricket", "Golf", "Boxeo", "Snooker", "Ciclismo — UCI WorldTour live", "Euroliga", "NASCAR · IndyCar"].map(sport => (
           <section key={sport} className="newsletter-section" style={{ opacity: 0.45, marginTop: 24 }}>
             <div className="newsletter-section__head">
               <WFLabel>PRÓXIMAMENTE</WFLabel>

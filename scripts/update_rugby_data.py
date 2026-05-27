@@ -25,6 +25,8 @@ BASE_ELO = 1500.0
 HOME_ADVANTAGE = 60.0
 K_NORMAL = 28.0
 K_WORLD_CUP = 44.0
+ACTIVE_GRACE_DAYS = 548        # ~18 months without penalty
+DECAY_HALF_LIFE_DAYS = 365     # after grace, rating edge halves roughly yearly
 
 ESPN_TEAMS = {
     "England": 1,
@@ -250,6 +252,15 @@ def team_colors(name: str) -> dict:
     return TEAM_META.get(name, {}).get("colors", {"primary": "#8a8178", "secondary": "#dedad6"})
 
 
+def activity_adjusted_elo(raw_elo: float, last_played: date, as_of: date) -> tuple[float, int]:
+    inactive_days = max(0, (as_of - last_played).days)
+    if inactive_days <= ACTIVE_GRACE_DAYS:
+        return raw_elo, inactive_days
+    decay_days = inactive_days - ACTIVE_GRACE_DAYS
+    retention = 0.5 ** (decay_days / DECAY_HALF_LIFE_DAYS)
+    return BASE_ELO + (raw_elo - BASE_ELO) * retention, inactive_days
+
+
 def build() -> dict:
     matches = read_matches()
     historical_last_date = datetime.strptime(matches[-1]["date"], "%Y-%m-%d").date()
@@ -328,9 +339,18 @@ def build() -> dict:
         world_cup_counts[winner] += 1
 
     teams = []
-    ranking_pool = [(name, elo) for name, elo in ratings.items() if name not in EXCLUDED_RANKING_TEAMS]
-    for name, elo in sorted(ranking_pool, key=lambda kv: -kv[1])[:10]:
+    adjusted_ratings = {}
+    inactivity_days = {}
+    for name, elo in ratings.items():
+        if name in EXCLUDED_RANKING_TEAMS or name not in last_match_date:
+            continue
+        adjusted, inactive_days = activity_adjusted_elo(elo, last_match_date[name], last_date)
+        adjusted_ratings[name] = adjusted
+        inactivity_days[name] = inactive_days
+
+    for name, elo in sorted(adjusted_ratings.items(), key=lambda kv: -kv[1])[:10]:
         rec = records[name]
+        raw_elo = ratings[name]
         peak_date, peak_elo = max(rating_snapshots[name], key=lambda item: item[1])
         teams.append({
             "rank": len(teams) + 1,
@@ -338,12 +358,15 @@ def build() -> dict:
             "teamCode": team_code(name),
             "country": name,
             "elo": round(elo, 1),
+            "eloRaw": round(raw_elo, 1),
+            "lastMatch": last_match_date[name].isoformat(),
+            "inactiveDays": inactivity_days[name],
             "peakElo": round(peak_elo, 1),
             "peakDate": peak_date.isoformat(),
             "worldCups": world_cup_counts[name],
             "record": rec,
             "colors": team_colors(name),
-            "note": f"{rec['w']}V-{rec['l']}D-{rec['d']}E desde 1871 · pico {peak_elo:.0f}",
+            "note": f"{rec['w']}V-{rec['l']}D-{rec['d']}E · último {last_match_date[name].isoformat()} · raw {raw_elo:.0f}",
         })
 
     dynasty_candidates = []
@@ -407,6 +430,8 @@ def build() -> dict:
             "kNormal": K_NORMAL,
             "kWorldCup": K_WORLD_CUP,
             "marginCap": 2.35,
+            "activityGraceDays": ACTIVE_GRACE_DAYS,
+            "decayHalfLifeDays": DECAY_HALF_LIFE_DAYS,
         },
         "TEAMS": teams,
         "ROAD_TO_GLORY": {

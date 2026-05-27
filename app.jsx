@@ -847,7 +847,9 @@ function NewsletterApp() {
           };
 
           const atpRecent = TENNIS.ATP_RECENT || [];
+          const atpToday = TENNIS.ATP_TODAY || [];
           const wtaRecent = TENNIS.WTA_RECENT || [];
+          const wtaToday = TENNIS.WTA_TODAY || [];
 
           const SURFACE_COLOR = { Clay: "#c47a4b", Grass: "#4a8c3f", Hard: "#3a6ea5", Carpet: "#6a4c9c" };
           const playerScoreColors = score => {
@@ -878,13 +880,16 @@ function NewsletterApp() {
               );
             })()
           ) : null;
-          function RecentResults({ data, tour }) {
+          function RecentResults({ data, tour, mode = "results" }) {
             if (!data || !data.length) return null;
+            const isSchedule = mode === "schedule";
             return (
               <NewsletterSection
                 kicker={`${tour} · Partidos importantes`}
-                title={`${tour} — Ayer y hoy`}
-                sub="Grand Slams, Finals, Masters/1000 y 500 activos. Se refresca por la mañana y por la noche."
+                title={`${tour} — ${isSchedule ? "Hoy" : "Ayer"}`}
+                sub={isSchedule
+                  ? "Top partidos programados hoy, ordenados por el mejor score individual del duelo."
+                  : "Top resultados de ayer, ordenados por el mejor score individual del duelo."}
               >
                 {data.map((tourney, ti) => (
                   <div key={ti} style={{ marginBottom: 20 }}>
@@ -939,7 +944,7 @@ function NewsletterApp() {
                           {m.w_logo && <img src={m.w_logo} style={{ width: 16, height: 12, verticalAlign: "middle", marginRight: 4, borderRadius: 1 }} />}
                           <span style={{ fontWeight: 600 }}>{m.w}</span>
                           {playerScoreChip(m.w_score)}
-                          <span style={{ color: "var(--muted, #888)", margin: "0 6px", fontSize: 11 }}>def.</span>
+                          <span style={{ color: "var(--muted, #888)", margin: "0 6px", fontSize: 11 }}>{m.scheduled ? "vs" : "def."}</span>
                           {m.l_logo && <img src={m.l_logo} style={{ width: 16, height: 12, verticalAlign: "middle", marginRight: 4, borderRadius: 1 }} />}
                           <span style={{ color: "var(--ink-2, #666)" }}>{m.l}</span>
                           {playerScoreChip(m.l_score)}
@@ -1000,7 +1005,9 @@ function NewsletterApp() {
               </header>
 
               <RecentResults data={atpRecent} tour="ATP" />
+              <RecentResults data={atpToday} tour="ATP" mode="schedule" />
               <RecentResults data={wtaRecent} tour="WTA" />
+              <RecentResults data={wtaToday} tour="WTA" mode="schedule" />
 
               <NewsletterSection
                 kicker="ATP Singles"

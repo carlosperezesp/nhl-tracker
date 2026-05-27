@@ -145,6 +145,7 @@ _LEVEL_ES: dict[str, str] = {
 _LEVEL_PRIO: dict[str, int] = {"G": 0, "F": 1, "M": 2, "PM": 2, "500": 3, "A": 3, "P": 3, "250": 4}
 _IMPORTANT_LEVELS = {"G", "F", "M", "PM", "P", "A", "500"}
 _TML_URL = "https://stats.tennismylife.org/"
+_TML_SCHEDULE_URL = "https://stats.tennismylife.org/schedule"
 _TML_IMPORTANT_TOURNAMENTS: dict[str, dict[str, str]] = {
     "Roland Garros": {"level": "Grand Slam", "surface": "Clay"},
     "Australian Open": {"level": "Grand Slam", "surface": "Hard"},
@@ -227,10 +228,10 @@ def _rank_recent_tournaments(tournaments: list[dict], scores: dict[str, float], 
     return out
 
 
-def _tml_recent_results(scores: dict[str, float]) -> list[dict]:
-    """Fetch dated latest important ATP matches from TennisMyLife."""
+def _tml_recent_results(scores: dict[str, float], target: str = "yesterday") -> list[dict]:
+    """Fetch dated latest important ATP results from TennisMyLife."""
     today = _date.today()
-    wanted_dates = {(today - timedelta(days=1)).isoformat(), today.isoformat()}
+    target_date = today.isoformat() if target == "today" else (today - timedelta(days=1)).isoformat()
     req = urllib.request.Request(_TML_URL, headers={"User-Agent": "Mozilla/5.0"})
     try:
         raw = urllib.request.urlopen(req, timeout=20).read().decode("utf-8", "ignore")
@@ -244,7 +245,7 @@ def _tml_recent_results(scores: dict[str, float]) -> list[dict]:
         if len(cells) < 7:
             continue
         match_date = _cell_text(cells[0])
-        if match_date not in wanted_dates:
+        if match_date != target_date:
             continue
         tournament = _cell_text(cells[1])
         info = _TML_IMPORTANT_TOURNAMENTS.get(tournament)
@@ -266,10 +267,62 @@ def _tml_recent_results(scores: dict[str, float]) -> list[dict]:
             "l": _player_cell(cells[5]),
             "l_logo": "",
             "score": score,
-            "day": "ayer" if match_date == (today - timedelta(days=1)).isoformat() else "hoy",
+            "day": "hoy" if target == "today" else "ayer",
         })
 
     return _rank_recent_tournaments(list(grouped.values()), scores)
+
+
+def _title_name(slug: str) -> str:
+    particles = {"de", "del", "van", "von", "der", "den", "da", "dos", "du", "agustin"}
+    parts = []
+    for p in slug.split("-"):
+        if p in particles:
+            parts.append(p.capitalize() if p == "agustin" else p)
+        else:
+            parts.append(p.capitalize())
+    return " ".join(parts)
+
+
+def _tml_today_schedule(scores: dict[str, float]) -> list[dict]:
+    """Fetch today's ATP schedule from TennisMyLife H2H links."""
+    req = urllib.request.Request(_TML_SCHEDULE_URL, headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        raw = urllib.request.urlopen(req, timeout=20).read().decode("utf-8", "ignore")
+    except Exception as exc:
+        print(f"[WARN] TennisMyLife schedule unavailable: {exc}", file=sys.stderr)
+        return []
+
+    matches = []
+    current_round = ""
+    for token in re.finditer(r"<h3[^>]*>([^<]+)</h3>|href=\"(?:https://stats\.tennismylife\.org)?/h2h/([^\"]+)\"", raw):
+        if token.group(1):
+            current_round = _cell_text(token.group(1))
+            continue
+        slug = token.group(2)
+        if not slug or "-vs-" not in slug:
+            continue
+        p1_slug, p2_slug = slug.split("-vs-", 1)
+        matches.append({
+            "round": current_round,
+            "w": _title_name(p1_slug),
+            "w_logo": "",
+            "l": _title_name(p2_slug),
+            "l_logo": "",
+            "score": "por jugar",
+            "day": "hoy",
+            "scheduled": True,
+        })
+
+    if not matches:
+        return []
+
+    return _rank_recent_tournaments([{
+        "name": "Roland Garros",
+        "level": "Grand Slam",
+        "surface": "Clay",
+        "matches": matches,
+    }], scores)
 
 
 def _recent_results(tour: str, scores: dict[str, float]) -> list[dict]:
@@ -932,8 +985,10 @@ def write_data() -> None:
     print("Building recent match results…", file=sys.stderr)
     atp_score_lookup = {_name_key(name): score for name, score in atp_scores.items()}
     wta_score_lookup = {_name_key(name): score for name, score in wta_scores.items()}
-    atp_recent = _tml_recent_results(atp_score_lookup) or _recent_results("atp", atp_score_lookup)
+    atp_recent = _tml_recent_results(atp_score_lookup, "yesterday") or _recent_results("atp", atp_score_lookup)
+    atp_today  = _tml_today_schedule(atp_score_lookup) or _tml_recent_results(atp_score_lookup, "today")
     wta_recent = _recent_results("wta", wta_score_lookup)
+    wta_today: list[dict] = []
 
     payload = {
         "UPDATED":     updated,
@@ -944,7 +999,9 @@ def write_data() -> None:
         "ATP_LEGENDS": atp_legends,
         "WTA_LEGENDS": wta_legends,
         "ATP_RECENT":  atp_recent,
+        "ATP_TODAY":   atp_today,
         "WTA_RECENT":  wta_recent,
+        "WTA_TODAY":   wta_today,
         "IMPORTANCE":  importance,
     }
 

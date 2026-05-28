@@ -146,6 +146,7 @@ _LEVEL_PRIO: dict[str, int] = {"G": 0, "F": 1, "M": 2, "PM": 2, "500": 3, "A": 3
 _IMPORTANT_LEVELS = {"G", "F", "M", "PM", "P", "A", "500"}
 _TML_URL = "https://stats.tennismylife.org/"
 _TML_SCHEDULE_URL = "https://stats.tennismylife.org/schedule"
+_ESPN_ATP_SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard?dates={date}&limit=300"
 _TML_IMPORTANT_TOURNAMENTS: dict[str, dict[str, str]] = {
     "Roland Garros": {"level": "Grand Slam", "surface": "Clay"},
     "Australian Open": {"level": "Grand Slam", "surface": "Hard"},
@@ -282,6 +283,108 @@ def _title_name(slug: str) -> str:
         else:
             parts.append(p.capitalize())
     return " ".join(parts)
+
+
+def _espn_round_code(label: str) -> str:
+    label = (label or "").strip()
+    mapping = {
+        "Round 1": "R128",
+        "Round 2": "R64",
+        "Round 3": "R32",
+        "Round 4": "R16",
+        "Quarterfinals": "QF",
+        "Semifinals": "SF",
+        "Final": "F",
+    }
+    return mapping.get(label, label)
+
+
+def _espn_note_score(note: str) -> str:
+    if not note:
+        return ""
+    # ESPN notes look like: "(3) Novak Djokovic (SER) bt Valentin Royer (FRA) 6-3 ..."
+    if " bt " not in note:
+        return ""
+    right = note.split(" bt ", 1)[1]
+    m = re.search(r"\([A-Z]{3}\)\s+(.+)$", right)
+    if not m:
+        return ""
+    return m.group(1).strip()
+
+
+def _espn_day_matches(scores: dict[str, float], target_date: _date) -> list[dict]:
+    """Fetch real ATP singles matches for a date from ESPN's tournament scoreboard."""
+    url = _ESPN_ATP_SCOREBOARD_URL.format(date=target_date.strftime("%Y%m%d"))
+    try:
+        raw = _cache_fetch(url, ttl_hours=0.5)
+        data = json.loads(raw)
+    except Exception as exc:
+        print(f"[WARN] ESPN ATP scoreboard unavailable: {exc}", file=sys.stderr)
+        return []
+
+    grouped: dict[str, dict] = {}
+    for event in data.get("events", []):
+        tournament = event.get("name", "")
+        info = _TML_IMPORTANT_TOURNAMENTS.get(tournament)
+        if not info:
+            continue
+        for grouping in event.get("groupings", []):
+            if grouping.get("grouping", {}).get("displayName") != "Men's Singles":
+                continue
+            for comp in grouping.get("competitions", []):
+                comp_date = (comp.get("date") or "")[:10]
+                if comp_date != target_date.isoformat():
+                    continue
+                round_label = comp.get("round", {}).get("displayName", "")
+                if "Qualifying" in round_label:
+                    continue
+                competitors = comp.get("competitors", [])
+                if len(competitors) != 2:
+                    continue
+                athletes = [c.get("athlete", {}).get("displayName", "") for c in competitors]
+                if not athletes[0] or not athletes[1]:
+                    continue
+                status_name = comp.get("status", {}).get("type", {}).get("name", "")
+                notes = comp.get("notes") or []
+                note = notes[0].get("text", "") if notes else ""
+                score = _espn_note_score(note)
+                scheduled = status_name in {"STATUS_SCHEDULED", "STATUS_PRE"}
+                if scheduled:
+                    left, right = athletes[0], athletes[1]
+                    left_score = _player_score(left, scores) or 0
+                    right_score = _player_score(right, scores) or 0
+                    if right_score > left_score:
+                        left, right = right, left
+                    score = "por jugar"
+                else:
+                    winner = next((c for c in competitors if c.get("winner") is True), None)
+                    loser = next((c for c in competitors if c.get("winner") is False), None)
+                    if not winner or not loser:
+                        left, right = athletes[0], athletes[1]
+                    else:
+                        left = winner.get("athlete", {}).get("displayName", "")
+                        right = loser.get("athlete", {}).get("displayName", "")
+                    if not score:
+                        score = comp.get("status", {}).get("type", {}).get("description", "")
+
+                group = grouped.setdefault(tournament, {
+                    "name": tournament,
+                    "level": info["level"],
+                    "surface": info["surface"],
+                    "matches": [],
+                })
+                group["matches"].append({
+                    "round": _espn_round_code(round_label),
+                    "w": left,
+                    "w_logo": "",
+                    "l": right,
+                    "l_logo": "",
+                    "score": score,
+                    "day": "hoy" if target_date == _date.today() else "ayer",
+                    "scheduled": scheduled,
+                })
+
+    return _rank_recent_tournaments(list(grouped.values()), scores)
 
 
 def _tml_today_schedule(scores: dict[str, float]) -> list[dict]:
@@ -985,8 +1088,18 @@ def write_data() -> None:
     print("Building recent match results…", file=sys.stderr)
     atp_score_lookup = {_name_key(name): score for name, score in atp_scores.items()}
     wta_score_lookup = {_name_key(name): score for name, score in wta_scores.items()}
-    atp_recent = _tml_recent_results(atp_score_lookup, "yesterday") or _recent_results("atp", atp_score_lookup)
-    atp_today  = _tml_today_schedule(atp_score_lookup) or _tml_recent_results(atp_score_lookup, "today")
+    today = _date.today()
+    yesterday = today - timedelta(days=1)
+    atp_recent = (
+        _espn_day_matches(atp_score_lookup, yesterday)
+        or _tml_recent_results(atp_score_lookup, "yesterday")
+        or _recent_results("atp", atp_score_lookup)
+    )
+    atp_today  = (
+        _espn_day_matches(atp_score_lookup, today)
+        or _tml_today_schedule(atp_score_lookup)
+        or _tml_recent_results(atp_score_lookup, "today")
+    )
     wta_recent = _recent_results("wta", wta_score_lookup)
     wta_today: list[dict] = []
 

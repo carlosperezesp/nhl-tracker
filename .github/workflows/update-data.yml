@@ -23,6 +23,7 @@ jobs:
 
       # ── All Hermes sport data ───────────────────────────────────────────────
       - name: Update all sport data
+        continue-on-error: true
         run: python3 scripts/update_all_data.py
 
       # ── Commit both files if changed ────────────────────────────────────────
@@ -45,4 +46,5 @@ jobs:
           GMAIL_USER: carlosrealmurcia@gmail.com
           GMAIL_APP_PASSWORD: ${{ secrets.send_newsletter }}
           NEWSLETTER_RECIPIENTS: carlosrealmurcia@gmail.com
+          HERMES_SKIP_UPDATES: "1"
         run: python3 scripts/send_newsletter.py

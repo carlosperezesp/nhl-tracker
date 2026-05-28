@@ -1500,16 +1500,20 @@ ALL_UPDATES = [
 def main() -> int:
     load_env()
 
-    for sport, script in ALL_UPDATES:
-        path = ROOT / "scripts" / script
-        if path.exists():
-            print(f"Actualizando {sport}…")
-            try:
-                subprocess.run([sys.executable, str(path)], check=True)
-            except subprocess.CalledProcessError as e:
-                print(f"[WARN] {sport} update failed: {e}", file=sys.stderr)
-        else:
-            print(f"[SKIP] {script} not found", file=sys.stderr)
+    skip_updates = os.environ.get("HERMES_SKIP_UPDATES", "").strip().lower()
+    if skip_updates in {"1", "true", "yes"}:
+        print("HERMES_SKIP_UPDATES=1: usando los datos ya generados.")
+    else:
+        for sport, script in ALL_UPDATES:
+            path = ROOT / "scripts" / script
+            if path.exists():
+                print(f"Actualizando {sport}…")
+                try:
+                    subprocess.run([sys.executable, str(path)], check=True)
+                except subprocess.CalledProcessError as e:
+                    print(f"[WARN] {sport} update failed: {e}", file=sys.stderr)
+            else:
+                print(f"[SKIP] {script} not found", file=sys.stderr)
 
     password = os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()
     if not password:

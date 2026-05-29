@@ -436,7 +436,7 @@ def build() -> dict:
             "matches": len(matches),
             "through": last_date.isoformat(),
         },
-        "IMPORTANCE": 3.7,
+        "IMPORTANCE": _rugby_importance(),
         "ELO_MODEL": {
             "base": BASE_ELO,
             "homeAdvantage": HOME_ADVANTAGE,
@@ -454,6 +454,29 @@ def build() -> dict:
             "dynasties": dynasties,
         },
     }
+
+
+# Tournament windows: (month_start, day_start, month_end, day_end, importance)
+_RUGBY_CALENDAR = [
+    (2,  1, 3, 22, 7.5),   # Six Nations
+    (5, 15, 6, 15, 5.0),   # Spring Tests
+    (8,  1, 10, 15, 7.0),  # Rugby Championship + Bledisloe Cup
+    (11, 1, 11, 30, 6.5),  # Autumn Internationals
+]
+
+def _rugby_importance() -> float:
+    today = date.today()
+    year  = today.year
+    # Rugby World Cup: 2027, 2031… (year % 4 == 3), Sep–Nov
+    if year % 4 == 3 and date(year, 9, 5) <= today <= date(year, 11, 10):
+        return 9.5
+    # British & Irish Lions: 2025, 2029… (year % 4 == 1), Jun–Aug
+    if year % 4 == 1 and date(year, 6, 20) <= today <= date(year, 8, 10):
+        return 8.5
+    for m0, d0, m1, d1, score in _RUGBY_CALENDAR:
+        if date(year, m0, d0) <= today <= date(year, m1, d1):
+            return score
+    return 3.5
 
 
 def main() -> int:

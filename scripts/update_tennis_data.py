@@ -1149,26 +1149,37 @@ def build_tour_data(tour: str, prev_ranks: dict[str, int] | None = None) -> list
 
 
 # Tournament windows: (month_start, day_start, month_end, day_end, importance)
+# Listed highest-importance first so overlapping windows return the right value.
 _TENNIS_CALENDAR = [
-    # Grand Slams
+    # Grand Slams (10.0)
     (1, 12, 1, 26, 10.0),   # Australian Open
     (5, 25, 6,  8, 10.0),   # Roland Garros
     (6, 30, 7, 13, 10.0),   # Wimbledon
     (8, 25, 9,  7, 10.0),   # US Open
-    # Masters 1000
+    # Season-ending championships (9.0)
+    (10, 20, 11,  5,  9.0), # WTA Finals
+    (11,  8, 11, 22,  9.0), # ATP Finals (Nitto)
+    # Copa Davis Finals (8.5)
+    (11, 14, 11, 26,  8.5), # Davis Cup Finals (Málaga)
+    # Masters 1000 / WTA 1000 (8.0)
     (3,  4, 3, 17,  8.0),   # Indian Wells
     (3, 19, 3, 30,  8.0),   # Miami
     (4,  6, 4, 20,  8.0),   # Monte Carlo
     (4, 27, 5, 11,  8.0),   # Madrid
     (5, 12, 5, 25,  8.0),   # Rome
     (8,  5, 8, 24,  8.0),   # Canada + Cincinnati
-    (10, 4, 10, 12, 8.0),   # Shanghai
-    (10, 26, 11, 8, 8.0),   # Paris Bercy
+    (10, 4, 10, 12,  8.0),  # Shanghai
+    (10, 26, 11,  8,  8.0), # Paris Bercy
+    # Copa Davis Group Stage (7.5)
+    (9,  9, 9, 14,  7.5),   # Davis Cup Group Stage
 ]
 
 def _tennis_importance() -> float:
     today = _date.today()
     year  = today.year
+    # Olympics: every 4 years (2024, 2028…), tennis approx. Jul 25 – Aug 10
+    if year % 4 == 0 and _date(year, 7, 25) <= today <= _date(year, 8, 10):
+        return 9.5
     for m0, d0, m1, d1, score in _TENNIS_CALENDAR:
         start = _date(year, m0, d0)
         end   = _date(year, m1, d1)

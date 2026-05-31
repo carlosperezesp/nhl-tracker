@@ -1,6 +1,6 @@
-// Auto-generated 2026-05-31 18:18 UTC
+// Auto-generated 2026-05-31 21:17 UTC
 window.TENNIS_DATA = {
-  "UPDATED": "2026-05-31 18:18 UTC",
+  "UPDATED": "2026-05-31 21:17 UTC",
   "ATP": [
     {
       "id": "206173",
@@ -524,9 +524,9 @@ window.TENNIS_DATA = {
       "prevListRank": 17,
       "tournamentStatus": {
         "tournament": "Roland Garros",
-        "state": "alive",
+        "state": "out",
         "round": "R16",
-        "reason": ""
+        "reason": "Eliminado en R16"
       }
     },
     {
@@ -4407,15 +4407,15 @@ window.TENNIS_DATA = {
         },
         {
           "round": "R16",
-          "w": "Casper Ruud",
+          "w": "Joao Fonseca",
           "w_logo": "",
-          "l": "Joao Fonseca",
+          "l": "Casper Ruud",
           "l_logo": "",
-          "score": "por jugar",
+          "score": "In Progress",
           "day": "hoy",
-          "scheduled": true,
-          "w_score": 79.3,
-          "l_score": 70.1,
+          "scheduled": false,
+          "w_score": 70.1,
+          "l_score": 79.3,
           "match_score": 79.3
         },
         {
@@ -4433,15 +4433,15 @@ window.TENNIS_DATA = {
         },
         {
           "round": "R16",
-          "w": "Andrey Rublev",
+          "w": "Jakub Mensik",
           "w_logo": "",
-          "l": "Jakub Mensik",
+          "l": "Andrey Rublev",
           "l_logo": "",
-          "score": "In Progress",
+          "score": "6-3 7-6 (8-6) 4-6 2-6 6-3",
           "day": "hoy",
           "scheduled": false,
-          "w_score": 74.0,
-          "l_score": 72.0,
+          "w_score": 72.0,
+          "l_score": 74.0,
           "match_score": 74.0
         }
       ]
@@ -4457,7 +4457,6 @@ window.TENNIS_DATA = {
     "alive": [
       "Alejandro Tabilo",
       "Alexander Zverev",
-      "Andrey Rublev",
       "Casper Ruud",
       "Felix Auger-Aliassime",
       "Flavio Cobolli",
@@ -4485,6 +4484,7 @@ window.TENNIS_DATA = {
       "Alexandre Muller",
       "Alexei Popyrin",
       "Andrea Pellegrino",
+      "Andrey Rublev",
       "Arthur Gea",
       "Arthur Rinderknech",
       "Ben Shelton",
@@ -4587,7 +4587,7 @@ window.TENNIS_DATA = {
       "Zhang Zhizhen",
       "Zizou Bergs"
     ],
-    "aliveCount": 14,
+    "aliveCount": 13,
     "matchesSeen": 121
   },
   "WTA_TOURNAMENT": {

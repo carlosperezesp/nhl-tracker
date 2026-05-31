@@ -2978,7 +2978,7 @@ window.NHL_DATA = {
       "name": "Erik Karlsson",
       "pos": "D",
       "teamCode": "PIT",
-      "age": 35,
+      "age": 36,
       "country": "Sweden",
       "birthCountry": "SWE",
       "colors": {
@@ -5756,7 +5756,7 @@ window.NHL_DATA = {
       "name": "Jared McCann",
       "pos": "LW",
       "teamCode": "SEA",
-      "age": 29,
+      "age": 30,
       "country": "Canada",
       "birthCountry": "CAN",
       "colors": {
@@ -15471,7 +15471,7 @@ window.NHL_DATA = {
       "name": "Joel Armia",
       "pos": "RW",
       "teamCode": "LAK",
-      "age": 32,
+      "age": 33,
       "country": "Finland",
       "birthCountry": "FIN",
       "colors": {
@@ -44899,10 +44899,10 @@ window.NHL_DATA = {
   },
   "SEASON": "2025-26",
   "IMPORTANCE": 8.0,
-  "LAST_UPDATE": "2026-05-30 08:47 UTC",
+  "LAST_UPDATE": "2026-05-31 21:15 UTC",
   "SOURCE": {
     "name": "NHL API",
     "baseUrl": "https://api-web.nhle.com/v1",
-    "standingsDateTimeUtc": "2026-05-30T08:45:45Z"
+    "standingsDateTimeUtc": "2026-05-31T21:15:30Z"
   }
 };

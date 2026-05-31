@@ -1,6 +1,6 @@
-// Auto-generated 2026-05-31 18:28 UTC
+// Auto-generated 2026-05-31 21:16 UTC
 window.CYCLING_DATA = {
-  "UPDATED": "2026-05-31 18:28 UTC",
+  "UPDATED": "2026-05-31 21:16 UTC",
   "LEGENDS": [
     {
       "id": "eddy_merckx",
@@ -823,7 +823,7 @@ window.CYCLING_DATA = {
       "logo": "https://flagcdn.com/24x18/pt.png",
       "team": "TBV",
       "primary": "#006600",
-      "time": "80h 26' 40\"",
+      "time": "83h 32' 30\"",
       "legendScore": 0.0
     }
   },

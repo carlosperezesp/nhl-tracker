@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT   = Path(__file__).resolve().parent.parent
 CACHE  = ROOT / ".tennis_cache"
 CACHE.mkdir(exist_ok=True)
+STALE_FETCHES: list[tuple[str, float, float]] = []
 
 CURRENT_YEAR  = datetime.now(timezone.utc).year
 CAREER_START  = 2010
@@ -94,6 +95,9 @@ def _cache_fetch(url: str, ttl_hours: float = 720.0) -> str:
         return text
     except Exception as exc:
         if path.exists():
+            age_h = (time.time() - path.stat().st_mtime) / 3600
+            if ttl_hours <= 24.0 and age_h >= ttl_hours:
+                STALE_FETCHES.append((url, age_h, ttl_hours))
             print(f"[WARN] fetch failed ({exc}), using stale cache: {url}", file=sys.stderr)
             return path.read_text(encoding="utf-8")
         raise
@@ -1266,6 +1270,13 @@ def write_data() -> None:
         "WTA_TOURNAMENT": wta_tournament,
         "IMPORTANCE":  importance,
     }
+
+    if STALE_FETCHES and os.environ.get("HERMES_ALLOW_STALE_TENNIS") != "1":
+        details = "; ".join(
+            f"{url} stale {age_h:.1f}h > ttl {ttl_h:.1f}h"
+            for url, age_h, ttl_h in STALE_FETCHES[:6]
+        )
+        raise RuntimeError(f"Tennis update used stale critical cache; refusing to overwrite tennis_data.js. {details}")
 
     out_path = ROOT / "tennis_data.js"
     with open(out_path, "w", encoding="utf-8") as f:

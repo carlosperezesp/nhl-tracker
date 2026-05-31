@@ -870,6 +870,22 @@ def build_road_to_glory(player_comparisons: list[dict], current_teams: list[dict
     }
 
 
+def annotate_player_legend_scores(players: list[dict], player_comparisons: list[dict]) -> None:
+    scores: dict[int, float] = {}
+    for comp in player_comparisons:
+        if comp.get("legendScore") is not None:
+            scores[comp["id"]] = float(comp["legendScore"])
+        elif comp.get("active") and comp.get("seasons"):
+            scores[comp["id"]] = _player_career_score(comp)
+
+    for p in players:
+        score = scores.get(p["id"])
+        if score is None and p.get("age") and p["age"] <= 25 and p.get("score", 0) >= 50 and p.get("pos") != "G":
+            score = _prospect_projected_score(p["age"], p["score"])
+        if score is not None:
+            p["legendScore"] = round(score, 1)
+
+
 def _nhl_importance(bracket: dict) -> float:
     final = (bracket.get("final") or [{}])[0]
     if final.get("hi"):
@@ -906,6 +922,7 @@ def write_data(output: Path) -> None:
     add_roster_strength(teams, players)
     bracket = build_bracket(season_id)
     player_comparisons = build_player_comparisons(players, extra_ids=_young_prospect_ids(players))
+    annotate_player_legend_scores(players, player_comparisons)
     road_to_glory = build_road_to_glory(player_comparisons, teams, players)
 
     # ── Asignar prevRank a cada lista ────────────────────────────────────────

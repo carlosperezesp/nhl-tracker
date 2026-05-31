@@ -604,6 +604,11 @@ def build_road_to_glory(players: list[dict], teams: list[dict]) -> dict:
     }
 
 
+def annotate_player_legend_scores(players: list[dict]) -> None:
+    for p in players:
+        p["legendScore"] = _nba_career_score(p["name"], p["score"], p.get("age"))
+
+
 def _nba_importance(bracket: dict) -> float:
     final = (bracket.get("final") or [{}])[0]
     if final.get("hi"):
@@ -637,6 +642,7 @@ def write_data(output: Path) -> None:
         f"{API_PLAYERS}?season={season_year}&seasontype=2&limit=500&isqualified=true"
     )
     players = build_players(player_raw, team_by_id)
+    annotate_player_legend_scores(players)
 
     print("Fetching NBA playoff bracket…")
     bracket = build_bracket(season_year)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Update all sport data files (NHL, NBA, MLB, NFL). No email dependency."""
+"""Update all sport data files. No email dependency."""
 
 from __future__ import annotations
 
@@ -22,6 +22,7 @@ UPDATES = [
     ("AFL",     SCRIPTS / "update_afl_data.py"),
     ("MotoGP",  SCRIPTS / "update_motogp_data.py"),
     ("Rugby",   SCRIPTS / "update_rugby_data.py"),
+    ("Cricket", SCRIPTS / "update_cricket_data.py"),
 ]
 
 

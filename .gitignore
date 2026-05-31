@@ -9,6 +9,7 @@ nhl-tracker-update.log
 .sumo_cache/
 .tennis_cache/
 .cycling_cache/
+.cricket_cache/
 .nba_cache/
 .mlb_cache/
 .nfl_cache/

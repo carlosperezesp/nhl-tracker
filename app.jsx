@@ -21,7 +21,7 @@ function getAlivePlayoffTeams(bracket) {
   return alive;
 }
 
-function NewsletterRankRow({ rank, item, alive, aliveKey = "teamCode", forceOut = false, score, scoreDisplay, scoreLabel, meta, note, threshold, logo, scoreB, scoreBDisplay, scoreBLabel, scoreBThreshold, prevRank }) {
+function NewsletterRankRow({ rank, item, alive, aliveKey = "teamCode", forceOut = false, score, scoreDisplay, scoreLabel, meta, note, threshold, logo, scoreB, scoreBDisplay, scoreBLabel, scoreBThreshold, prevRank, rowClassName = "" }) {
   const aliveValue = item?.[aliveKey];
   const isAlive = !forceOut && (alive.size === 0 || alive.has(aliveValue));
   const displayed = scoreDisplay !== undefined ? scoreDisplay : score;
@@ -60,7 +60,7 @@ function NewsletterRankRow({ rank, item, alive, aliveKey = "teamCode", forceOut 
   }
 
   return (
-    <div className={`newsletter-row ${scoreB !== undefined ? "newsletter-row--dual-score" : ""} ${!isAlive ? "newsletter-row--out" : ""}`}>
+    <div className={`newsletter-row ${scoreB !== undefined ? "newsletter-row--dual-score" : ""} ${!isAlive ? "newsletter-row--out" : ""} ${rowClassName}`}>
       <span className="newsletter-row__rank" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
         <span>{String(rank).padStart(2, "0")}</span>
         {changeEl}
@@ -114,6 +114,70 @@ function NewsletterSection({ kicker, title, sub, children }) {
   );
 }
 
+function FinalsShowdown({ teams, players, legendScores, legendThreshold, teamByCode, logoForTeam, playerMeta, scoreNote, title, kicker, sub }) {
+  if (!teams || teams.length !== 2) return null;
+  const valid = teams.every(code => code && code !== "TBD");
+  if (!valid) return null;
+
+  const rowsFor = code => players
+    .filter(p => p.teamCode === code)
+    .sort((a, b) => (b.score || 0) - (a.score || 0))
+    .slice(0, 10);
+
+  const teamTitle = code => teamByCode[code]?.city || teamByCode[code]?.commonName || code;
+
+  return (
+    <NewsletterSection kicker={kicker} title={title} sub={sub}>
+      <div className="showdown-grid">
+        {teams.map(code => (
+          <div className="showdown-card" key={code}>
+            <div className="showdown-card__head">
+              <img src={logoForTeam(code)} alt={code} />
+              <div>
+                <h3>{teamTitle(code)}</h3>
+                <span>{code}</span>
+              </div>
+            </div>
+            <table className="showdown-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Jugador</th>
+                  <th>Score</th>
+                  <th>Leyenda</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rowsFor(code).map((p, i) => {
+                  const legendScore = p.legendScore ?? legendScores[p.id];
+                  return (
+                    <tr key={p.id}>
+                      <td>{String(i + 1).padStart(2, "0")}</td>
+                      <td>
+                        <strong>{p.name}</strong>
+                        <span>{playerMeta(p)} · {scoreNote(p)}</span>
+                      </td>
+                      <td>{p.score}</td>
+                      <td>
+                        {legendScore != null ? (
+                          <span className="showdown-legend">
+                            <ThresholdBar value={Number(legendScore)} threshold={legendThreshold} width={72} />
+                            <strong>{Number(legendScore).toFixed(1)}</strong>
+                          </span>
+                        ) : "—"}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
+    </NewsletterSection>
+  );
+}
+
 function NewsletterApp() {
   const D = window.NHL_DATA;
   const NBA = window.NBA_DATA;
@@ -126,6 +190,17 @@ function NewsletterApp() {
   const roadPlayers = (ROAD_TO_GLORY?.players || []).slice(0, 10);
   const youngPlayers = (ROAD_TO_GLORY?.youngProspects || []).slice(0, 10);
   const roadTeams = (ROAD_TO_GLORY?.teams || []).slice(0, 10);
+  const stanleyCupTeams = useMemo(() => {
+    const f = BRACKET?.final?.[0];
+    return f?.hi && f?.lo && f.hi !== "TBD" && f.lo !== "TBD" ? [f.hi, f.lo] : null;
+  }, [BRACKET]);
+  const nhlLegendScores = useMemo(() => {
+    const pairs = [
+      ...(ROAD_TO_GLORY?.players || []).map(p => [p.id, p.careerScore]),
+      ...(ROAD_TO_GLORY?.youngProspects || []).map(p => [p.id, p.projectedScore]),
+    ];
+    return Object.fromEntries(pairs);
+  }, [ROAD_TO_GLORY]);
 
   // MLB data
   const MLB = window.MLB_DATA;
@@ -239,6 +314,18 @@ function NewsletterApp() {
   const nbaRoadPlayers  = (NBA?.ROAD_TO_GLORY?.players || []).slice(0, 10);
   const nbaYoungPlayers = (NBA?.ROAD_TO_GLORY?.youngProspects || []).slice(0, 10);
   const nbaRoadTeams    = (NBA?.ROAD_TO_GLORY?.teams || []).slice(0, 10);
+  const nbaFinalsTeams = useMemo(() => {
+    const f = NBA?.BRACKET?.final?.[0];
+    return f?.hi && f?.lo && f.hi !== "TBD" && f.lo !== "TBD" ? [f.hi, f.lo] : null;
+  }, [NBA]);
+  const nbaLegendScores = useMemo(() => {
+    const rtg = NBA?.ROAD_TO_GLORY || {};
+    const pairs = [
+      ...(rtg.players || []).map(p => [p.id, p.careerScore]),
+      ...(rtg.youngProspects || []).map(p => [p.id, p.projectedScore]),
+    ];
+    return Object.fromEntries(pairs);
+  }, [NBA]);
 
   function playerMeta(player) {
     const teamName = teamByCode[player.teamCode]?.commonName || player.teamCode;
@@ -313,6 +400,20 @@ function NewsletterApp() {
         >
           <Bracket bracket={BRACKET} />
         </NewsletterSection>
+
+        <FinalsShowdown
+          teams={stanleyCupTeams}
+          players={PLAYERS}
+          legendScores={nhlLegendScores}
+          legendThreshold={ROAD_TO_GLORY?.playerThreshold || 100}
+          teamByCode={teamByCode}
+          logoForTeam={code => teamByCode[code]?.logo || `https://assets.nhle.com/logos/nhl/svg/${code}_light.svg`}
+          playerMeta={playerMeta}
+          scoreNote={p => p.pos === "G" ? `${p.stats.svpct.toFixed(3)} SV%` : `${p.stats.p} P · ${p.stats.g} G`}
+          kicker="Stanley Cup Showdown"
+          title="Top 10 performers por finalista"
+          sub="Aparece cuando están definidos los dos equipos de la Stanley Cup. Score actual de temporada y score leyenda/Road To Glory."
+        />
 
         <NewsletterSection
           kicker="Top performers"
@@ -437,6 +538,20 @@ function NewsletterApp() {
             >
               <NBABracket bracket={NBA.BRACKET} />
             </NewsletterSection>
+
+            <FinalsShowdown
+              teams={nbaFinalsTeams}
+              players={NBA.PLAYERS || []}
+              legendScores={nbaLegendScores}
+              legendThreshold={NBA.ROAD_TO_GLORY?.playerThreshold || 100}
+              teamByCode={nbaTeamByCode}
+              logoForTeam={nbaTeamLogo}
+              playerMeta={nbaPlayerMeta}
+              scoreNote={p => `${p.stats.pts} PPG · ${p.stats.reb} REB · ${p.stats.ast} AST`}
+              kicker="NBA Finals Showdown"
+              title="Top 10 performers por finalista"
+              sub="Aparece cuando están definidos los dos equipos de las NBA Finals. Score actual de temporada y score leyenda/Road To Glory."
+            />
 
             <NewsletterSection
               kicker="Top performers"
@@ -1142,6 +1257,15 @@ function NewsletterApp() {
           const CYC = window.CYCLING_DATA;
           const cr  = CYC.CURRENT_RACE;
           const cycLegends = (CYC.LEGENDS || []).map(p => ({ ...p, colors: { primary: p.primary, secondary: p.secondary } })).slice(0, 10);
+          const cycLegendTop = [...(CYC.LEGENDS || [])].sort((a, b) => b.legendScore - a.legendScore);
+          const cycLegendThreshold = cycLegendTop[9]?.legendScore || 0;
+          const cycCurrentRiders = (CYC.CURRENT_RIDERS || []).map(p => ({ ...p, colors: { primary: p.primary, secondary: p.secondary } })).slice(0, 10);
+          const cyclingLegendChaseNote = p => {
+            if (!cycLegendThreshold) return p.note || "";
+            if (p.legendScore >= cycLegendThreshold) return "Ya está en zona top 10 histórico";
+            const gap = Math.max(0, cycLegendThreshold - p.legendScore);
+            return `${p.insight || "Road to glory abierto"} · a ${gap.toFixed(1)} del top 10 histórico`;
+          };
 
           function cycNote(p) {
             const s = p.stats;
@@ -1166,6 +1290,9 @@ function NewsletterApp() {
             "Individual time trial": "Contrarreloj individual",
             "Team time trial": "Contrarreloj por equipos",
           };
+          const lastStageResult = cr?.last_stage_result || [];
+          const rankText = rank => rank ? `${rank}.` : "s/d";
+          const raceFinished = !!cr && Number(cr.stage || 0) >= Number(cr.total_stages || 0) && !cr.next_stage;
 
           return (
             <>
@@ -1179,7 +1306,9 @@ function NewsletterApp() {
                   <h1>{cr ? `${cr.name} 2026` : "Grandes Vueltas · Leyendas"}</h1>
                   <p>
                     {cr
-                      ? `Etapa ${cr.stage} de ${cr.total_stages} · ${cr.jersey_name} · GC en directo.`
+                      ? raceFinished
+                        ? `Finalizado · ${cr.stage}/${cr.total_stages} etapas · campeón: ${cr.gc?.[0]?.name || cr.jersey_name}.`
+                        : `Etapa ${cr.stage} de ${cr.total_stages} · ${cr.jersey_name} · GC en directo.`
                       : "Score 0–100 ponderando Grandes Vueltas (TDF×12, Giro×9, Vuelta×8), Monumentos (×4) y Mundiales (×4)."}
                   </p>
                 </div>
@@ -1195,11 +1324,38 @@ function NewsletterApp() {
                       title={`${ls.date} · ${typeES[ls.type] || ls.type}`}
                       sub={`${ls.from} → ${ls.to}`}
                     >
-                      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 0" }}>
-                        <img src={ls.winner_logo} alt={ls.winner_cc} style={{ width: 24, height: 18, borderRadius: 2 }} />
-                        <span style={{ fontSize: 20, fontWeight: 700 }}>{ls.winner}</span>
-                        <span style={{ fontSize: 13, color: "var(--ink2,#555)", fontFamily: "monospace" }}>({ls.winner_cc})</span>
-                      </div>
+                      {lastStageResult.length > 0 ? (
+                        <div className="newsletter-list">
+                          {lastStageResult.map((r, i) => {
+                            const isGc = !!r.gc_rank;
+                            const isGcOutsideTopFive = isGc && r.rank > 5;
+                            const note = isGc
+                              ? `Top ${r.gc_rank} GC actual${r.team ? ` · ${r.team}` : ""}`
+                              : (i < 5 ? "Top 5 de la etapa" : "Clasificación de etapa");
+                            return (
+                              <NewsletterRankRow
+                                key={`${r.rank || "gc"}-${r.name}`}
+                                rank={r.rank || i + 1}
+                                item={{ ...r, colors: { primary: r.primary || "#4a4745", secondary: "#ffffff" } }}
+                                alive={new Set()}
+                                score={r.time || ""}
+                                scoreDisplay={r.time || "sin dato"}
+                                scoreLabel={r.rank === 1 ? "Tiempo" : "Diferencia"}
+                                meta={`${rankText(r.rank)} en la etapa${r.country ? ` · ${r.country}` : ""}`}
+                                note={note}
+                                logo={r.logo}
+                                rowClassName={isGcOutsideTopFive ? "newsletter-row--stage-gc-gap" : ""}
+                              />
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 0" }}>
+                          <img src={ls.winner_logo} alt={ls.winner_cc} style={{ width: 24, height: 18, borderRadius: 2 }} />
+                          <span style={{ fontSize: 20, fontWeight: 700 }}>{ls.winner}</span>
+                          <span style={{ fontSize: 13, color: "var(--ink2,#555)", fontFamily: "monospace" }}>({ls.winner_cc})</span>
+                        </div>
+                      )}
                     </NewsletterSection>
                     {ns && (
                       <NewsletterSection
@@ -1221,8 +1377,8 @@ function NewsletterApp() {
 
               {cr && cr.gc && cr.gc.length > 0 && (
                 <NewsletterSection
-                  kicker={`Clasificación General — Etapa ${cr.stage}/${cr.total_stages}`}
-                  title="Top 10 GC"
+                  kicker={`${raceFinished ? "Clasificación General final" : "Clasificación General"} — Etapa ${cr.stage}/${cr.total_stages}`}
+                  title={raceFinished ? "Top 10 GC final" : "Top 10 GC"}
                   sub={`Líder: ${cr.gc[0].name} (${cr.jersey_name}). Score leyenda: Tour×12, Giro×9, Vuelta×8, Monumentos×4, Mundiales×4; Merckx=100.`}
                 >
                   <div className="newsletter-list">
@@ -1284,6 +1440,32 @@ function NewsletterApp() {
                         </div>
                       );
                     })}
+                  </div>
+                </NewsletterSection>
+              )}
+
+              {cycCurrentRiders.length > 0 && (
+                <NewsletterSection
+                  kicker="Road to Glory · Actuales"
+                  title="Top 10 ciclistas actuales — Score leyenda"
+                  sub={`Ordenado por legado acumulado. Umbral top 10 histórico: ${cycLegendThreshold.toFixed(1)} (${cycLegendTop[9]?.name || "N/A"}). Score: Tour×12, Giro×9, Vuelta×8, Monumentos×4, Mundiales×4.`}
+                >
+                  <div className="newsletter-list">
+                    {cycCurrentRiders.map((p, i) => (
+                      <NewsletterRankRow
+                        key={p.id}
+                        rank={i + 1}
+                        prevRank={p.prevRank}
+                        item={p}
+                        alive={new Set()}
+                        score={p.legendScore}
+                        scoreLabel="Leyenda"
+                        threshold={cycLegendThreshold}
+                        meta={cycMeta(p)}
+                        note={cyclingLegendChaseNote(p)}
+                        logo={p.logo}
+                      />
+                    ))}
                   </div>
                 </NewsletterSection>
               )}
@@ -1967,8 +2149,181 @@ function NewsletterApp() {
         })()}
         </div>
 
+        <div style={{ order: -Math.round((window.CRICKET_DATA?.IMPORTANCE || 4) * 10) }}>
+        {/* ── CRICKET ───────────────────────────────────────── */}
+        {window.CRICKET_DATA && (() => {
+          const CRI = window.CRICKET_DATA;
+          const players = CRI.PLAYERS || [];
+          const formatGroups = [
+            ["Test", CRI.FORMAT_KINGS?.test || []],
+            ["ODI", CRI.FORMAT_KINGS?.odi || []],
+            ["T20", CRI.FORMAT_KINGS?.t20 || []],
+          ];
+          const wtc = CRI.WTC?.standings || [];
+          const trophies = CRI.TROPHIES || [];
+          const road = CRI.ROAD_TO_GLORY?.players || [];
+          const legendThreshold = CRI.ROAD_TO_GLORY?.playerThreshold || 79;
+          const wtcThreshold = wtc[1]?.pct || 60;
+
+          function cricketMeta(p) {
+            const age = p.birth ? ` · ${new Date().getFullYear() - p.birth} años` : "";
+            return `Cricket · ${p.country || p.teamCode}${p.role ? ` · ${p.role}` : ""}${age}`;
+          }
+
+          function cricketNote(p) {
+            const s = p.stats || {};
+            return `Test ${s.test ?? "-"} · ODI ${s.odi ?? "-"} · T20 ${s.t20 ?? "-"} · Franq. ${s.franchise ?? "-"}`;
+          }
+
+          return (
+            <>
+              <header className="newsletter-hero" style={{ marginTop: 48 }}>
+                <div className="newsletter-hero__masthead">
+                  <span>Cricket Tracker</span>
+                  <span>All formats · Test / ODI / T20</span>
+                  <span>Actualizado {CRI.UPDATED}</span>
+                </div>
+                <div className="newsletter-hero__title-row">
+                  <h1>Cricket World Tracker</h1>
+                  <p>
+                    Ranking multi-formato de jugadores actuales, reyes por formato,
+                    carrera WTC y legado ICC de selecciones.
+                  </p>
+                </div>
+              </header>
+
+              <NewsletterSection
+                kicker="All-Format Crown"
+                title="Top 10 jugadores multi-formato"
+                sub="Score Hermes: Test 34%, ODI 24%, T20I 18%, franquicias 14%, bonus ICC 10%. La segunda métrica mide legado histórico."
+              >
+                <div className="newsletter-list">
+                  {players.map((p, i) => (
+                    <NewsletterRankRow
+                      key={p.id}
+                      rank={i + 1}
+                      item={p}
+                      alive={new Set()}
+                      score={p.score}
+                      scoreDisplay={p.score.toFixed(1)}
+                      scoreLabel="All-format"
+                      scoreB={p.legendScore}
+                      scoreBLabel="Leyenda"
+                      scoreBThreshold={legendThreshold}
+                      meta={cricketMeta(p)}
+                      note={cricketNote(p)}
+                      logo={p.logo}
+                    />
+                  ))}
+                </div>
+              </NewsletterSection>
+
+              <NewsletterSection
+                kicker="Format Kings"
+                title="Top 5 por formato"
+                sub="Tres lecturas separadas para no mezclar un monstruo Test con un especialista T20."
+              >
+                <div className="cricket-format-grid">
+                  {formatGroups.map(([label, rows]) => (
+                    <div className="cricket-format" key={label}>
+                      <div className="cricket-format__head">{label}</div>
+                      <div className="newsletter-list">
+                        {rows.slice(0, 5).map((p, i) => (
+                          <NewsletterRankRow
+                            key={`${label}-${p.id}`}
+                            rank={i + 1}
+                            item={p}
+                            alive={new Set()}
+                            score={p.score}
+                            scoreDisplay={p.score.toFixed(1)}
+                            scoreLabel={label}
+                            meta={`${p.country} · ${p.role}`}
+                            note={label === "T20" ? `T20I ${p.stats.t20} · Franq. ${p.stats.franchise}` : `${label} score ${p.stats[label.toLowerCase()]}`}
+                            logo={p.logo}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </NewsletterSection>
+
+              <NewsletterSection
+                kicker="World Test Championship"
+                title={`WTC Race ${CRI.WTC?.cycle || ""}`}
+                sub="Snapshot Hermes de la carrera: PCT como score y línea roja aproximada del corte actual de final."
+              >
+                <div className="newsletter-list">
+                  {wtc.map((team, i) => (
+                    <NewsletterRankRow
+                      key={team.teamCode}
+                      rank={i + 1}
+                      item={team}
+                      alive={new Set()}
+                      score={team.pct}
+                      scoreDisplay={`${team.pct.toFixed(1)}%`}
+                      scoreLabel="PCT"
+                      threshold={wtcThreshold}
+                      meta={`WTC · ${team.country} · ${team.played} Tests`}
+                      note={team.note}
+                      logo={team.logo}
+                    />
+                  ))}
+                </div>
+              </NewsletterSection>
+
+              <NewsletterSection
+                kicker="ICC Trophy Cabinet"
+                title="Legado de selecciones"
+                sub="Score: ODI World Cup x14, T20 World Cup x9, Champions Trophy x6, WTC x10."
+              >
+                <div className="newsletter-list">
+                  {trophies.map((team, i) => (
+                    <NewsletterRankRow
+                      key={team.teamCode}
+                      rank={i + 1}
+                      item={team}
+                      alive={new Set()}
+                      score={team.score}
+                      scoreDisplay={team.score.toFixed(1)}
+                      scoreLabel="Trophy"
+                      meta={`ICC · ${team.country}`}
+                      note={`ODI WC ${team.stats.odi_wc} · T20 WC ${team.stats.t20_wc} · CT ${team.stats.ct} · WTC ${team.stats.wtc}. ${team.note}`}
+                      logo={team.logo}
+                    />
+                  ))}
+                </div>
+              </NewsletterSection>
+
+              <NewsletterSection
+                kicker="Road to Glory"
+                title="Top 10 carrera hacia leyenda"
+                sub={`Umbral top 10 histórico estimado: ${legendThreshold.toFixed(1)}. Sirve para ver quién está entrando en territorio de leyenda real.`}
+              >
+                <div className="newsletter-list">
+                  {road.map((p, i) => (
+                    <NewsletterRankRow
+                      key={p.id}
+                      rank={i + 1}
+                      item={p}
+                      alive={new Set()}
+                      score={p.legendScore}
+                      scoreLabel="Leyenda"
+                      threshold={legendThreshold}
+                      meta={cricketMeta(p)}
+                      note={p.legendScore >= legendThreshold ? "Ya está en zona top 10 histórico" : `A ${(legendThreshold - p.legendScore).toFixed(1)} del umbral histórico`}
+                      logo={p.logo}
+                    />
+                  ))}
+                </div>
+              </NewsletterSection>
+            </>
+          );
+        })()}
+        </div>
+
         {/* ── PLACEHOLDERS ─────────────────────────────────── */}
-        {["Cricket", "Golf", "Boxeo", "Snooker", "Ciclismo — UCI WorldTour live", "Euroliga", "NASCAR · IndyCar"].map(sport => (
+        {["Golf", "Boxeo", "Snooker", "Ciclismo — UCI WorldTour live", "Euroliga", "NASCAR · IndyCar"].map(sport => (
           <section key={sport} className="newsletter-section" style={{ opacity: 0.45, marginTop: 24 }}>
             <div className="newsletter-section__head">
               <WFLabel>PRÓXIMAMENTE</WFLabel>

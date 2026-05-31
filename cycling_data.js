@@ -1,6 +1,6 @@
-// Auto-generated 2026-05-28 03:19 UTC
+// Auto-generated 2026-05-31 18:28 UTC
 window.CYCLING_DATA = {
-  "UPDATED": "2026-05-28 03:19 UTC",
+  "UPDATED": "2026-05-31 18:28 UTC",
   "LEGENDS": [
     {
       "id": "eddy_merckx",
@@ -303,6 +303,26 @@ window.CYCLING_DATA = {
       "prevRank": null
     },
     {
+      "id": "jonas_vingegaard",
+      "name": "Jonas Vingegaard",
+      "country": "DEN",
+      "logo": "https://flagcdn.com/24x18/dk.png",
+      "teamCode": "DEN",
+      "primary": "#C60C30",
+      "secondary": "#FFFFFF",
+      "legendScore": 16.4,
+      "active": true,
+      "stats": {
+        "tour": 2,
+        "giro": 1,
+        "vuelta": 0,
+        "monuments": 0,
+        "worlds": 0,
+        "birth": 1996
+      },
+      "prevRank": null
+    },
+    {
       "id": "roger_de_vlaeminck",
       "name": "Roger De Vlaeminck",
       "country": "BEL",
@@ -363,26 +383,6 @@ window.CYCLING_DATA = {
       "prevRank": null
     },
     {
-      "id": "jonas_vingegaard",
-      "name": "Jonas Vingegaard",
-      "country": "DEN",
-      "logo": "https://flagcdn.com/24x18/dk.png",
-      "teamCode": "DEN",
-      "primary": "#C60C30",
-      "secondary": "#FFFFFF",
-      "legendScore": 11.9,
-      "active": true,
-      "stats": {
-        "tour": 2,
-        "giro": 0,
-        "vuelta": 0,
-        "monuments": 0,
-        "worlds": 0,
-        "birth": 1996
-      },
-      "prevRank": null
-    },
-    {
       "id": "egan_bernal",
       "name": "Egan Bernal",
       "country": "COL",
@@ -403,34 +403,297 @@ window.CYCLING_DATA = {
       "prevRank": null
     }
   ],
+  "CURRENT_RIDERS": [
+    {
+      "id": "tadej_pogacar",
+      "name": "Tadej Pogacar",
+      "country": "SLO",
+      "logo": "https://flagcdn.com/24x18/si.png",
+      "teamCode": "SLO",
+      "primary": "#003DA5",
+      "secondary": "#FFFFFF",
+      "legendScore": 36.3,
+      "active": true,
+      "stats": {
+        "tour": 3,
+        "giro": 1,
+        "vuelta": 0,
+        "monuments": 6,
+        "worlds": 1,
+        "birth": 2000
+      },
+      "insight": "A una gran victoria de entrar en zona top 10"
+    },
+    {
+      "id": "primoz_roglic",
+      "name": "Primoz Roglic",
+      "country": "SLO",
+      "logo": "https://flagcdn.com/24x18/si.png",
+      "teamCode": "SLO",
+      "primary": "#003DA5",
+      "secondary": "#FFFFFF",
+      "legendScore": 22.4,
+      "active": true,
+      "stats": {
+        "tour": 0,
+        "giro": 1,
+        "vuelta": 4,
+        "monuments": 1,
+        "worlds": 0,
+        "birth": 1989
+      },
+      "insight": "Palmarés de Grand Tour ya muy serio"
+    },
+    {
+      "id": "mathieu_van_der_poel",
+      "name": "Mathieu van der Poel",
+      "country": "NED",
+      "logo": "https://flagcdn.com/24x18/nl.png",
+      "teamCode": "NED",
+      "primary": "#AE1C28",
+      "secondary": "#FFFFFF",
+      "legendScore": 17.9,
+      "active": true,
+      "stats": {
+        "tour": 0,
+        "giro": 0,
+        "vuelta": 0,
+        "monuments": 8,
+        "worlds": 1,
+        "birth": 1995
+      },
+      "insight": "Legado de clásicas y Mundial sostienen su score"
+    },
+    {
+      "id": "jonas_vingegaard",
+      "name": "Jonas Vingegaard",
+      "country": "DEN",
+      "logo": "https://flagcdn.com/24x18/dk.png",
+      "teamCode": "DEN",
+      "primary": "#C60C30",
+      "secondary": "#FFFFFF",
+      "legendScore": 16.4,
+      "active": true,
+      "stats": {
+        "tour": 2,
+        "giro": 1,
+        "vuelta": 0,
+        "monuments": 0,
+        "worlds": 0,
+        "birth": 1996
+      },
+      "insight": "Base de grandes vueltas; el siguiente salto pesa mucho"
+    },
+    {
+      "id": "remco_evenepoel",
+      "name": "Remco Evenepoel",
+      "country": "BEL",
+      "logo": "https://flagcdn.com/24x18/be.png",
+      "teamCode": "BEL",
+      "primary": "#000000",
+      "secondary": "#FFFFFF",
+      "legendScore": 13.9,
+      "active": true,
+      "stats": {
+        "tour": 0,
+        "giro": 0,
+        "vuelta": 1,
+        "monuments": 3,
+        "worlds": 2,
+        "birth": 2000
+      },
+      "insight": "El camino al top histórico pasa por seguir sumando monumentos"
+    },
+    {
+      "id": "egan_bernal",
+      "name": "Egan Bernal",
+      "country": "COL",
+      "logo": "https://flagcdn.com/24x18/co.png",
+      "teamCode": "COL",
+      "primary": "#FCD116",
+      "secondary": "#FFFFFF",
+      "legendScore": 10.4,
+      "active": true,
+      "stats": {
+        "tour": 1,
+        "giro": 1,
+        "vuelta": 0,
+        "monuments": 0,
+        "worlds": 0,
+        "birth": 1997
+      },
+      "insight": "Base de grandes vueltas; el siguiente salto pesa mucho"
+    },
+    {
+      "id": "julian_alaphilippe",
+      "name": "Julian Alaphilippe",
+      "country": "FRA",
+      "logo": "https://flagcdn.com/24x18/fr.png",
+      "teamCode": "FRA",
+      "primary": "#002395",
+      "secondary": "#FFFFFF",
+      "legendScore": 6.0,
+      "active": true,
+      "stats": {
+        "tour": 0,
+        "giro": 0,
+        "vuelta": 0,
+        "monuments": 1,
+        "worlds": 2,
+        "birth": 1992
+      },
+      "insight": "Doble arcoíris: le falta más volumen de grandes victorias"
+    },
+    {
+      "id": "richard_carapaz",
+      "name": "Richard Carapaz",
+      "country": "ECU",
+      "logo": "https://flagcdn.com/24x18/ec.png",
+      "teamCode": "ECU",
+      "primary": "#FFD100",
+      "secondary": "#FFFFFF",
+      "legendScore": 4.5,
+      "active": true,
+      "stats": {
+        "tour": 0,
+        "giro": 1,
+        "vuelta": 0,
+        "monuments": 0,
+        "worlds": 0,
+        "birth": 1993
+      },
+      "insight": "Una grande ya cuenta; necesita repetir para escalar"
+    },
+    {
+      "id": "jai_hindley",
+      "name": "Jai Hindley",
+      "country": "AUS",
+      "logo": "https://flagcdn.com/24x18/au.png",
+      "teamCode": "AUS",
+      "primary": "#00008B",
+      "secondary": "#FFFFFF",
+      "legendScore": 4.5,
+      "active": true,
+      "stats": {
+        "tour": 0,
+        "giro": 1,
+        "vuelta": 0,
+        "monuments": 0,
+        "worlds": 0,
+        "birth": 1996
+      },
+      "insight": "Una grande ya cuenta; necesita repetir para escalar"
+    },
+    {
+      "id": "sepp_kuss",
+      "name": "Sepp Kuss",
+      "country": "USA",
+      "logo": "https://flagcdn.com/24x18/us.png",
+      "teamCode": "USA",
+      "primary": "#B22234",
+      "secondary": "#FFFFFF",
+      "legendScore": 4.0,
+      "active": true,
+      "stats": {
+        "tour": 0,
+        "giro": 0,
+        "vuelta": 1,
+        "monuments": 0,
+        "worlds": 0,
+        "birth": 1994
+      },
+      "insight": "Una grande ya cuenta; necesita repetir para escalar"
+    }
+  ],
   "CURRENT_RACE": {
     "name": "Giro d'Italia",
-    "stage": 17,
+    "stage": 21,
     "total_stages": 21,
     "jersey_primary": "#E8006D",
     "jersey_name": "Maglia Rosa",
     "last_stage": {
-      "stage": 17,
-      "date": "27 May",
-      "type": "Hilly stage",
-      "dist_km": 202,
-      "from": "Cassano d'Adda",
-      "to": "Andalo",
-      "completed": true,
-      "winner": "Michael Valgren",
-      "winner_cc": "DEN",
-      "winner_primary": "#C60C30",
-      "winner_logo": "https://flagcdn.com/24x18/dk.png"
-    },
-    "next_stage": {
-      "stage": 18,
-      "date": "28 May",
+      "stage": 21,
+      "date": "31 May",
       "type": "Flat stage",
-      "dist_km": 171,
-      "from": "Fai della Paganella",
-      "to": "Pieve di Soligo",
-      "completed": false
+      "dist_km": 131,
+      "from": "Rome",
+      "to": "Rome",
+      "completed": true,
+      "winner": "Jonathan Milan",
+      "winner_cc": "ITA",
+      "winner_primary": "#009246",
+      "winner_logo": "https://flagcdn.com/24x18/it.png"
     },
+    "next_stage": null,
+    "last_stage_result": [
+      {
+        "rank": 1,
+        "name": "Jonathan Milan",
+        "country": "ITA",
+        "logo": "https://flagcdn.com/24x18/it.png",
+        "team": "LTK men",
+        "time": "3h 05' 50\""
+      },
+      {
+        "rank": 2,
+        "name": "Giovanni Lonardi",
+        "country": "ITA",
+        "logo": "https://flagcdn.com/24x18/it.png",
+        "team": "PTV",
+        "time": "+ 0\""
+      },
+      {
+        "rank": 3,
+        "name": "Paul Penhoët",
+        "country": "FRA",
+        "logo": "https://flagcdn.com/24x18/fr.png",
+        "team": "GFC",
+        "time": "+ 0\""
+      },
+      {
+        "rank": 4,
+        "name": "Dylan Groenewegen",
+        "country": "NED",
+        "logo": "https://flagcdn.com/24x18/nl.png",
+        "team": "URR",
+        "time": "+ 0\""
+      },
+      {
+        "rank": 5,
+        "name": "Madis Mihkels",
+        "country": "EST",
+        "logo": "https://flagcdn.com/24x18/ee.png",
+        "team": "EFE",
+        "time": "+ 0\""
+      },
+      {
+        "rank": 104,
+        "name": "Jonas Vingegaard",
+        "country": "DEN",
+        "logo": "https://flagcdn.com/24x18/dk.png",
+        "team": "TVL men",
+        "time": "00:00:00",
+        "gc_rank": 1
+      },
+      {
+        "rank": 34,
+        "name": "Felix Gall",
+        "country": "AUT",
+        "logo": "https://flagcdn.com/24x18/at.png",
+        "team": "DCT",
+        "time": "00:00:00",
+        "gc_rank": 2
+      },
+      {
+        "rank": 33,
+        "name": "Jai Hindley",
+        "country": "AUS",
+        "logo": "https://flagcdn.com/24x18/au.png",
+        "team": "RBH",
+        "time": "00:00:00",
+        "gc_rank": 3
+      }
+    ],
     "gc": [
       {
         "rank": 1,
@@ -439,8 +702,8 @@ window.CYCLING_DATA = {
         "logo": "https://flagcdn.com/24x18/dk.png",
         "team": "TVL men",
         "primary": "#C60C30",
-        "time": "66h 57' 14\"",
-        "legendScore": 11.9
+        "time": "83h 22' 51\"",
+        "legendScore": 16.4
       },
       {
         "rank": 2,
@@ -449,47 +712,47 @@ window.CYCLING_DATA = {
         "logo": "https://flagcdn.com/24x18/at.png",
         "team": "DCT",
         "primary": "#ED2939",
-        "time": "+ 4' 03\"",
+        "time": "+ 5' 22\"",
         "legendScore": 0.0
       },
       {
         "rank": 3,
-        "name": "Thymen Arensman",
-        "country": "NED",
-        "logo": "https://flagcdn.com/24x18/nl.png",
-        "team": "NCI",
-        "primary": "#AE1C28",
-        "time": "+ 4' 27\"",
-        "legendScore": 0.0
-      },
-      {
-        "rank": 4,
         "name": "Jai Hindley",
         "country": "AUS",
         "logo": "https://flagcdn.com/24x18/au.png",
         "team": "RBH",
         "primary": "#00008B",
-        "time": "+ 5' 00\"",
+        "time": "+ 6' 25\"",
+        "legendScore": 0.0
+      },
+      {
+        "rank": 4,
+        "name": "Thymen Arensman",
+        "country": "NED",
+        "logo": "https://flagcdn.com/24x18/nl.png",
+        "team": "NCI",
+        "primary": "#AE1C28",
+        "time": "+ 7' 02\"",
         "legendScore": 0.0
       },
       {
         "rank": 5,
-        "name": "Afonso Eulálio",
-        "country": "POR",
-        "logo": "https://flagcdn.com/24x18/pt.png",
-        "team": "TBV",
-        "primary": "#006600",
-        "time": "+ 5' 40\"",
-        "legendScore": 0.0
-      },
-      {
-        "rank": 6,
         "name": "Derek Gee-West",
         "country": "CAN",
         "logo": "https://flagcdn.com/24x18/ca.png",
         "team": "LTK men",
         "primary": "#FF0000",
-        "time": "+ 7' 09\"",
+        "time": "+ 7' 56\"",
+        "legendScore": 0.0
+      },
+      {
+        "rank": 6,
+        "name": "Afonso Eulálio",
+        "country": "POR",
+        "logo": "https://flagcdn.com/24x18/pt.png",
+        "team": "TBV",
+        "primary": "#006600",
+        "time": "+ 9' 39\"",
         "legendScore": 0.0
       },
       {
@@ -499,7 +762,7 @@ window.CYCLING_DATA = {
         "logo": "https://flagcdn.com/24x18/au.png",
         "team": "TUD",
         "primary": "#00008B",
-        "time": "+ 7' 14\"",
+        "time": "+ 10' 13\"",
         "legendScore": 0.0
       },
       {
@@ -509,7 +772,7 @@ window.CYCLING_DATA = {
         "logo": "https://flagcdn.com/24x18/it.png",
         "team": "TVL men",
         "primary": "#009246",
-        "time": "+ 7' 57\"",
+        "time": "+ 10' 52\"",
         "legendScore": 0.0
       },
       {
@@ -519,39 +782,39 @@ window.CYCLING_DATA = {
         "logo": "https://flagcdn.com/24x18/it.png",
         "team": "TBV",
         "primary": "#009246",
-        "time": "+ 8' 34\"",
+        "time": "+ 11' 24\"",
         "legendScore": 0.0
       },
       {
         "rank": 10,
-        "name": "Ben O'Connor",
-        "country": "AUS",
-        "logo": "https://flagcdn.com/24x18/au.png",
-        "team": "JAY men",
-        "primary": "#00008B",
-        "time": "+ 9' 20\"",
-        "legendScore": 0.0
+        "name": "Egan Bernal",
+        "country": "COL",
+        "logo": "https://flagcdn.com/24x18/co.png",
+        "team": "NCI",
+        "primary": "#FCD116",
+        "time": "+ 12' 54\"",
+        "legendScore": 10.4
       }
     ],
     "points_leader": {
       "rank": 1,
-      "name": "Jhonatan Narváez",
-      "country": "ECU",
-      "logo": "https://flagcdn.com/24x18/ec.png",
-      "team": "UEX",
-      "primary": "#FFD100",
-      "points": 157,
+      "name": "Paul Magnier",
+      "country": "FRA",
+      "logo": "https://flagcdn.com/24x18/fr.png",
+      "team": "SOQ",
+      "primary": "#002395",
+      "points": 200,
       "legendScore": 0.0
     },
     "kom_leader": {
       "rank": 1,
-      "name": "Jonas Vingegaard",
-      "country": "DEN",
-      "logo": "https://flagcdn.com/24x18/dk.png",
-      "team": "TVL men",
-      "primary": "#C60C30",
-      "points": 211,
-      "legendScore": 11.9
+      "name": "Giulio Ciccone",
+      "country": "ITA",
+      "logo": "https://flagcdn.com/24x18/it.png",
+      "team": "LTK men",
+      "primary": "#009246",
+      "points": 277,
+      "legendScore": 0.0
     },
     "young_leader": {
       "rank": 1,
@@ -560,7 +823,7 @@ window.CYCLING_DATA = {
       "logo": "https://flagcdn.com/24x18/pt.png",
       "team": "TBV",
       "primary": "#006600",
-      "time": "67h 02' 54\"",
+      "time": "80h 26' 40\"",
       "legendScore": 0.0
     }
   },

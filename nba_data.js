@@ -627,6 +627,7 @@ window.NBA_DATA = {
         "blk": 0.5,
         "min": 35.8
       },
+      "legendScore": 65.0,
       "prevRank": null
     },
     {
@@ -652,6 +653,7 @@ window.NBA_DATA = {
         "blk": 0.8,
         "min": 34.8
       },
+      "legendScore": 72.3,
       "prevRank": null
     },
     {
@@ -677,6 +679,7 @@ window.NBA_DATA = {
         "blk": 0.8,
         "min": 33.2
       },
+      "legendScore": 60.5,
       "prevRank": null
     },
     {
@@ -702,6 +705,7 @@ window.NBA_DATA = {
         "blk": 0.7,
         "min": 28.9
       },
+      "legendScore": 67.8,
       "prevRank": null
     },
     {
@@ -727,6 +731,7 @@ window.NBA_DATA = {
         "blk": 0.4,
         "min": 34.4
       },
+      "legendScore": 65.3,
       "prevRank": null
     },
     {
@@ -752,6 +757,7 @@ window.NBA_DATA = {
         "blk": 0.8,
         "min": 38.0
       },
+      "legendScore": 56.3,
       "prevRank": null
     },
     {
@@ -777,6 +783,7 @@ window.NBA_DATA = {
         "blk": 3.1,
         "min": 29.2
       },
+      "legendScore": 52.7,
       "prevRank": null
     },
     {
@@ -802,6 +809,7 @@ window.NBA_DATA = {
         "blk": 0.8,
         "min": 35.0
       },
+      "legendScore": 54.1,
       "prevRank": null
     },
     {
@@ -827,6 +835,7 @@ window.NBA_DATA = {
         "blk": 0.3,
         "min": 33.5
       },
+      "legendScore": 59.1,
       "prevRank": null
     },
     {
@@ -852,6 +861,7 @@ window.NBA_DATA = {
         "blk": 0.4,
         "min": 32.1
       },
+      "legendScore": 73.1,
       "prevRank": null
     },
     {
@@ -876,7 +886,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.8,
         "min": 33.9
-      }
+      },
+      "legendScore": 53.6
     },
     {
       "id": 3059318,
@@ -900,7 +911,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 1.2,
         "min": 31.6
-      }
+      },
+      "legendScore": 61.6
     },
     {
       "id": 4701230,
@@ -924,7 +936,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.4,
         "min": 35.2
-      }
+      },
+      "legendScore": 53.0
     },
     {
       "id": 3936299,
@@ -948,7 +961,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.4,
         "min": 35.4
-      }
+      },
+      "legendScore": 57.5
     },
     {
       "id": 3202,
@@ -972,7 +986,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.9,
         "min": 36.4
-      }
+      },
+      "legendScore": 71.5
     },
     {
       "id": 4683021,
@@ -996,7 +1011,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.6,
         "min": 33.3
-      }
+      },
+      "legendScore": 52.9
     },
     {
       "id": 3136193,
@@ -1020,7 +1036,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.3,
         "min": 33.5
-      }
+      },
+      "legendScore": 56.9
     },
     {
       "id": 3934672,
@@ -1044,7 +1061,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.1,
         "min": 35.0
-      }
+      },
+      "legendScore": 56.9
     },
     {
       "id": 4066336,
@@ -1068,7 +1086,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.5,
         "min": 34.4
-      }
+      },
+      "legendScore": 56.9
     },
     {
       "id": 3975,
@@ -1092,7 +1111,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.4,
         "min": 30.9
-      }
+      },
+      "legendScore": 80.9
     },
     {
       "id": 3992,
@@ -1116,7 +1136,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.4,
         "min": 34.8
-      }
+      },
+      "legendScore": 60.3
     },
     {
       "id": 4065648,
@@ -1140,7 +1161,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.2,
         "min": 32.6
-      }
+      },
+      "legendScore": 59.8
     },
     {
       "id": 4871144,
@@ -1164,7 +1186,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 1.1,
         "min": 33.3
-      }
+      },
+      "legendScore": 49.2
     },
     {
       "id": 4278104,
@@ -1188,7 +1211,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.2,
         "min": 32.5
-      }
+      },
+      "legendScore": 53.2
     },
     {
       "id": 4432573,
@@ -1212,7 +1236,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.6,
         "min": 34.8
-      }
+      },
+      "legendScore": 49.2
     },
     {
       "id": 3149673,
@@ -1236,7 +1261,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.4,
         "min": 33.2
-      }
+      },
+      "legendScore": 58.2
     },
     {
       "id": 6583,
@@ -1260,7 +1286,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 1.6,
         "min": 31.3
-      }
+      },
+      "legendScore": 58.7
     },
     {
       "id": 4066457,
@@ -1269,7 +1296,7 @@ window.NBA_DATA = {
       "last": "Reaves",
       "pos": "G",
       "teamCode": "LAL",
-      "age": 27,
+      "age": 28,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4066457.png",
       "colors": {
         "primary": "#552583",
@@ -1284,7 +1311,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.4,
         "min": 34.5
-      }
+      },
+      "legendScore": 53.7
     },
     {
       "id": 4433627,
@@ -1308,7 +1336,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.3,
         "min": 33.1
-      }
+      },
+      "legendScore": 47.7
     },
     {
       "id": 1966,
@@ -1332,7 +1361,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.6,
         "min": 33.1
-      }
+      },
+      "legendScore": 78.7
     },
     {
       "id": 3136195,
@@ -1356,7 +1386,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.5,
         "min": 31.0
-      }
+      },
+      "legendScore": 55.1
     },
     {
       "id": 4066261,
@@ -1380,7 +1411,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.7,
         "min": 32.4
-      }
+      },
+      "legendScore": 52.5
     },
     {
       "id": 5041939,
@@ -1404,7 +1436,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.9,
         "min": 33.5
-      }
+      },
+      "legendScore": 43.5
     },
     {
       "id": 3064514,
@@ -1428,7 +1461,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.2,
         "min": 33.0
-      }
+      },
+      "legendScore": 55.5
     },
     {
       "id": 4397688,
@@ -1452,7 +1486,8 @@ window.NBA_DATA = {
         "stl": 1.5,
         "blk": 0.4,
         "min": 35.5
-      }
+      },
+      "legendScore": 49.5
     },
     {
       "id": 3913176,
@@ -1476,7 +1511,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.7,
         "min": 33.8
-      }
+      },
+      "legendScore": 52.0
     },
     {
       "id": 4684740,
@@ -1500,7 +1536,8 @@ window.NBA_DATA = {
         "stl": 1.5,
         "blk": 0.6,
         "min": 37.4
-      }
+      },
+      "legendScore": 46.4
     },
     {
       "id": 4433621,
@@ -1524,7 +1561,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.8,
         "min": 28.2
-      }
+      },
+      "legendScore": 45.4
     },
     {
       "id": 4871145,
@@ -1548,7 +1586,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.5,
         "min": 32.1
-      }
+      },
+      "legendScore": 46.4
     },
     {
       "id": 4432816,
@@ -1572,7 +1611,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.2,
         "min": 28.0
-      }
+      },
+      "legendScore": 47.4
     },
     {
       "id": 4433134,
@@ -1596,7 +1636,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 1.4,
         "min": 33.5
-      }
+      },
+      "legendScore": 47.4
     },
     {
       "id": 4432158,
@@ -1620,7 +1661,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 1.7,
         "min": 31.9
-      }
+      },
+      "legendScore": 46.9
     },
     {
       "id": 4279888,
@@ -1644,7 +1686,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.3,
         "min": 28.4
-      }
+      },
+      "legendScore": 48.9
     },
     {
       "id": 6430,
@@ -1668,7 +1711,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.2,
         "min": 31.1
-      }
+      },
+      "legendScore": 55.9
     },
     {
       "id": 4397140,
@@ -1692,7 +1736,8 @@ window.NBA_DATA = {
         "stl": 2.2,
         "blk": 0.5,
         "min": 33.2
-      }
+      },
+      "legendScore": 48.9
     },
     {
       "id": 4395628,
@@ -1716,7 +1761,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.5,
         "min": 29.7
-      }
+      },
+      "legendScore": 47.9
     },
     {
       "id": 4433287,
@@ -1740,7 +1786,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.7,
         "min": 30.3
-      }
+      },
+      "legendScore": 45.3
     },
     {
       "id": 4066320,
@@ -1764,7 +1811,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.5,
         "min": 33.6
-      }
+      },
+      "legendScore": 49.3
     },
     {
       "id": 4566434,
@@ -1788,7 +1836,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.3,
         "min": 30.0
-      }
+      },
+      "legendScore": 46.3
     },
     {
       "id": 4278039,
@@ -1812,7 +1861,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 0.5,
         "min": 33.4
-      }
+      },
+      "legendScore": 49.3
     },
     {
       "id": 2595516,
@@ -1836,7 +1886,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.2,
         "min": 29.6
-      }
+      },
+      "legendScore": 55.3
     },
     {
       "id": 4395725,
@@ -1860,7 +1911,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.4,
         "min": 31.3
-      }
+      },
+      "legendScore": 48.3
     },
     {
       "id": 4066259,
@@ -1884,7 +1936,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.3,
         "min": 31.0
-      }
+      },
+      "legendScore": 49.7
     },
     {
       "id": 4277961,
@@ -1908,7 +1961,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 1.4,
         "min": 30.3
-      }
+      },
+      "legendScore": 47.7
     },
     {
       "id": 4914336,
@@ -1917,7 +1971,7 @@ window.NBA_DATA = {
       "last": "Sharpe",
       "pos": "G",
       "teamCode": "POR",
-      "age": 22,
+      "age": 23,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4914336.png",
       "colors": {
         "primary": "#e03a3e",
@@ -1932,7 +1986,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.1,
         "min": 29.4
-      }
+      },
+      "legendScore": 44.7
     },
     {
       "id": 4396907,
@@ -1956,7 +2011,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.2,
         "min": 29.9
-      }
+      },
+      "legendScore": 47.2
     },
     {
       "id": 3155942,
@@ -1980,7 +2036,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.2,
         "min": 29.7
-      }
+      },
+      "legendScore": 51.2
     },
     {
       "id": 4395625,
@@ -2004,7 +2061,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.3,
         "min": 30.3
-      }
+      },
+      "legendScore": 46.2
     },
     {
       "id": 4845367,
@@ -2028,7 +2086,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.3,
         "min": 30.0
-      }
+      },
+      "legendScore": 42.2
     },
     {
       "id": 4065733,
@@ -2052,7 +2111,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.3,
         "min": 22.6
-      }
+      },
+      "legendScore": 49.2
     },
     {
       "id": 4433255,
@@ -2076,7 +2136,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 1.9,
         "min": 28.9
-      }
+      },
+      "legendScore": 44.6
     },
     {
       "id": 3907497,
@@ -2100,7 +2161,8 @@ window.NBA_DATA = {
         "stl": 1.6,
         "blk": 0.2,
         "min": 27.8
-      }
+      },
+      "legendScore": 49.6
     },
     {
       "id": 3078576,
@@ -2124,7 +2186,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 1.3,
         "min": 34.1
-      }
+      },
+      "legendScore": 51.6
     },
     {
       "id": 3155526,
@@ -2148,7 +2211,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.2,
         "min": 30.4
-      }
+      },
+      "legendScore": 50.6
     },
     {
       "id": 5061575,
@@ -2172,7 +2236,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.2,
         "min": 31.5
-      }
+      },
+      "legendScore": 40.6
     },
     {
       "id": 4591725,
@@ -2196,7 +2261,8 @@ window.NBA_DATA = {
         "stl": 1.5,
         "blk": 0.4,
         "min": 32.1
-      }
+      },
+      "legendScore": 43.6
     },
     {
       "id": 4277905,
@@ -2220,7 +2286,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.1,
         "min": 25.6
-      }
+      },
+      "legendScore": 47.6
     },
     {
       "id": 5160992,
@@ -2244,7 +2311,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 2.0,
         "min": 27.2
-      }
+      },
+      "legendScore": 41.1
     },
     {
       "id": 4395712,
@@ -2268,7 +2336,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.1,
         "min": 31.3
-      }
+      },
+      "legendScore": 46.1
     },
     {
       "id": 2490149,
@@ -2292,7 +2361,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.5,
         "min": 29.8
-      }
+      },
+      "legendScore": 53.1
     },
     {
       "id": 3978,
@@ -2316,7 +2386,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.3,
         "min": 31.2
-      }
+      },
+      "legendScore": 53.1
     },
     {
       "id": 4593803,
@@ -2340,7 +2411,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.3,
         "min": 28.4
-      }
+      },
+      "legendScore": 45.1
     },
     {
       "id": 4251,
@@ -2364,7 +2436,8 @@ window.NBA_DATA = {
         "stl": 1.7,
         "blk": 0.4,
         "min": 30.7
-      }
+      },
+      "legendScore": 53.1
     },
     {
       "id": 4395724,
@@ -2388,7 +2461,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 0.1,
         "min": 31.9
-      }
+      },
+      "legendScore": 45.5
     },
     {
       "id": 3995,
@@ -2412,7 +2486,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.1,
         "min": 29.4
-      }
+      },
+      "legendScore": 52.5
     },
     {
       "id": 4066383,
@@ -2436,7 +2511,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.4,
         "min": 31.0
-      }
+      },
+      "legendScore": 47.5
     },
     {
       "id": 4066354,
@@ -2460,7 +2536,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 32.4
-      }
+      },
+      "legendScore": 47.5
     },
     {
       "id": 3468,
@@ -2484,7 +2561,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 0.2,
         "min": 29.0
-      }
+      },
+      "legendScore": 52.5
     },
     {
       "id": 4397136,
@@ -2508,7 +2586,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.1,
         "min": 31.2
-      }
+      },
+      "legendScore": 46.5
     },
     {
       "id": 5124612,
@@ -2532,7 +2611,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.5,
         "min": 35.0
-      }
+      },
+      "legendScore": 39.5
     },
     {
       "id": 3064440,
@@ -2556,7 +2636,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.3,
         "min": 31.4
-      }
+      },
+      "legendScore": 50.5
     },
     {
       "id": 4683634,
@@ -2580,7 +2661,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 30.0
-      }
+      },
+      "legendScore": 41.9
     },
     {
       "id": 4432639,
@@ -2604,7 +2686,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.9,
         "min": 35.1
-      }
+      },
+      "legendScore": 41.9
     },
     {
       "id": 2991070,
@@ -2628,7 +2711,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.6,
         "min": 29.7
-      }
+      },
+      "legendScore": 50.9
     },
     {
       "id": 4711294,
@@ -2652,7 +2736,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 1.5,
         "min": 29.2
-      }
+      },
+      "legendScore": 39.9
     },
     {
       "id": 6478,
@@ -2676,7 +2761,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.6,
         "min": 28.4
-      }
+      },
+      "legendScore": 51.9
     },
     {
       "id": 3934719,
@@ -2700,7 +2786,8 @@ window.NBA_DATA = {
         "stl": 1.6,
         "blk": 0.7,
         "min": 33.2
-      }
+      },
+      "legendScore": 46.9
     },
     {
       "id": 4431680,
@@ -2724,7 +2811,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 1.1,
         "min": 31.0
-      }
+      },
+      "legendScore": 43.9
     },
     {
       "id": 4395651,
@@ -2748,7 +2836,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 25.0
-      }
+      },
+      "legendScore": 44.4
     },
     {
       "id": 3135045,
@@ -2772,7 +2861,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.3,
         "min": 28.8
-      }
+      },
+      "legendScore": 48.4
     },
     {
       "id": 4017837,
@@ -2796,7 +2886,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.8,
         "min": 30.1
-      }
+      },
+      "legendScore": 47.4
     },
     {
       "id": 4437244,
@@ -2820,7 +2911,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.2,
         "min": 25.9
-      }
+      },
+      "legendScore": 42.4
     },
     {
       "id": 4066328,
@@ -2844,7 +2936,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.8,
         "min": 27.1
-      }
+      },
+      "legendScore": 46.4
     },
     {
       "id": 4432646,
@@ -2868,7 +2961,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.2,
         "min": 32.3
-      }
+      },
+      "legendScore": 41.4
     },
     {
       "id": 3102531,
@@ -2892,7 +2986,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 1.2,
         "min": 24.0
-      }
+      },
+      "legendScore": 48.4
     },
     {
       "id": 5174563,
@@ -2916,7 +3011,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.9,
         "min": 29.0
-      }
+      },
+      "legendScore": 40.4
     },
     {
       "id": 4600663,
@@ -2940,7 +3036,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 1.9,
         "min": 25.8
-      }
+      },
+      "legendScore": 42.4
     },
     {
       "id": 3064290,
@@ -2964,7 +3061,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 27.9
-      }
+      },
+      "legendScore": 47.8
     },
     {
       "id": 3059319,
@@ -2988,7 +3086,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 1.0,
         "min": 30.3
-      }
+      },
+      "legendScore": 48.8
     },
     {
       "id": 5105565,
@@ -3012,7 +3111,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 1.7,
         "min": 27.2
-      }
+      },
+      "legendScore": 39.8
     },
     {
       "id": 4869342,
@@ -3036,7 +3136,8 @@ window.NBA_DATA = {
         "stl": 2.0,
         "blk": 0.4,
         "min": 33.2
-      }
+      },
+      "legendScore": 40.8
     },
     {
       "id": 4432848,
@@ -3060,7 +3161,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.3,
         "min": 28.3
-      }
+      },
+      "legendScore": 42.8
     },
     {
       "id": 4712849,
@@ -3084,7 +3186,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.7,
         "min": 29.8
-      }
+      },
+      "legendScore": 39.3
     },
     {
       "id": 4431671,
@@ -3108,7 +3211,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 1.0,
         "min": 31.7
-      }
+      },
+      "legendScore": 42.3
     },
     {
       "id": 4432165,
@@ -3132,7 +3236,8 @@ window.NBA_DATA = {
         "stl": 1.8,
         "blk": 0.7,
         "min": 27.6
-      }
+      },
+      "legendScore": 41.3
     },
     {
       "id": 3102530,
@@ -3156,7 +3261,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 0.5,
         "min": 26.4
-      }
+      },
+      "legendScore": 48.3
     },
     {
       "id": 4594327,
@@ -3180,7 +3286,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 1.6,
         "min": 34.5
-      }
+      },
+      "legendScore": 42.3
     },
     {
       "id": 3147657,
@@ -3204,7 +3311,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 0.8,
         "min": 32.8
-      }
+      },
+      "legendScore": 46.3
     },
     {
       "id": 4278594,
@@ -3228,7 +3336,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.1,
         "min": 29.5
-      }
+      },
+      "legendScore": 45.3
     },
     {
       "id": 4278078,
@@ -3252,7 +3361,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 1.1,
         "min": 31.0
-      }
+      },
+      "legendScore": 44.3
     },
     {
       "id": 4593125,
@@ -3276,7 +3386,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.7,
         "min": 27.9
-      }
+      },
+      "legendScore": 42.3
     },
     {
       "id": 4709138,
@@ -3300,7 +3411,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.2,
         "min": 28.5
-      }
+      },
+      "legendScore": 39.7
     },
     {
       "id": 3062679,
@@ -3324,7 +3436,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.3,
         "min": 30.2
-      }
+      },
+      "legendScore": 47.7
     },
     {
       "id": 4683742,
@@ -3348,7 +3461,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.6,
         "min": 30.9
-      }
+      },
+      "legendScore": 38.7
     },
     {
       "id": 4576087,
@@ -3372,7 +3486,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 1.1,
         "min": 29.6
-      }
+      },
+      "legendScore": 39.7
     },
     {
       "id": 3032976,
@@ -3396,7 +3511,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 1.6,
         "min": 31.3
-      }
+      },
+      "legendScore": 49.7
     },
     {
       "id": 4395626,
@@ -3420,7 +3536,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.2,
         "min": 27.0
-      }
+      },
+      "legendScore": 42.7
     },
     {
       "id": 4397002,
@@ -3444,7 +3561,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.3,
         "min": 27.3
-      }
+      },
+      "legendScore": 42.1
     },
     {
       "id": 4277811,
@@ -3468,7 +3586,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.1,
         "min": 23.7
-      }
+      },
+      "legendScore": 43.1
     },
     {
       "id": 5144091,
@@ -3492,7 +3611,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.4,
         "min": 25.8
-      }
+      },
+      "legendScore": 35.1
     },
     {
       "id": 3133603,
@@ -3516,7 +3636,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.5,
         "min": 31.5
-      }
+      },
+      "legendScore": 46.1
     },
     {
       "id": 4396971,
@@ -3540,7 +3661,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 1.0,
         "min": 26.1
-      }
+      },
+      "legendScore": 42.1
     },
     {
       "id": 4431736,
@@ -3564,7 +3686,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.4,
         "min": 33.3
-      }
+      },
+      "legendScore": 42.1
     },
     {
       "id": 4900671,
@@ -3588,7 +3711,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.3,
         "min": 25.8
-      }
+      },
+      "legendScore": 38.6
     },
     {
       "id": 3064482,
@@ -3612,7 +3736,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 24.2
-      }
+      },
+      "legendScore": 46.6
     },
     {
       "id": 4903027,
@@ -3636,7 +3761,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.4,
         "min": 25.8
-      }
+      },
+      "legendScore": 37.6
     },
     {
       "id": 4278585,
@@ -3660,7 +3786,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.2,
         "min": 28.5
-      }
+      },
+      "legendScore": 41.6
     },
     {
       "id": 4869780,
@@ -3684,7 +3811,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.9,
         "min": 25.0
-      }
+      },
+      "legendScore": 36.6
     },
     {
       "id": 4395630,
@@ -3708,7 +3836,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.4,
         "min": 30.5
-      }
+      },
+      "legendScore": 40.6
     },
     {
       "id": 4278067,
@@ -3732,7 +3861,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 1.1,
         "min": 27.8
-      }
+      },
+      "legendScore": 42.6
     },
     {
       "id": 4711272,
@@ -3756,7 +3886,8 @@ window.NBA_DATA = {
         "stl": 1.5,
         "blk": 0.7,
         "min": 26.2
-      }
+      },
+      "legendScore": 36.6
     },
     {
       "id": 4683678,
@@ -3780,7 +3911,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.3,
         "min": 24.9
-      }
+      },
+      "legendScore": 37.6
     },
     {
       "id": 6440,
@@ -3804,7 +3936,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.4,
         "min": 27.7
-      }
+      },
+      "legendScore": 48.6
     },
     {
       "id": 4396909,
@@ -3828,7 +3961,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.5,
         "min": 29.7
-      }
+      },
+      "legendScore": 41.0
     },
     {
       "id": 4873138,
@@ -3852,7 +3986,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.7,
         "min": 27.6
-      }
+      },
+      "legendScore": 34.0
     },
     {
       "id": 5105839,
@@ -3876,7 +4011,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.2,
         "min": 23.5
-      }
+      },
+      "legendScore": 37.0
     },
     {
       "id": 4278129,
@@ -3900,7 +4036,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 1.0,
         "min": 27.2
-      }
+      },
+      "legendScore": 42.0
     },
     {
       "id": 3934673,
@@ -3924,7 +4061,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 0.4,
         "min": 30.4
-      }
+      },
+      "legendScore": 44.0
     },
     {
       "id": 4683766,
@@ -3948,7 +4086,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.3,
         "min": 25.7
-      }
+      },
+      "legendScore": 36.0
     },
     {
       "id": 4683747,
@@ -3972,7 +4111,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.4,
         "min": 26.9
-      }
+      },
+      "legendScore": 38.0
     },
     {
       "id": 3908845,
@@ -3996,7 +4136,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.7,
         "min": 27.1
-      }
+      },
+      "legendScore": 43.0
     },
     {
       "id": 4898371,
@@ -4020,7 +4161,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.5,
         "min": 26.5
-      }
+      },
+      "legendScore": 38.0
     },
     {
       "id": 4397014,
@@ -4044,7 +4186,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.4,
         "min": 29.4
-      }
+      },
+      "legendScore": 41.0
     },
     {
       "id": 4277847,
@@ -4068,7 +4211,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.6,
         "min": 29.3
-      }
+      },
+      "legendScore": 42.0
     },
     {
       "id": 4351851,
@@ -4092,7 +4236,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 24.9
-      }
+      },
+      "legendScore": 40.5
     },
     {
       "id": 5104155,
@@ -4116,7 +4261,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 1.0,
         "min": 26.2
-      }
+      },
+      "legendScore": 35.5
     },
     {
       "id": 4397040,
@@ -4140,7 +4286,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.3,
         "min": 22.2
-      }
+      },
+      "legendScore": 40.5
     },
     {
       "id": 4431767,
@@ -4164,7 +4311,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.3,
         "min": 31.8
-      }
+      },
+      "legendScore": 39.5
     },
     {
       "id": 4397114,
@@ -4188,7 +4336,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.3,
         "min": 24.6
-      }
+      },
+      "legendScore": 41.5
     },
     {
       "id": 4065732,
@@ -4212,7 +4361,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 26.1
-      }
+      },
+      "legendScore": 42.5
     },
     {
       "id": 4222252,
@@ -4236,7 +4386,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.8,
         "min": 24.2
-      }
+      },
+      "legendScore": 42.5
     },
     {
       "id": 5105623,
@@ -4260,7 +4411,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 1.1,
         "min": 22.1
-      }
+      },
+      "legendScore": 36.5
     },
     {
       "id": 4395723,
@@ -4284,7 +4436,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.1,
         "min": 23.3
-      }
+      },
+      "legendScore": 40.5
     },
     {
       "id": 4684793,
@@ -4308,7 +4461,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.5,
         "min": 23.4
-      }
+      },
+      "legendScore": 36.5
     },
     {
       "id": 3134907,
@@ -4332,7 +4486,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.4,
         "min": 26.2
-      }
+      },
+      "legendScore": 44.5
     },
     {
       "id": 4701232,
@@ -4356,7 +4511,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.9,
         "min": 23.6
-      }
+      },
+      "legendScore": 38.5
     },
     {
       "id": 3133628,
@@ -4380,7 +4536,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 1.6,
         "min": 26.9
-      }
+      },
+      "legendScore": 44.5
     },
     {
       "id": 4684742,
@@ -4404,7 +4561,8 @@ window.NBA_DATA = {
         "stl": 2.0,
         "blk": 0.9,
         "min": 26.0
-      }
+      },
+      "legendScore": 36.9
     },
     {
       "id": 3138196,
@@ -4428,7 +4586,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.4,
         "min": 30.5
-      }
+      },
+      "legendScore": 43.9
     },
     {
       "id": 4066436,
@@ -4437,7 +4596,7 @@ window.NBA_DATA = {
       "last": "Melton",
       "pos": "G",
       "teamCode": "GS",
-      "age": 27,
+      "age": 28,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4066436.png",
       "colors": {
         "primary": "#1d428a",
@@ -4452,7 +4611,8 @@ window.NBA_DATA = {
         "stl": 1.6,
         "blk": 0.4,
         "min": 23.0
-      }
+      },
+      "legendScore": 41.9
     },
     {
       "id": 3134908,
@@ -4476,7 +4636,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.7,
         "min": 25.0
-      }
+      },
+      "legendScore": 43.9
     },
     {
       "id": 5106060,
@@ -4500,7 +4661,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.3,
         "min": 25.7
-      }
+      },
+      "legendScore": 35.9
     },
     {
       "id": 4433247,
@@ -4524,7 +4686,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 23.1
-      }
+      },
+      "legendScore": 36.9
     },
     {
       "id": 4277956,
@@ -4548,7 +4711,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.4,
         "min": 23.9
-      }
+      },
+      "legendScore": 39.9
     },
     {
       "id": 4397424,
@@ -4572,7 +4736,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 1.3,
         "min": 25.3
-      }
+      },
+      "legendScore": 39.9
     },
     {
       "id": 4712896,
@@ -4596,7 +4761,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.7,
         "min": 27.0
-      }
+      },
+      "legendScore": 34.9
     },
     {
       "id": 4431785,
@@ -4620,7 +4786,8 @@ window.NBA_DATA = {
         "stl": 1.9,
         "blk": 0.4,
         "min": 21.2
-      }
+      },
+      "legendScore": 38.9
     },
     {
       "id": 4845374,
@@ -4644,7 +4811,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 27.7
-      }
+      },
+      "legendScore": 33.3
     },
     {
       "id": 4433083,
@@ -4668,7 +4836,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.2,
         "min": 23.8
-      }
+      },
+      "legendScore": 39.3
     },
     {
       "id": 5037871,
@@ -4692,7 +4861,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.3,
         "min": 22.6
-      }
+      },
+      "legendScore": 33.3
     },
     {
       "id": 5105550,
@@ -4716,7 +4886,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.8,
         "min": 21.4
-      }
+      },
+      "legendScore": 34.3
     },
     {
       "id": 5112087,
@@ -4740,7 +4911,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.1,
         "min": 26.4
-      }
+      },
+      "legendScore": 35.3
     },
     {
       "id": 4592479,
@@ -4764,7 +4936,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.5,
         "min": 27.6
-      }
+      },
+      "legendScore": 37.3
     },
     {
       "id": 4432582,
@@ -4788,7 +4961,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.4,
         "min": 29.1
-      }
+      },
+      "legendScore": 36.3
     },
     {
       "id": 4432171,
@@ -4797,7 +4971,7 @@ window.NBA_DATA = {
       "last": "Moody",
       "pos": "G",
       "teamCode": "GS",
-      "age": 23,
+      "age": 24,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4432171.png",
       "colors": {
         "primary": "#1d428a",
@@ -4812,7 +4986,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.6,
         "min": 25.7
-      }
+      },
+      "legendScore": 37.3
     },
     {
       "id": 4601025,
@@ -4836,7 +5011,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.2,
         "min": 26.4
-      }
+      },
+      "legendScore": 38.3
     },
     {
       "id": 4066757,
@@ -4860,7 +5036,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.1,
         "min": 26.5
-      }
+      },
+      "legendScore": 43.3
     },
     {
       "id": 2528210,
@@ -4884,7 +5061,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 26.6
-      }
+      },
+      "legendScore": 46.3
     },
     {
       "id": 4432174,
@@ -4908,7 +5086,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.1,
         "min": 21.0
-      }
+      },
+      "legendScore": 36.8
     },
     {
       "id": 4278053,
@@ -4932,7 +5111,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.2,
         "min": 28.6
-      }
+      },
+      "legendScore": 39.8
     },
     {
       "id": 3032979,
@@ -4956,7 +5136,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 24.2
-      }
+      },
+      "legendScore": 44.8
     },
     {
       "id": 6589,
@@ -4980,7 +5161,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.6,
         "min": 27.5
-      }
+      },
+      "legendScore": 45.8
     },
     {
       "id": 3157465,
@@ -5004,7 +5186,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 27.4
-      }
+      },
+      "legendScore": 44.8
     },
     {
       "id": 4066262,
@@ -5028,7 +5211,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.4,
         "min": 22.0
-      }
+      },
+      "legendScore": 40.8
     },
     {
       "id": 4065778,
@@ -5052,7 +5236,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.0,
         "min": 24.0
-      }
+      },
+      "legendScore": 42.8
     },
     {
       "id": 4431823,
@@ -5076,7 +5261,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.2,
         "min": 26.3
-      }
+      },
+      "legendScore": 37.8
     },
     {
       "id": 4431679,
@@ -5100,7 +5286,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.7,
         "min": 23.9
-      }
+      },
+      "legendScore": 38.8
     },
     {
       "id": 4278580,
@@ -5124,7 +5311,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.5,
         "min": 21.9
-      }
+      },
+      "legendScore": 39.8
     },
     {
       "id": 4433192,
@@ -5148,7 +5336,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.5,
         "min": 25.8
-      }
+      },
+      "legendScore": 37.8
     },
     {
       "id": 5238230,
@@ -5172,7 +5361,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 24.1
-      }
+      },
+      "legendScore": 32.8
     },
     {
       "id": 4898237,
@@ -5196,7 +5386,8 @@ window.NBA_DATA = {
         "stl": 2.3,
         "blk": 0.3,
         "min": 32.8
-      }
+      },
+      "legendScore": 36.2
     },
     {
       "id": 4278049,
@@ -5220,7 +5411,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 1.3,
         "min": 21.7
-      }
+      },
+      "legendScore": 39.2
     },
     {
       "id": 5175643,
@@ -5244,7 +5436,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.3,
         "min": 25.2
-      }
+      },
+      "legendScore": 32.2
     },
     {
       "id": 4397189,
@@ -5268,7 +5461,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.8,
         "min": 20.7
-      }
+      },
+      "legendScore": 38.2
     },
     {
       "id": 3146557,
@@ -5292,7 +5486,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.5,
         "min": 22.1
-      }
+      },
+      "legendScore": 42.2
     },
     {
       "id": 4277848,
@@ -5316,7 +5511,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.7,
         "min": 20.0
-      }
+      },
+      "legendScore": 39.2
     },
     {
       "id": 4433249,
@@ -5340,7 +5536,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 1.0,
         "min": 26.0
-      }
+      },
+      "legendScore": 36.2
     },
     {
       "id": 4278355,
@@ -5364,7 +5561,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.0,
         "min": 17.7
-      }
+      },
+      "legendScore": 40.2
     },
     {
       "id": 2583632,
@@ -5388,7 +5586,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.4,
         "min": 28.4
-      }
+      },
+      "legendScore": 44.2
     },
     {
       "id": 4066648,
@@ -5412,7 +5611,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 28.3
-      }
+      },
+      "legendScore": 40.2
     },
     {
       "id": 4432194,
@@ -5436,7 +5636,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.4,
         "min": 18.7
-      }
+      },
+      "legendScore": 35.7
     },
     {
       "id": 3936099,
@@ -5460,7 +5661,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 1.0,
         "min": 27.0
-      }
+      },
+      "legendScore": 40.7
     },
     {
       "id": 4277813,
@@ -5484,7 +5686,8 @@ window.NBA_DATA = {
         "stl": 1.6,
         "blk": 0.5,
         "min": 28.4
-      }
+      },
+      "legendScore": 38.7
     },
     {
       "id": 4432810,
@@ -5508,7 +5711,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 1.6,
         "min": 22.7
-      }
+      },
+      "legendScore": 36.7
     },
     {
       "id": 4066372,
@@ -5532,7 +5736,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.5,
         "min": 22.4
-      }
+      },
+      "legendScore": 38.7
     },
     {
       "id": 6609,
@@ -5556,7 +5761,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 22.8
-      }
+      },
+      "legendScore": 44.7
     },
     {
       "id": 6475,
@@ -5580,7 +5786,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.3,
         "min": 21.7
-      }
+      },
+      "legendScore": 44.7
     },
     {
       "id": 2990992,
@@ -5604,7 +5811,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.4,
         "min": 28.5
-      }
+      },
+      "legendScore": 43.7
     },
     {
       "id": 4431914,
@@ -5628,7 +5836,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.3,
         "min": 25.6
-      }
+      },
+      "legendScore": 37.7
     },
     {
       "id": 4397475,
@@ -5652,7 +5861,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 29.1
-      }
+      },
+      "legendScore": 37.1
     },
     {
       "id": 3213,
@@ -5676,7 +5886,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 1.1,
         "min": 21.5
-      }
+      },
+      "legendScore": 44.1
     },
     {
       "id": 4396963,
@@ -5700,7 +5911,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.1,
         "min": 20.4
-      }
+      },
+      "legendScore": 37.1
     },
     {
       "id": 4683692,
@@ -5724,7 +5936,8 @@ window.NBA_DATA = {
         "stl": 1.9,
         "blk": 0.4,
         "min": 26.6
-      }
+      },
+      "legendScore": 33.1
     },
     {
       "id": 3136776,
@@ -5748,7 +5961,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 19.0
-      }
+      },
+      "legendScore": 41.1
     },
     {
       "id": 4279318,
@@ -5772,7 +5986,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.2,
         "min": 26.4
-      }
+      },
+      "legendScore": 38.1
     },
     {
       "id": 4395702,
@@ -5796,7 +6011,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.2,
         "min": 21.2
-      }
+      },
+      "legendScore": 37.1
     },
     {
       "id": 4781746,
@@ -5820,7 +6036,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 20.2
-      }
+      },
+      "legendScore": 34.1
     },
     {
       "id": 4065731,
@@ -5844,7 +6061,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 1.9,
         "min": 21.0
-      }
+      },
+      "legendScore": 39.1
     },
     {
       "id": 4278402,
@@ -5868,7 +6086,8 @@ window.NBA_DATA = {
         "stl": 1.5,
         "blk": 0.2,
         "min": 22.5
-      }
+      },
+      "legendScore": 38.1
     },
     {
       "id": 4396818,
@@ -5892,7 +6111,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 22.1
-      }
+      },
+      "legendScore": 37.1
     },
     {
       "id": 4066399,
@@ -5916,7 +6136,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.3,
         "min": 19.3
-      }
+      },
+      "legendScore": 39.1
     },
     {
       "id": 2530530,
@@ -5940,7 +6161,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.2,
         "min": 17.2
-      }
+      },
+      "legendScore": 44.1
     },
     {
       "id": 4702382,
@@ -5964,7 +6186,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.3,
         "min": 24.7
-      }
+      },
+      "legendScore": 36.1
     },
     {
       "id": 5144126,
@@ -5988,7 +6211,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 22.1
-      }
+      },
+      "legendScore": 31.1
     },
     {
       "id": 4066650,
@@ -6012,7 +6236,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.4,
         "min": 18.4
-      }
+      },
+      "legendScore": 39.1
     },
     {
       "id": 4397183,
@@ -6036,7 +6261,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.4,
         "min": 21.8
-      }
+      },
+      "legendScore": 37.5
     },
     {
       "id": 4433144,
@@ -6060,7 +6286,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.1,
         "min": 20.7
-      }
+      },
+      "legendScore": 34.5
     },
     {
       "id": 5093267,
@@ -6084,7 +6311,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.9,
         "min": 21.9
-      }
+      },
+      "legendScore": 30.5
     },
     {
       "id": 5107199,
@@ -6108,7 +6336,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.2,
         "min": 20.2
-      }
+      },
+      "legendScore": 34.5
     },
     {
       "id": 5107173,
@@ -6132,7 +6361,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.6,
         "min": 20.8
-      }
+      },
+      "legendScore": 32.5
     },
     {
       "id": 4066796,
@@ -6156,7 +6386,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.7,
         "min": 21.0
-      }
+      },
+      "legendScore": 38.5
     },
     {
       "id": 4997536,
@@ -6180,7 +6411,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.3,
         "min": 20.5
-      }
+      },
+      "legendScore": 33.5
     },
     {
       "id": 6578,
@@ -6189,7 +6421,7 @@ window.NBA_DATA = {
       "last": "Barnes",
       "pos": "F",
       "teamCode": "SA",
-      "age": 33,
+      "age": 34,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/6578.png",
       "colors": {
         "primary": "#c4ced4",
@@ -6204,7 +6436,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 25.8
-      }
+      },
+      "legendScore": 43.5
     },
     {
       "id": 4432822,
@@ -6228,7 +6461,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.5,
         "min": 26.9
-      }
+      },
+      "legendScore": 35.5
     },
     {
       "id": 4398207,
@@ -6252,7 +6486,8 @@ window.NBA_DATA = {
         "stl": 1.5,
         "blk": 1.1,
         "min": 23.9
-      }
+      },
+      "legendScore": 36.5
     },
     {
       "id": 4432907,
@@ -6276,7 +6511,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.6,
         "min": 20.0
-      }
+      },
+      "legendScore": 34.5
     },
     {
       "id": 4397784,
@@ -6300,7 +6536,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.3,
         "min": 23.9
-      }
+      },
+      "legendScore": 36.5
     },
     {
       "id": 4702384,
@@ -6324,7 +6561,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.3,
         "min": 25.1
-      }
+      },
+      "legendScore": 34.5
     },
     {
       "id": 5279130,
@@ -6333,7 +6571,7 @@ window.NBA_DATA = {
       "last": "Traore",
       "pos": "G",
       "teamCode": "BKN",
-      "age": 19,
+      "age": 20,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5279130.png",
       "colors": {
         "primary": "#000000",
@@ -6348,7 +6586,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.4,
         "min": 22.2
-      }
+      },
+      "legendScore": 30.5
     },
     {
       "id": 4595400,
@@ -6372,7 +6611,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 18.6
-      }
+      },
+      "legendScore": 33.5
     },
     {
       "id": 5211175,
@@ -6396,7 +6636,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.5,
         "min": 22.4
-      }
+      },
+      "legendScore": 31.5
     },
     {
       "id": 4433137,
@@ -6420,7 +6661,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.4,
         "min": 22.9
-      }
+      },
+      "legendScore": 34.5
     },
     {
       "id": 6585,
@@ -6444,7 +6686,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.8,
         "min": 19.5
-      }
+      },
+      "legendScore": 42.0
     },
     {
       "id": 3448,
@@ -6468,7 +6711,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 1.2,
         "min": 21.8
-      }
+      },
+      "legendScore": 43.0
     },
     {
       "id": 5174655,
@@ -6492,7 +6736,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.5,
         "min": 20.5
-      }
+      },
+      "legendScore": 33.0
     },
     {
       "id": 4895758,
@@ -6516,7 +6761,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.4,
         "min": 24.3
-      }
+      },
+      "legendScore": 31.0
     },
     {
       "id": 4433188,
@@ -6540,7 +6786,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.2,
         "min": 18.4
-      }
+      },
+      "legendScore": 34.0
     },
     {
       "id": 4592691,
@@ -6564,7 +6811,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 0.5,
         "min": 25.1
-      }
+      },
+      "legendScore": 34.0
     },
     {
       "id": 2991139,
@@ -6588,7 +6836,8 @@ window.NBA_DATA = {
         "stl": 1.6,
         "blk": 0.2,
         "min": 27.2
-      }
+      },
+      "legendScore": 42.0
     },
     {
       "id": 4395650,
@@ -6612,7 +6861,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.5,
         "min": 28.9
-      }
+      },
+      "legendScore": 36.0
     },
     {
       "id": 4592829,
@@ -6636,7 +6886,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.1,
         "min": 18.3
-      }
+      },
+      "legendScore": 37.0
     },
     {
       "id": 4576060,
@@ -6660,7 +6911,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 1.5,
         "min": 21.4
-      }
+      },
+      "legendScore": 34.0
     },
     {
       "id": 4065804,
@@ -6684,7 +6936,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.3,
         "min": 24.8
-      }
+      },
+      "legendScore": 38.0
     },
     {
       "id": 3133602,
@@ -6708,7 +6961,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 23.1
-      }
+      },
+      "legendScore": 38.0
     },
     {
       "id": 2990962,
@@ -6732,7 +6986,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 23.5
-      }
+      },
+      "legendScore": 42.0
     },
     {
       "id": 4397227,
@@ -6756,7 +7011,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.4,
         "min": 20.5
-      }
+      },
+      "legendScore": 35.0
     },
     {
       "id": 4065670,
@@ -6780,7 +7036,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.2,
         "min": 24.4
-      }
+      },
+      "legendScore": 38.4
     },
     {
       "id": 4870562,
@@ -6804,7 +7061,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.7,
         "min": 23.8
-      }
+      },
+      "legendScore": 32.4
     },
     {
       "id": 4433174,
@@ -6828,7 +7086,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 1.5,
         "min": 20.6
-      }
+      },
+      "legendScore": 33.4
     },
     {
       "id": 4432823,
@@ -6852,7 +7111,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.6,
         "min": 19.6
-      }
+      },
+      "legendScore": 32.4
     },
     {
       "id": 6477,
@@ -6876,7 +7136,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.6,
         "min": 13.4
-      }
+      },
+      "legendScore": 42.4
     },
     {
       "id": 2581018,
@@ -6900,7 +7161,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 21.3
-      }
+      },
+      "legendScore": 42.4
     },
     {
       "id": 3914044,
@@ -6924,7 +7186,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 23.0
-      }
+      },
+      "legendScore": 38.4
     },
     {
       "id": 4397020,
@@ -6948,7 +7211,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.4,
         "min": 26.8
-      }
+      },
+      "legendScore": 36.4
     },
     {
       "id": 3064560,
@@ -6972,7 +7236,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 1.0,
         "min": 21.0
-      }
+      },
+      "legendScore": 39.4
     },
     {
       "id": 4351852,
@@ -6996,7 +7261,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 1.2,
         "min": 19.6
-      }
+      },
+      "legendScore": 37.4
     },
     {
       "id": 4432827,
@@ -7020,7 +7286,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 16.6
-      }
+      },
+      "legendScore": 35.4
     },
     {
       "id": 4601023,
@@ -7044,7 +7311,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.7,
         "min": 22.0
-      }
+      },
+      "legendScore": 32.4
     },
     {
       "id": 4066211,
@@ -7068,7 +7336,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 1.5,
         "min": 17.1
-      }
+      },
+      "legendScore": 37.4
     },
     {
       "id": 4683771,
@@ -7092,7 +7361,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.3,
         "min": 19.9
-      }
+      },
+      "legendScore": 29.4
     },
     {
       "id": 2991235,
@@ -7116,7 +7386,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.6,
         "min": 22.8
-      }
+      },
+      "legendScore": 41.4
     },
     {
       "id": 4896372,
@@ -7140,7 +7411,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 20.4
-      }
+      },
+      "legendScore": 32.4
     },
     {
       "id": 5242502,
@@ -7164,7 +7436,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.2,
         "min": 20.8
-      }
+      },
+      "legendScore": 28.9
     },
     {
       "id": 4592492,
@@ -7188,7 +7461,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 16.6
-      }
+      },
+      "legendScore": 33.9
     },
     {
       "id": 5105592,
@@ -7212,7 +7486,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.4,
         "min": 16.9
-      }
+      },
+      "legendScore": 29.9
     },
     {
       "id": 4280151,
@@ -7236,7 +7511,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.2,
         "min": 18.6
-      }
+      },
+      "legendScore": 35.9
     },
     {
       "id": 4433218,
@@ -7260,7 +7536,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.4,
         "min": 18.1
-      }
+      },
+      "legendScore": 32.9
     },
     {
       "id": 4432241,
@@ -7284,7 +7561,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.2,
         "min": 22.6
-      }
+      },
+      "legendScore": 31.9
     },
     {
       "id": 4606840,
@@ -7308,7 +7586,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.5,
         "min": 20.6
-      }
+      },
+      "legendScore": 32.9
     },
     {
       "id": 4277869,
@@ -7332,7 +7611,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.1,
         "min": 19.9
-      }
+      },
+      "legendScore": 36.9
     },
     {
       "id": 4277951,
@@ -7356,7 +7636,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.4,
         "min": 16.2
-      }
+      },
+      "legendScore": 35.9
     },
     {
       "id": 3913174,
@@ -7380,7 +7661,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 21.5
-      }
+      },
+      "legendScore": 37.9
     },
     {
       "id": 4997526,
@@ -7404,7 +7686,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.3,
         "min": 19.3
-      }
+      },
+      "legendScore": 31.9
     },
     {
       "id": 4278562,
@@ -7428,7 +7711,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.9,
         "min": 13.9
-      }
+      },
+      "legendScore": 34.9
     },
     {
       "id": 4432173,
@@ -7452,7 +7736,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.1,
         "min": 17.1
-      }
+      },
+      "legendScore": 32.9
     },
     {
       "id": 3899664,
@@ -7476,7 +7761,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 16.7
-      }
+      },
+      "legendScore": 38.9
     },
     {
       "id": 3907823,
@@ -7500,7 +7786,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.2,
         "min": 24.3
-      }
+      },
+      "legendScore": 37.9
     },
     {
       "id": 4997537,
@@ -7524,7 +7811,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.7,
         "min": 13.7
-      }
+      },
+      "legendScore": 31.9
     },
     {
       "id": 4578893,
@@ -7548,7 +7836,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.3,
         "min": 21.4
-      }
+      },
+      "legendScore": 33.9
     },
     {
       "id": 4576086,
@@ -7572,7 +7861,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 21.0
-      }
+      },
+      "legendScore": 31.3
     },
     {
       "id": 3064230,
@@ -7596,7 +7886,8 @@ window.NBA_DATA = {
         "stl": 1.1,
         "blk": 0.3,
         "min": 17.0
-      }
+      },
+      "legendScore": 39.3
     },
     {
       "id": 2991043,
@@ -7620,7 +7911,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.7,
         "min": 19.2
-      }
+      },
+      "legendScore": 39.3
     },
     {
       "id": 4397449,
@@ -7644,7 +7936,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.2,
         "min": 21.0
-      }
+      },
+      "legendScore": 34.3
     },
     {
       "id": 3134903,
@@ -7668,7 +7961,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.3,
         "min": 15.6
-      }
+      },
+      "legendScore": 41.3
     },
     {
       "id": 4066218,
@@ -7692,7 +7986,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.5,
         "min": 19.8
-      }
+      },
+      "legendScore": 35.3
     },
     {
       "id": 4432170,
@@ -7716,7 +8011,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.9,
         "min": 16.5
-      }
+      },
+      "legendScore": 32.3
     },
     {
       "id": 4684272,
@@ -7740,7 +8036,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.2,
         "min": 20.5
-      }
+      },
+      "legendScore": 29.3
     },
     {
       "id": 4868423,
@@ -7764,7 +8061,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.1,
         "min": 15.8
-      }
+      },
+      "legendScore": 31.3
     },
     {
       "id": 4397077,
@@ -7788,7 +8086,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.8,
         "min": 18.3
-      }
+      },
+      "legendScore": 34.3
     },
     {
       "id": 4898238,
@@ -7812,7 +8111,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.3,
         "min": 19.5
-      }
+      },
+      "legendScore": 31.3
     },
     {
       "id": 2528426,
@@ -7836,7 +8136,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.1,
         "min": 17.8
-      }
+      },
+      "legendScore": 41.3
     },
     {
       "id": 3449,
@@ -7860,7 +8161,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.2,
         "min": 16.6
-      }
+      },
+      "legendScore": 41.3
     },
     {
       "id": 2993874,
@@ -7884,7 +8186,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.6,
         "min": 19.8
-      }
+      },
+      "legendScore": 40.3
     },
     {
       "id": 5044385,
@@ -7908,7 +8211,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.3,
         "min": 15.6
-      }
+      },
+      "legendScore": 30.3
     },
     {
       "id": 4997528,
@@ -7932,7 +8236,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.4,
         "min": 17.2
-      }
+      },
+      "legendScore": 30.3
     },
     {
       "id": 4592714,
@@ -7956,7 +8261,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 18.6
-      }
+      },
+      "legendScore": 37.3
     },
     {
       "id": 4593016,
@@ -7980,7 +8286,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.5,
         "min": 17.3
-      }
+      },
+      "legendScore": 34.3
     },
     {
       "id": 4433629,
@@ -8004,7 +8311,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.0,
         "min": 19.5
-      }
+      },
+      "legendScore": 31.3
     },
     {
       "id": 4684806,
@@ -8028,7 +8336,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.5,
         "min": 18.9
-      }
+      },
+      "legendScore": 30.3
     },
     {
       "id": 5061589,
@@ -8052,7 +8361,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 1.5,
         "min": 19.7
-      }
+      },
+      "legendScore": 30.3
     },
     {
       "id": 2991350,
@@ -8076,7 +8386,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 0.3,
         "min": 18.2
-      }
+      },
+      "legendScore": 39.8
     },
     {
       "id": 4433076,
@@ -8100,7 +8411,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.1,
         "min": 21.4
-      }
+      },
+      "legendScore": 31.8
     },
     {
       "id": 3037789,
@@ -8124,7 +8436,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.1,
         "min": 19.7
-      }
+      },
+      "legendScore": 40.8
     },
     {
       "id": 2990984,
@@ -8148,7 +8461,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 16.1
-      }
+      },
+      "legendScore": 40.8
     },
     {
       "id": 4432809,
@@ -8172,7 +8486,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 15.1
-      }
+      },
+      "legendScore": 33.8
     },
     {
       "id": 3912848,
@@ -8196,7 +8511,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.4,
         "min": 22.3
-      }
+      },
+      "legendScore": 36.8
     },
     {
       "id": 4278516,
@@ -8220,7 +8536,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 20.4
-      }
+      },
+      "legendScore": 34.8
     },
     {
       "id": 4277843,
@@ -8244,7 +8561,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.0,
         "min": 21.2
-      }
+      },
+      "legendScore": 34.8
     },
     {
       "id": 4348700,
@@ -8268,7 +8586,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 1.0,
         "min": 15.2
-      }
+      },
+      "legendScore": 33.8
     },
     {
       "id": 4683934,
@@ -8292,7 +8611,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.5,
         "min": 21.7
-      }
+      },
+      "legendScore": 30.8
     },
     {
       "id": 4683778,
@@ -8316,7 +8636,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 17.3
-      }
+      },
+      "legendScore": 29.8
     },
     {
       "id": 4687718,
@@ -8340,7 +8661,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.5,
         "min": 17.0
-      }
+      },
+      "legendScore": 30.8
     },
     {
       "id": 4702352,
@@ -8349,7 +8671,7 @@ window.NBA_DATA = {
       "last": "Sanders",
       "pos": "G",
       "teamCode": "LAC",
-      "age": 23,
+      "age": 24,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4702352.png",
       "colors": {
         "primary": "#c8102e",
@@ -8364,7 +8686,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 19.9
-      }
+      },
+      "legendScore": 31.8
     },
     {
       "id": 4066421,
@@ -8388,7 +8711,8 @@ window.NBA_DATA = {
         "stl": 1.3,
         "blk": 0.3,
         "min": 20.8
-      }
+      },
+      "legendScore": 35.8
     },
     {
       "id": 4431687,
@@ -8412,7 +8736,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.4,
         "min": 20.5
-      }
+      },
+      "legendScore": 31.8
     },
     {
       "id": 4431675,
@@ -8436,7 +8761,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.4,
         "min": 16.3
-      }
+      },
+      "legendScore": 32.8
     },
     {
       "id": 4066993,
@@ -8460,7 +8786,8 @@ window.NBA_DATA = {
         "stl": 1.4,
         "blk": 0.3,
         "min": 16.3
-      }
+      },
+      "legendScore": 35.2
     },
     {
       "id": 2596112,
@@ -8484,7 +8811,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.3,
         "min": 17.6
-      }
+      },
+      "legendScore": 39.2
     },
     {
       "id": 4277922,
@@ -8508,7 +8836,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.3,
         "min": 19.7
-      }
+      },
+      "legendScore": 34.2
     },
     {
       "id": 3134932,
@@ -8532,7 +8861,8 @@ window.NBA_DATA = {
         "stl": 1.5,
         "blk": 0.7,
         "min": 19.9
-      }
+      },
+      "legendScore": 37.2
     },
     {
       "id": 5214640,
@@ -8541,7 +8871,7 @@ window.NBA_DATA = {
       "last": "Jakucionis",
       "pos": "G",
       "teamCode": "MIA",
-      "age": 19,
+      "age": 20,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5214640.png",
       "colors": {
         "primary": "#98002e",
@@ -8556,7 +8886,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.1,
         "min": 17.8
-      }
+      },
+      "legendScore": 27.2
     },
     {
       "id": 3133626,
@@ -8580,7 +8911,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.1,
         "min": 15.3
-      }
+      },
+      "legendScore": 38.2
     },
     {
       "id": 4702177,
@@ -8604,7 +8936,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.6,
         "min": 20.5
-      }
+      },
+      "legendScore": 33.2
     },
     {
       "id": 4683024,
@@ -8628,7 +8961,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.2,
         "min": 17.7
-      }
+      },
+      "legendScore": 31.2
     },
     {
       "id": 4594326,
@@ -8652,7 +8986,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.4,
         "min": 23.4
-      }
+      },
+      "legendScore": 32.2
     },
     {
       "id": 4433149,
@@ -8676,7 +9011,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.0,
         "min": 16.2
-      }
+      },
+      "legendScore": 31.2
     },
     {
       "id": 4397821,
@@ -8700,7 +9036,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.0,
         "min": 17.1
-      }
+      },
+      "legendScore": 34.2
     },
     {
       "id": 4888725,
@@ -8724,7 +9061,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.4,
         "min": 19.4
-      }
+      },
+      "legendScore": 30.2
     },
     {
       "id": 4602025,
@@ -8748,7 +9086,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 22.5
-      }
+      },
+      "legendScore": 30.2
     },
     {
       "id": 4432887,
@@ -8772,7 +9111,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.0,
         "min": 15.8
-      }
+      },
+      "legendScore": 33.2
     },
     {
       "id": 4897262,
@@ -8796,7 +9136,8 @@ window.NBA_DATA = {
         "stl": 1.2,
         "blk": 0.1,
         "min": 20.0
-      }
+      },
+      "legendScore": 30.2
     },
     {
       "id": 2581184,
@@ -8820,7 +9161,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.4,
         "min": 17.3
-      }
+      },
+      "legendScore": 39.6
     },
     {
       "id": 4593841,
@@ -8844,7 +9186,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 18.6
-      }
+      },
+      "legendScore": 31.6
     },
     {
       "id": 4397886,
@@ -8868,7 +9211,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.8,
         "min": 11.8
-      }
+      },
+      "legendScore": 31.6
     },
     {
       "id": 4701233,
@@ -8892,7 +9236,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.6,
         "min": 17.9
-      }
+      },
+      "legendScore": 32.6
     },
     {
       "id": 3442,
@@ -8916,7 +9261,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.8,
         "min": 16.6
-      }
+      },
+      "legendScore": 39.6
     },
     {
       "id": 5037873,
@@ -8940,7 +9286,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 21.0
-      }
+      },
+      "legendScore": 26.6
     },
     {
       "id": 3133635,
@@ -8964,7 +9311,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 16.4
-      }
+      },
+      "legendScore": 36.6
     },
     {
       "id": 5157066,
@@ -8988,7 +9336,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 18.4
-      }
+      },
+      "legendScore": 27.6
     },
     {
       "id": 4683689,
@@ -9012,7 +9361,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.5,
         "min": 17.8
-      }
+      },
+      "legendScore": 28.6
     },
     {
       "id": 4432181,
@@ -9036,7 +9386,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.1,
         "min": 15.1
-      }
+      },
+      "legendScore": 30.6
     },
     {
       "id": 4997538,
@@ -9060,7 +9411,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.9,
         "min": 14.7
-      }
+      },
+      "legendScore": 31.6
     },
     {
       "id": 4432179,
@@ -9084,7 +9436,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 14.0
-      }
+      },
+      "legendScore": 31.6
     },
     {
       "id": 3907498,
@@ -9108,7 +9461,8 @@ window.NBA_DATA = {
         "stl": 2.0,
         "blk": 0.5,
         "min": 16.0
-      }
+      },
+      "legendScore": 35.6
     },
     {
       "id": 3150844,
@@ -9132,7 +9486,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.1,
         "min": 11.9
-      }
+      },
+      "legendScore": 35.6
     },
     {
       "id": 4278076,
@@ -9156,7 +9511,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.7,
         "min": 14.6
-      }
+      },
+      "legendScore": 34.6
     },
     {
       "id": 5159925,
@@ -9180,7 +9536,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.0,
         "min": 16.0
-      }
+      },
+      "legendScore": 26.6
     },
     {
       "id": 4684275,
@@ -9204,7 +9561,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 14.9
-      }
+      },
+      "legendScore": 27.6
     },
     {
       "id": 4592427,
@@ -9228,7 +9586,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.5,
         "min": 22.1
-      }
+      },
+      "legendScore": 30.6
     },
     {
       "id": 5211176,
@@ -9252,7 +9611,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.2,
         "min": 15.5
-      }
+      },
+      "legendScore": 26.6
     },
     {
       "id": 4397179,
@@ -9276,7 +9636,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 16.9
-      }
+      },
+      "legendScore": 33.6
     },
     {
       "id": 5105637,
@@ -9300,7 +9661,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 1.2,
         "min": 17.4
-      }
+      },
+      "legendScore": 29.1
     },
     {
       "id": 4017844,
@@ -9324,7 +9686,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.2,
         "min": 15.0
-      }
+      },
+      "legendScore": 36.1
     },
     {
       "id": 4431714,
@@ -9348,7 +9711,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.0,
         "min": 15.9
-      }
+      },
+      "legendScore": 31.1
     },
     {
       "id": 4280245,
@@ -9372,7 +9736,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 14.0
-      }
+      },
+      "legendScore": 32.1
     },
     {
       "id": 4278077,
@@ -9396,7 +9761,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.3,
         "min": 17.4
-      }
+      },
+      "legendScore": 33.1
     },
     {
       "id": 4711297,
@@ -9420,7 +9786,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 15.3
-      }
+      },
+      "legendScore": 28.1
     },
     {
       "id": 4431752,
@@ -9444,7 +9811,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.2,
         "min": 15.8
-      }
+      },
+      "legendScore": 32.1
     },
     {
       "id": 4701208,
@@ -9468,7 +9836,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 1.2,
         "min": 13.9
-      }
+      },
+      "legendScore": 29.1
     },
     {
       "id": 5106268,
@@ -9492,7 +9861,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.5,
         "min": 15.7
-      }
+      },
+      "legendScore": 31.1
     },
     {
       "id": 5099752,
@@ -9516,7 +9886,8 @@ window.NBA_DATA = {
         "stl": 0.9,
         "blk": 0.1,
         "min": 16.8
-      }
+      },
+      "legendScore": 27.1
     },
     {
       "id": 2326307,
@@ -9540,7 +9911,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.0,
         "min": 13.3
-      }
+      },
+      "legendScore": 39.1
     },
     {
       "id": 3934723,
@@ -9564,7 +9936,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.4,
         "min": 12.2
-      }
+      },
+      "legendScore": 34.1
     },
     {
       "id": 4592435,
@@ -9588,7 +9961,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.6,
         "min": 11.6
-      }
+      },
+      "legendScore": 31.5
     },
     {
       "id": 3914285,
@@ -9612,7 +9986,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.6,
         "min": 13.1
-      }
+      },
+      "legendScore": 34.5
     },
     {
       "id": 4432821,
@@ -9636,7 +10011,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.4,
         "min": 13.4
-      }
+      },
+      "legendScore": 30.5
     },
     {
       "id": 5106258,
@@ -9660,7 +10036,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.1,
         "min": 14.0
-      }
+      },
+      "legendScore": 27.5
     },
     {
       "id": 4398390,
@@ -9684,7 +10061,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.1,
         "min": 16.1
-      }
+      },
+      "legendScore": 31.5
     },
     {
       "id": 4432813,
@@ -9708,7 +10086,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.0,
         "min": 16.4
-      }
+      },
+      "legendScore": 30.5
     },
     {
       "id": 4697268,
@@ -9732,7 +10111,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.0,
         "min": 16.6
-      }
+      },
+      "legendScore": 29.5
     },
     {
       "id": 4397071,
@@ -9756,7 +10136,8 @@ window.NBA_DATA = {
         "stl": 1.0,
         "blk": 0.3,
         "min": 12.3
-      }
+      },
+      "legendScore": 32.5
     },
     {
       "id": 3195,
@@ -9780,7 +10161,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 18.4
-      }
+      },
+      "legendScore": 38.5
     },
     {
       "id": 4712863,
@@ -9804,7 +10186,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.5,
         "min": 15.3
-      }
+      },
+      "legendScore": 28.5
     },
     {
       "id": 4397233,
@@ -9828,7 +10211,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.3,
         "min": 15.7
-      }
+      },
+      "legendScore": 31.5
     },
     {
       "id": 5081727,
@@ -9852,7 +10236,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.3,
         "min": 19.1
-      }
+      },
+      "legendScore": 27.5
     },
     {
       "id": 4432819,
@@ -9876,7 +10261,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 12.6
-      }
+      },
+      "legendScore": 30.5
     },
     {
       "id": 3922230,
@@ -9900,7 +10286,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 13.7
-      }
+      },
+      "legendScore": 34.0
     },
     {
       "id": 4873201,
@@ -9924,7 +10311,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.3,
         "min": 11.4
-      }
+      },
+      "legendScore": 25.0
     },
     {
       "id": 4683935,
@@ -9948,7 +10336,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.2,
         "min": 11.6
-      }
+      },
+      "legendScore": 28.0
     },
     {
       "id": 3102529,
@@ -9972,7 +10361,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.8,
         "min": 12.3
-      }
+      },
+      "legendScore": 37.0
     },
     {
       "id": 2528588,
@@ -9996,7 +10386,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.1,
         "min": 15.1
-      }
+      },
+      "legendScore": 38.0
     },
     {
       "id": 5105806,
@@ -10020,7 +10411,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.2,
         "min": 12.6
-      }
+      },
+      "legendScore": 27.0
     },
     {
       "id": 4065663,
@@ -10044,7 +10436,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.2,
         "min": 17.4
-      }
+      },
+      "legendScore": 32.0
     },
     {
       "id": 4683834,
@@ -10068,7 +10461,8 @@ window.NBA_DATA = {
         "stl": 0.8,
         "blk": 0.0,
         "min": 12.9
-      }
+      },
+      "legendScore": 28.0
     },
     {
       "id": 4432107,
@@ -10092,7 +10486,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 12.0
-      }
+      },
+      "legendScore": 30.0
     },
     {
       "id": 4683686,
@@ -10116,7 +10511,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.1,
         "min": 12.5
-      }
+      },
+      "legendScore": 27.0
     },
     {
       "id": 4397018,
@@ -10140,7 +10536,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.3,
         "min": 15.7
-      }
+      },
+      "legendScore": 31.0
     },
     {
       "id": 4701225,
@@ -10164,7 +10561,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.5,
         "min": 11.2
-      }
+      },
+      "legendScore": 29.0
     },
     {
       "id": 4433225,
@@ -10188,7 +10586,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.1,
         "min": 11.7
-      }
+      },
+      "legendScore": 30.0
     },
     {
       "id": 5023693,
@@ -10212,7 +10611,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.0,
         "min": 10.9
-      }
+      },
+      "legendScore": 27.0
     },
     {
       "id": 3138160,
@@ -10236,7 +10636,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.3,
         "min": 14.8
-      }
+      },
+      "legendScore": 34.4
     },
     {
       "id": 2531367,
@@ -10260,7 +10661,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.3,
         "min": 14.3
-      }
+      },
+      "legendScore": 37.4
     },
     {
       "id": 3137259,
@@ -10284,7 +10686,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 16.6
-      }
+      },
+      "legendScore": 33.4
     },
     {
       "id": 3913180,
@@ -10308,7 +10711,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.2,
         "min": 13.1
-      }
+      },
+      "legendScore": 33.4
     },
     {
       "id": 5175647,
@@ -10332,7 +10736,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 14.6
-      }
+      },
+      "legendScore": 24.4
     },
     {
       "id": 4432446,
@@ -10356,7 +10761,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.2,
         "min": 11.9
-      }
+      },
+      "legendScore": 27.4
     },
     {
       "id": 4278572,
@@ -10380,7 +10786,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.1,
         "min": 12.2
-      }
+      },
+      "legendScore": 31.4
     },
     {
       "id": 4683750,
@@ -10404,7 +10811,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.2,
         "min": 13.6
-      }
+      },
+      "legendScore": 28.4
     },
     {
       "id": 4432811,
@@ -10428,7 +10836,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.1,
         "min": 15.7
-      }
+      },
+      "legendScore": 29.4
     },
     {
       "id": 4432185,
@@ -10452,7 +10861,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 15.0
-      }
+      },
+      "legendScore": 28.4
     },
     {
       "id": 3416,
@@ -10476,7 +10886,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 17.5
-      }
+      },
+      "legendScore": 37.4
     },
     {
       "id": 5214637,
@@ -10500,7 +10911,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.3,
         "min": 12.8
-      }
+      },
+      "legendScore": 25.4
     },
     {
       "id": 4431941,
@@ -10524,7 +10936,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.2,
         "min": 12.1
-      }
+      },
+      "legendScore": 29.4
     },
     {
       "id": 4703421,
@@ -10548,7 +10961,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 12.9
-      }
+      },
+      "legendScore": 28.4
     },
     {
       "id": 4432847,
@@ -10572,7 +10986,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.0,
         "min": 12.5
-      }
+      },
+      "legendScore": 29.4
     },
     {
       "id": 5167876,
@@ -10596,7 +11011,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.0,
         "min": 13.8
-      }
+      },
+      "legendScore": 25.4
     },
     {
       "id": 5061568,
@@ -10620,7 +11036,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.3,
         "min": 11.5
-      }
+      },
+      "legendScore": 23.8
     },
     {
       "id": 2779,
@@ -10644,7 +11061,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.0,
         "min": 14.2
-      }
+      },
+      "legendScore": 36.8
     },
     {
       "id": 4433159,
@@ -10668,7 +11086,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.3,
         "min": 11.5
-      }
+      },
+      "legendScore": 26.8
     },
     {
       "id": 2578185,
@@ -10692,7 +11111,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.2,
         "min": 16.8
-      }
+      },
+      "legendScore": 36.8
     },
     {
       "id": 5239561,
@@ -10716,7 +11136,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.0,
         "min": 10.9
-      }
+      },
+      "legendScore": 23.8
     },
     {
       "id": 4432247,
@@ -10740,7 +11161,8 @@ window.NBA_DATA = {
         "stl": 0.7,
         "blk": 0.1,
         "min": 13.1
-      }
+      },
+      "legendScore": 27.8
     },
     {
       "id": 2580365,
@@ -10764,7 +11186,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.2,
         "min": 12.8
-      }
+      },
+      "legendScore": 36.8
     },
     {
       "id": 5239590,
@@ -10788,7 +11211,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.1,
         "min": 11.9
-      }
+      },
+      "legendScore": 23.8
     },
     {
       "id": 4565201,
@@ -10812,7 +11236,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.1,
         "min": 9.8
-      }
+      },
+      "legendScore": 26.8
     },
     {
       "id": 5105977,
@@ -10836,7 +11261,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.4,
         "min": 12.2
-      }
+      },
+      "legendScore": 24.8
     },
     {
       "id": 4397251,
@@ -10860,7 +11286,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.3,
         "min": 11.0
-      }
+      },
+      "legendScore": 29.8
     },
     {
       "id": 4397882,
@@ -10884,7 +11311,8 @@ window.NBA_DATA = {
         "stl": 0.1,
         "blk": 0.4,
         "min": 9.1
-      }
+      },
+      "legendScore": 28.8
     },
     {
       "id": 4065673,
@@ -10908,7 +11336,8 @@ window.NBA_DATA = {
         "stl": 0.1,
         "blk": 0.2,
         "min": 11.0
-      }
+      },
+      "legendScore": 31.8
     },
     {
       "id": 5108024,
@@ -10932,7 +11361,8 @@ window.NBA_DATA = {
         "stl": 0.1,
         "blk": 0.7,
         "min": 10.3
-      }
+      },
+      "legendScore": 26.8
     },
     {
       "id": 5159895,
@@ -10956,7 +11386,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.0,
         "min": 11.6
-      }
+      },
+      "legendScore": 28.8
     },
     {
       "id": 4431690,
@@ -10980,7 +11411,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.5,
         "min": 12.0
-      }
+      },
+      "legendScore": 28.8
     },
     {
       "id": 4067017,
@@ -11004,7 +11436,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.2,
         "min": 9.4
-      }
+      },
+      "legendScore": 28.3
     },
     {
       "id": 4897943,
@@ -11028,7 +11461,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.2,
         "min": 10.2
-      }
+      },
+      "legendScore": 28.3
     },
     {
       "id": 4610139,
@@ -11052,7 +11486,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.2,
         "min": 10.7
-      }
+      },
+      "legendScore": 26.3
     },
     {
       "id": 5279133,
@@ -11076,7 +11511,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.7,
         "min": 7.8
-      }
+      },
+      "legendScore": 22.3
     },
     {
       "id": 4279118,
@@ -11100,7 +11536,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 10.1
-      }
+      },
+      "legendScore": 30.3
     },
     {
       "id": 4431786,
@@ -11124,7 +11561,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.2,
         "min": 8.8
-      }
+      },
+      "legendScore": 27.3
     },
     {
       "id": 4897449,
@@ -11148,7 +11586,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.4,
         "min": 11.0
-      }
+      },
+      "legendScore": 29.3
     },
     {
       "id": 4431772,
@@ -11172,7 +11611,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.2,
         "min": 9.1
-      }
+      },
+      "legendScore": 28.3
     },
     {
       "id": 3986,
@@ -11196,7 +11636,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.1,
         "min": 9.7
-      }
+      },
+      "legendScore": 36.3
     },
     {
       "id": 4431684,
@@ -11220,7 +11661,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.5,
         "min": 9.4
-      }
+      },
+      "legendScore": 29.3
     },
     {
       "id": 3135046,
@@ -11244,7 +11686,8 @@ window.NBA_DATA = {
         "stl": 0.6,
         "blk": 0.0,
         "min": 14.6
-      }
+      },
+      "legendScore": 33.3
     },
     {
       "id": 4433607,
@@ -11268,7 +11711,8 @@ window.NBA_DATA = {
         "stl": 0.0,
         "blk": 0.2,
         "min": 8.4
-      }
+      },
+      "legendScore": 25.7
     },
     {
       "id": 2489663,
@@ -11292,7 +11736,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.1,
         "min": 8.6
-      }
+      },
+      "legendScore": 35.7
     },
     {
       "id": 5203685,
@@ -11316,7 +11761,8 @@ window.NBA_DATA = {
         "stl": 0.1,
         "blk": 0.7,
         "min": 8.9
-      }
+      },
+      "legendScore": 21.7
     },
     {
       "id": 4696317,
@@ -11340,7 +11786,8 @@ window.NBA_DATA = {
         "stl": 0.3,
         "blk": 0.1,
         "min": 9.6
-      }
+      },
+      "legendScore": 25.7
     },
     {
       "id": 5289900,
@@ -11364,7 +11811,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.1,
         "min": 9.2
-      }
+      },
+      "legendScore": 23.7
     },
     {
       "id": 5170947,
@@ -11388,7 +11836,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.1,
         "min": 9.4
-      }
+      },
+      "legendScore": 23.2
     },
     {
       "id": 4066387,
@@ -11412,7 +11861,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.1,
         "min": 10.7
-      }
+      },
+      "legendScore": 30.2
     },
     {
       "id": 4683774,
@@ -11436,7 +11886,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 8.9
-      }
+      },
+      "legendScore": 23.2
     },
     {
       "id": 4898369,
@@ -11460,7 +11911,8 @@ window.NBA_DATA = {
         "stl": 0.4,
         "blk": 0.0,
         "min": 8.8
-      }
+      },
+      "legendScore": 26.2
     },
     {
       "id": 4713010,
@@ -11484,7 +11936,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 6.2
-      }
+      },
+      "legendScore": 26.2
     },
     {
       "id": 4431695,
@@ -11508,7 +11961,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.0,
         "min": 8.7
-      }
+      },
+      "legendScore": 27.2
     },
     {
       "id": 4431893,
@@ -11532,7 +11986,8 @@ window.NBA_DATA = {
         "stl": 0.1,
         "blk": 0.0,
         "min": 8.5
-      }
+      },
+      "legendScore": 27.2
     },
     {
       "id": 4591259,
@@ -11556,7 +12011,8 @@ window.NBA_DATA = {
         "stl": 0.1,
         "blk": 0.0,
         "min": 7.0
-      }
+      },
+      "legendScore": 25.2
     },
     {
       "id": 4066268,
@@ -11580,7 +12036,8 @@ window.NBA_DATA = {
         "stl": 0.2,
         "blk": 0.2,
         "min": 8.1
-      }
+      },
+      "legendScore": 30.6
     },
     {
       "id": 5105553,
@@ -11604,7 +12061,8 @@ window.NBA_DATA = {
         "stl": 0.5,
         "blk": 0.1,
         "min": 8.9
-      }
+      },
+      "legendScore": 23.6
     },
     {
       "id": 4683736,
@@ -11628,7 +12086,8 @@ window.NBA_DATA = {
         "stl": 0.1,
         "blk": 0.2,
         "min": 7.4
-      }
+      },
+      "legendScore": 23.6
     }
   ],
   "BRACKET": {
@@ -11725,19 +12184,19 @@ window.NBA_DATA = {
       ],
       "conf": [
         {
-          "hi": "OKC",
-          "lo": "SA",
-          "winner": null,
-          "seriesScore": "3-2"
+          "hi": "SA",
+          "lo": "OKC",
+          "winner": "SA",
+          "seriesScore": "4-3"
         }
       ]
     },
     "final": [
       {
-        "hi": null,
-        "lo": null,
+        "hi": "SA",
+        "lo": "NY",
         "winner": null,
-        "seriesScore": "-"
+        "seriesScore": "0-0"
       }
     ]
   },
@@ -12604,8 +13063,8 @@ window.NBA_DATA = {
     ]
   },
   "SEASON": "2025-26",
-  "IMPORTANCE": 7.0,
-  "LAST_UPDATE": "2026-05-27 11:51 UTC",
+  "IMPORTANCE": 9.0,
+  "LAST_UPDATE": "2026-05-31 18:47 UTC",
   "SOURCE": {
     "name": "ESPN API",
     "baseUrl": "sports.core.api.espn.com"

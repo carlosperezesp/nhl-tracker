@@ -29,13 +29,15 @@ jobs:
 
       # ── All Hermes sport data ───────────────────────────────────────────────
       - name: Update all sport data
-        continue-on-error: true
         run: python3 scripts/update_all_data.py
 
       # Tennis is time-sensitive during Slams. Run it strictly after the broad
       # update so stale cache/network failures are visible and do not publish.
       - name: Update tennis data strictly
         run: python3 scripts/update_tennis_data.py
+
+      - name: Check data freshness
+        run: python3 scripts/check_data_freshness.py
 
       # ── Commit both files if changed ────────────────────────────────────────
       - name: Commit updated data

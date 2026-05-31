@@ -455,6 +455,16 @@ def build_bracket(season_year: int) -> dict:
         bracket[side]["r1"]   = (bracket[side]["r1"]   + [empty.copy()] * 4)[:4]
         bracket[side]["r2"]   = (bracket[side]["r2"]   + [empty.copy()] * 2)[:2]
         bracket[side]["conf"] = (bracket[side]["conf"] + [empty.copy()])[:1]
+    final = bracket["final"][0]
+    east_winner = bracket["east"]["conf"][0].get("winner")
+    west_winner = bracket["west"]["conf"][0].get("winner")
+    if not final.get("hi") and east_winner and west_winner:
+        bracket["final"] = [{
+            "hi": west_winner,
+            "lo": east_winner,
+            "winner": None,
+            "seriesScore": "0-0",
+        }]
     return bracket
 
 

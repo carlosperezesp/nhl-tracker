@@ -21,8 +21,8 @@ cat > "$DATA_PLIST" <<PLIST
   <string>com.local.nhl-tracker.update-data</string>
   <key>ProgramArguments</key>
   <array>
-    <string>$PYTHON_BIN</string>
-    <string>$ROOT/scripts/update_all_data.py</string>
+    <string>/bin/bash</string>
+    <string>$ROOT/scripts/run_daily_updates.sh</string>
   </array>
   <key>WorkingDirectory</key>
   <string>$ROOT</string>
@@ -59,8 +59,8 @@ cat > "$TENNIS_PLIST" <<PLIST
   <string>com.local.nhl-tracker.update-tennis</string>
   <key>ProgramArguments</key>
   <array>
-    <string>$PYTHON_BIN</string>
-    <string>$ROOT/scripts/update_tennis_data.py</string>
+    <string>/bin/bash</string>
+    <string>$ROOT/scripts/run_tennis_update.sh</string>
   </array>
   <key>WorkingDirectory</key>
   <string>$ROOT</string>

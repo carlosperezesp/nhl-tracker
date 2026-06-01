@@ -2738,7 +2738,7 @@ window.NHL_DATA = {
       "first": "Seth",
       "last": "Jarvis",
       "name": "Seth Jarvis",
-      "pos": "C",
+      "pos": "RW",
       "teamCode": "CAR",
       "age": 24,
       "country": "Canada",
@@ -4148,7 +4148,7 @@ window.NHL_DATA = {
       "name": "Roman Josi",
       "pos": "D",
       "teamCode": "NSH",
-      "age": 35,
+      "age": 36,
       "country": "Switzerland",
       "birthCountry": "CHE",
       "colors": {
@@ -5325,7 +5325,7 @@ window.NHL_DATA = {
       "name": "Jimmy Snuggerud",
       "pos": "RW",
       "teamCode": "STL",
-      "age": 21,
+      "age": 22,
       "country": "United States",
       "birthCountry": "USA",
       "colors": {
@@ -5350,7 +5350,7 @@ window.NHL_DATA = {
         53,
         67
       ],
-      "legendScore": 56.5
+      "legendScore": 55.7
     },
     {
       "id": 8480064,
@@ -15033,7 +15033,7 @@ window.NHL_DATA = {
       "name": "Tanner Laczynski",
       "pos": "C",
       "teamCode": "VGK",
-      "age": 28,
+      "age": 29,
       "country": "United States",
       "birthCountry": "USA",
       "colors": {
@@ -40781,7 +40781,7 @@ window.NHL_DATA = {
     {
       "id": 8482093,
       "name": "Seth Jarvis",
-      "pos": "C",
+      "pos": "RW",
       "active": true,
       "teamCode": "CAR",
       "country": "Canada",
@@ -44899,10 +44899,10 @@ window.NHL_DATA = {
   },
   "SEASON": "2025-26",
   "IMPORTANCE": 8.0,
-  "LAST_UPDATE": "2026-05-31 22:30 UTC",
+  "LAST_UPDATE": "2026-06-01 10:32 UTC",
   "SOURCE": {
     "name": "NHL API",
     "baseUrl": "https://api-web.nhle.com/v1",
-    "standingsDateTimeUtc": "2026-05-31T22:30:00Z"
+    "standingsDateTimeUtc": "2026-06-01T10:31:15Z"
   }
 };

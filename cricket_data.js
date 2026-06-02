@@ -1,11 +1,11 @@
 // Cricket Tracker - generated from Cricsheet completed scorecards + Hermes scoring.
 // Run `python3 scripts/update_cricket_data.py` to refresh.
 window.CRICKET_DATA = {
-  "UPDATED": "2026-06-02 17:56 UTC",
+  "UPDATED": "2026-06-02 22:29 UTC",
   "IMPORTANCE": 5.8,
   "SOURCE": {
     "mode": "Cricsheet completed scorecards + Hermes scoring",
-    "matches": 1520,
+    "matches": 1523,
     "archives": [
       {
         "name": "Tests",
@@ -13,11 +13,11 @@ window.CRICKET_DATA = {
       },
       {
         "name": "ODIs",
-        "matches": 144
+        "matches": 145
       },
       {
         "name": "T20Is",
-        "matches": 864
+        "matches": 866
       },
       {
         "name": "IPL",
@@ -1051,6 +1051,30 @@ window.CRICKET_DATA = {
         "formatScore": 96.5
       },
       {
+        "id": "shaheen-shah-afridi",
+        "name": "Shaheen Shah Afridi",
+        "role": "Bowler",
+        "score": 91.6,
+        "legendScore": 54.7,
+        "stats": {
+          "test": 33.5,
+          "odi": 52.8,
+          "t20": 76.0,
+          "franchise": 91.6,
+          "runs": 455,
+          "wickets": 117,
+          "matches": 79
+        },
+        "country": "Pakistan",
+        "teamCode": "PAK",
+        "colors": {
+          "primary": "#115740",
+          "secondary": "#ffffff"
+        },
+        "logo": "https://flagcdn.com/24x18/pk.png",
+        "formatScore": 91.6
+      },
+      {
         "id": "jo-holder",
         "name": "JO Holder",
         "role": "Bowler",
@@ -1075,19 +1099,19 @@ window.CRICKET_DATA = {
         "formatScore": 90.5
       },
       {
-        "id": "shaheen-shah-afridi",
-        "name": "Shaheen Shah Afridi",
+        "id": "haris-rauf",
+        "name": "Haris Rauf",
         "role": "Bowler",
-        "score": 89.4,
-        "legendScore": 53.8,
+        "score": 88.5,
+        "legendScore": 42.7,
         "stats": {
-          "test": 33.5,
-          "odi": 49.9,
-          "t20": 73.5,
-          "franchise": 89.4,
-          "runs": 444,
-          "wickets": 114,
-          "matches": 78
+          "test": 0.0,
+          "odi": 33.0,
+          "t20": 46.5,
+          "franchise": 88.5,
+          "runs": 164,
+          "wickets": 116,
+          "matches": 82
         },
         "country": "Pakistan",
         "teamCode": "PAK",
@@ -1096,7 +1120,7 @@ window.CRICKET_DATA = {
           "secondary": "#ffffff"
         },
         "logo": "https://flagcdn.com/24x18/pk.png",
-        "formatScore": 89.4
+        "formatScore": 88.5
       },
       {
         "id": "jnt-seales",
@@ -1145,30 +1169,6 @@ window.CRICKET_DATA = {
         },
         "logo": "https://flagcdn.com/24x18/nz.png",
         "formatScore": 88.1
-      },
-      {
-        "id": "haris-rauf",
-        "name": "Haris Rauf",
-        "role": "Bowler",
-        "score": 87.2,
-        "legendScore": 42.2,
-        "stats": {
-          "test": 0.0,
-          "odi": 31.8,
-          "t20": 45.3,
-          "franchise": 87.2,
-          "runs": 164,
-          "wickets": 114,
-          "matches": 81
-        },
-        "country": "Pakistan",
-        "teamCode": "PAK",
-        "colors": {
-          "primary": "#115740",
-          "secondary": "#ffffff"
-        },
-        "logo": "https://flagcdn.com/24x18/pk.png",
-        "formatScore": 87.2
       },
       {
         "id": "m-jansen",

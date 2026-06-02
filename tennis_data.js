@@ -1,6 +1,6 @@
-// Auto-generated 2026-06-02 17:56 UTC
+// Auto-generated 2026-06-02 22:29 UTC
 window.TENNIS_DATA = {
-  "UPDATED": "2026-06-02 17:56 UTC",
+  "UPDATED": "2026-06-02 22:29 UTC",
   "ATP": [
     {
       "id": "206173",
@@ -122,7 +122,7 @@ window.TENNIS_DATA = {
       "tournamentStatus": {
         "tournament": "Roland Garros",
         "state": "alive",
-        "round": "Quarterfinal",
+        "round": "Semifinal",
         "reason": ""
       }
     },
@@ -804,7 +804,7 @@ window.TENNIS_DATA = {
       "tournamentStatus": {
         "tournament": "Roland Garros",
         "state": "alive",
-        "round": "Quarterfinal",
+        "round": "Semifinal",
         "reason": ""
       }
     },
@@ -865,9 +865,9 @@ window.TENNIS_DATA = {
       "prevListRank": 28,
       "tournamentStatus": {
         "tournament": "Roland Garros",
-        "state": "alive",
+        "state": "out",
         "round": "Quarterfinal",
-        "reason": ""
+        "reason": "Eliminado en Quarterfinal"
       }
     },
     {
@@ -4359,9 +4359,9 @@ window.TENNIS_DATA = {
           "w_logo": "",
           "l": "Joao Fonseca",
           "l_logo": "",
-          "score": "por jugar",
+          "score": "6-4 6-3 7-6 (7-3)",
           "day": "hoy",
-          "scheduled": true,
+          "scheduled": false,
           "w_score": 72.0,
           "l_score": 70.1,
           "match_score": 72.0
@@ -4381,7 +4381,6 @@ window.TENNIS_DATA = {
       "Felix Auger-Aliassime",
       "Flavio Cobolli",
       "Jakub Mensik",
-      "Joao Fonseca",
       "Matteo Arnaldi",
       "Matteo Berrettini"
     ],
@@ -4448,6 +4447,7 @@ window.TENNIS_DATA = {
       "Jenson Brooksby",
       "Jesper de Jong",
       "Jiri Lehecka",
+      "Joao Fonseca",
       "Juan Carlos Prado Angelo",
       "Juan Manuel Cerundolo",
       "Jurij Rodionov",
@@ -4509,8 +4509,8 @@ window.TENNIS_DATA = {
       "Zhang Zhizhen",
       "Zizou Bergs"
     ],
-    "aliveCount": 7,
-    "matchesSeen": 124
+    "aliveCount": 6,
+    "matchesSeen": 125
   },
   "WTA_TOURNAMENT": {
     "name": "Roland Garros",

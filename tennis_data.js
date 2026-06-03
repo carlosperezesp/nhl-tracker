@@ -1,6 +1,6 @@
-// Auto-generated 2026-06-03 18:13 UTC
+// Auto-generated 2026-06-03 22:37 UTC
 window.TENNIS_DATA = {
-  "UPDATED": "2026-06-03 18:13 UTC",
+  "UPDATED": "2026-06-03 22:37 UTC",
   "ATP": [
     {
       "id": "206173",
@@ -4329,15 +4329,15 @@ window.TENNIS_DATA = {
         },
         {
           "round": "Quarterfinal",
-          "w": "Matteo Berrettini",
+          "w": "Matteo Arnaldi",
           "w_logo": "",
-          "l": "Matteo Arnaldi",
+          "l": "Matteo Berrettini",
           "l_logo": "",
-          "score": "por jugar",
+          "score": "In Progress",
           "day": "hoy",
-          "scheduled": true,
-          "w_score": 58.0,
-          "l_score": 51.9,
+          "scheduled": false,
+          "w_score": 51.9,
+          "l_score": 58.0,
           "match_score": 58.0
         }
       ]

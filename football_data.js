@@ -1,11 +1,11 @@
-// Auto-generated 2026-06-08 13:51 UTC
+// Auto-generated 2026-06-08 16:39 UTC
 window.FOOTBALL_DATA = {
-  "UPDATED": "2026-06-08 13:51 UTC",
+  "UPDATED": "2026-06-08 16:39 UTC",
   "SEASON": "Men's national teams",
   "SOURCE": {
     "name": "Hermes curated snapshot using World Football Elo / MoreElo-style ratings",
     "notes": "Daily-generated static snapshot; update CURRENT_RAW seeds when source rankings move.",
-    "through": "2026-06-08 13:51 UTC"
+    "through": "2026-06-08 16:39 UTC"
   },
   "IMPORTANCE": 9.0,
   "TEAMS": [

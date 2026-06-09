@@ -22,6 +22,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 156.0,
+      "lastWeekendPoints": 25.0,
       "wins": 0,
       "score": 26.0,
       "stats": {
@@ -45,6 +46,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 90.0,
+      "lastWeekendPoints": 18.0,
       "wins": 0,
       "score": 15.0,
       "stats": {
@@ -68,6 +70,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 88.0,
+      "lastWeekendPoints": 0.0,
       "wins": 0,
       "score": 14.7,
       "stats": {
@@ -91,6 +94,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 75.0,
+      "lastWeekendPoints": 0.0,
       "wins": 0,
       "score": 12.5,
       "stats": {
@@ -114,6 +118,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 60.0,
+      "lastWeekendPoints": 12.0,
       "wins": 0,
       "score": 10.0,
       "stats": {
@@ -137,6 +142,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 58.0,
+      "lastWeekendPoints": 0.0,
       "wins": 0,
       "score": 9.7,
       "stats": {
@@ -160,6 +166,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 43.0,
+      "lastWeekendPoints": 0.0,
       "wins": 0,
       "score": 7.2,
       "stats": {
@@ -183,6 +190,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 29.0,
+      "lastWeekendPoints": 15.0,
       "wins": 0,
       "score": 4.8,
       "stats": {
@@ -206,6 +214,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 26.0,
+      "lastWeekendPoints": 10.0,
       "wins": 0,
       "score": 4.3,
       "stats": {
@@ -229,6 +238,7 @@ window.F1_DATA = {
       },
       "team": "",
       "points": 26.0,
+      "lastWeekendPoints": 6.0,
       "wins": 0,
       "score": 4.3,
       "stats": {
@@ -280,6 +290,12 @@ window.F1_DATA = {
       "points": 41.0
     }
   ],
+  "LAST_WEEKEND": {
+    "id": "600057434",
+    "name": "Monaco Grand Prix",
+    "label": "MON",
+    "includesSprint": false
+  },
   "LAST_RACE": {
     "name": "Monaco Grand Prix",
     "date": "2026-06-05",

@@ -196,10 +196,10 @@ def _importance(standings: list[dict], round_num: int, total_races: int) -> floa
 
 # ── Data builders ─────────────────────────────────────────────────────────────
 
-def _standings() -> tuple[list[dict], list[dict], int, int]:
+def _standings() -> tuple[list[dict], list[dict], int, int, dict | None]:
     data = _fetch(ESPN_STANDINGS, ttl_hours=1.0)
     if not data:
-        return [], [], 0, 0
+        return [], [], 0, 0, None
 
     children = data.get("children", [])
     driver_child      = next((c for c in children if c.get("name","").lower() == "driver championship"), None)
@@ -233,13 +233,41 @@ def _standings() -> tuple[list[dict], list[dict], int, int]:
     # Driver standings
     driver_list: list[dict] = []
     race_stat_names: list[str] = []
-    for e in driver_child.get("standings", {}).get("entries", []):
+    last_weekend: dict | None = None
+    latest_event_id = ""
+    latest_event_name = ""
+    latest_event_label = ""
+    driver_entries = driver_child.get("standings", {}).get("entries", [])
+    if driver_entries:
+        for s in driver_entries[0].get("stats", []):
+            if s["name"] in ("rank", "championshipPts", "overall"):
+                continue
+            if s.get("played") is True:
+                latest_event_id = str(s.get("id") or s.get("name") or "")
+                latest_event_name = s.get("displayName") or s.get("description") or s.get("shortName") or s.get("name") or ""
+                latest_event_label = s.get("shortDisplayName") or s.get("abbreviation") or s.get("name") or ""
+        if latest_event_id:
+            last_weekend = {
+                "id": latest_event_id,
+                "name": latest_event_name,
+                "label": latest_event_label,
+                "includesSprint": False,
+            }
+    for e in driver_entries:
         a    = e.get("athlete", {})
         name = a.get("displayName", "")
         flag = a.get("flag", {}).get("href", "")
         cc3  = _cc3_from_flag(flag)
         pts  = next((float(s["displayValue"]) for s in e.get("stats", []) if s["name"] == "championshipPts" and s["displayValue"].strip()), 0.0)
         rnk  = int(next((s["value"] for s in e.get("stats", []) if s["name"] == "rank"), 0))
+        last_weekend_pts = 0.0
+        if latest_event_id:
+            last_stat = next((
+                s for s in e.get("stats", [])
+                if str(s.get("id") or s.get("name") or "") == latest_event_id
+            ), None)
+            if last_stat:
+                last_weekend_pts = float(last_stat.get("value") or 0)
         if not race_stat_names:
             race_stat_names = [s["name"] for s in e.get("stats", [])
                                if s["name"] not in ("rank", "championshipPts", "overall")]
@@ -256,6 +284,7 @@ def _standings() -> tuple[list[dict], list[dict], int, int]:
             "colors":    colors,
             "team":      "",
             "points":    pts,
+            "lastWeekendPoints": last_weekend_pts,
             "wins":      0,
         })
 
@@ -271,7 +300,7 @@ def _standings() -> tuple[list[dict], list[dict], int, int]:
 
     driver_list.sort(key=lambda x: x["position"])
     ctor_list.sort(key=lambda x: x["position"])
-    return driver_list, ctor_list, round_num, total_races
+    return driver_list, ctor_list, round_num, total_races, last_weekend
 
 
 def _parse_event(ev: dict) -> dict | None:
@@ -363,7 +392,7 @@ def write_data() -> None:
     print(f"[F1] Fetching {CURRENT_YEAR} season data…", file=sys.stderr)
 
     legends                              = build_legends()
-    drivers, constructors, round_num, total_races = _standings()
+    drivers, constructors, round_num, total_races, last_weekend = _standings()
     last_race                            = _last_race()
     last_sprint                          = _last_sprint()
     importance = _importance(drivers, round_num, total_races)
@@ -405,6 +434,7 @@ def write_data() -> None:
         "IMPORTANCE":   importance,
         "DRIVERS":      drivers[:10],
         "CONSTRUCTORS": constructors[:5],
+        "LAST_WEEKEND": last_weekend,
         "LAST_RACE":    last_race,
         "LAST_SPRINT":  last_sprint,
         "LEGENDS":      legends,

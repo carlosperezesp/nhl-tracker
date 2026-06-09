@@ -2104,6 +2104,7 @@ function NewsletterApp() {
           const drivers      = (F1.DRIVERS      || []).slice(0, 10);
           const constructors = (F1.CONSTRUCTORS || []).slice(0, 5);
           const lastRace     = F1.LAST_RACE;
+          const lastWeekend  = F1.LAST_WEEKEND;
           const legends      = (F1.LEGENDS      || []).slice(0, 10);
           const leaderPts    = drivers.length ? drivers[0].points : 1;
           const f1MaxSeason  = F1.MAX_SEASON_PTS || F1.TOTAL_ROUNDS * 25;
@@ -2133,11 +2134,12 @@ function NewsletterApp() {
               <NewsletterSection
                 kicker="Driver Championship"
                 title="Campeonato de Pilotos"
-                sub={`Barra sobre ${f1MaxSeason} pts máximos. Línea roja = mínimo para ser campeón matemático (2º + puntos restantes + 1).`}
+                sub={`Barra sobre ${f1MaxSeason} pts máximos. Últ. finde = puntos ganados en ${lastWeekend?.label || lastRace?.name || "el último GP"}${F1.LAST_SPRINT ? " incluyendo sprint." : "."}`}
               >
                 <div className="newsletter-list">
                   {drivers.map((d, i) => {
                     const lgScore = f1LegendByName[d.name];
+                    const weekendPts = typeof d.lastWeekendPoints === "number" ? d.lastWeekendPoints : null;
                     return (
                     <NewsletterRankRow
                       key={d.name}
@@ -2149,11 +2151,11 @@ function NewsletterApp() {
                       scoreDisplay={d.points}
                       scoreLabel="Puntos"
                       threshold={f1Threshold}
-                      scoreB={lgScore ?? 0}
-                      scoreBDisplay={lgScore != null ? lgScore.toFixed(1) : "—"}
-                      scoreBLabel="Legend"
+                      scoreB={weekendPts ?? 0}
+                      scoreBDisplay={weekendPts != null ? `+${weekendPts}` : "—"}
+                      scoreBLabel="Últ. finde"
                       meta={`F1 · ${d.country} · ${d.team || d.teamCode}`}
-                      note={null}
+                      note={lgScore != null ? `Legend ${lgScore.toFixed(1)}` : null}
                       logo={d.logo}
                     />
                     );

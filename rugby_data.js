@@ -6,9 +6,9 @@ window.RUGBY_DATA = {
     "file": "data_sources/rugby_mens_data.csv",
     "incremental": "ESPN scorepanel by national team/year",
     "historicalThrough": "2023-12-03",
-    "incrementalMatches": 326,
+    "incrementalMatches": 310,
     "teams": 162,
-    "matches": 10021,
+    "matches": 10005,
     "through": "2026-04-10"
   },
   "IMPORTANCE": 5.0,

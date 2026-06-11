@@ -297,6 +297,27 @@ window.MLB_DATA = {
       }
     },
     {
+      "code": "TEX",
+      "city": "Texas Rangers",
+      "shortName": "Texas",
+      "commonName": "Rangers",
+      "conf": "AL",
+      "div": "AL West",
+      "gp": 68,
+      "w": 34,
+      "l": 34,
+      "winPct": 0.5,
+      "rf": 275,
+      "ra": 259,
+      "rd": 0,
+      "score": 40,
+      "logo": "https://a.espncdn.com/i/teamlogos/mlb/500/tex.png",
+      "colors": {
+        "primary": "#c0111f",
+        "secondary": "#003278"
+      }
+    },
+    {
       "code": "ARI",
       "city": "Arizona Diamondbacks",
       "shortName": "Arizona",
@@ -336,27 +357,6 @@ window.MLB_DATA = {
       "colors": {
         "primary": "#00a3e0",
         "secondary": "#ef3340"
-      }
-    },
-    {
-      "code": "TEX",
-      "city": "Texas Rangers",
-      "shortName": "Texas",
-      "commonName": "Rangers",
-      "conf": "AL",
-      "div": "AL West",
-      "gp": 67,
-      "w": 33,
-      "l": 34,
-      "winPct": 0.493,
-      "rf": 271,
-      "ra": 257,
-      "rd": 0,
-      "score": 39,
-      "logo": "https://a.espncdn.com/i/teamlogos/mlb/500/tex.png",
-      "colors": {
-        "primary": "#c0111f",
-        "secondary": "#003278"
       }
     },
     {
@@ -534,14 +534,14 @@ window.MLB_DATA = {
       "commonName": "Royals",
       "conf": "AL",
       "div": "AL Central",
-      "gp": 68,
+      "gp": 69,
       "w": 28,
-      "l": 40,
-      "winPct": 0.412,
-      "rf": 267,
-      "ra": 315,
+      "l": 41,
+      "winPct": 0.406,
+      "rf": 269,
+      "ra": 319,
       "rd": 0,
-      "score": 33,
+      "score": 32,
       "logo": "https://a.espncdn.com/i/teamlogos/mlb/500/kc.png",
       "colors": {
         "primary": "#004687",
@@ -7936,9 +7936,9 @@ window.MLB_DATA = {
         "city": "Texas Rangers",
         "era": "2023–present",
         "rings": 1,
-        "dynastyScore": 43.4,
+        "dynastyScore": 44.0,
         "threshold": 89.5,
-        "gap": 46.1,
+        "gap": 45.5,
         "note": "2023 World Champions · Seager/García · historic first title",
         "needs": "2–3 more titles + another dominant era needed",
         "colors": {
@@ -8257,7 +8257,7 @@ window.MLB_DATA = {
   },
   "SEASON": "2026",
   "IMPORTANCE": 8.0,
-  "LAST_UPDATE": "2026-06-11 22:17 UTC",
+  "LAST_UPDATE": "2026-06-11 23:00 UTC",
   "SOURCE": {
     "name": "ESPN API",
     "baseUrl": "sports.core.api.espn.com"

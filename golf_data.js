@@ -1,6 +1,6 @@
-// Auto-generated 2026-06-11 09:48 UTC
+// Auto-generated 2026-06-11 11:00 UTC
 window.GOLF_DATA = {
-  "UPDATED": "2026-06-11 09:48 UTC",
+  "UPDATED": "2026-06-11 11:00 UTC",
   "SEASON": 2026,
   "CURRENT_MAJOR": {
     "name": "U.S. Open",

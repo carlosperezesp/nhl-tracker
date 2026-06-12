@@ -1,6 +1,6 @@
-// Auto-generated 2026-06-11 23:01 UTC
+// Auto-generated 2026-06-12 16:34 UTC
 window.F1_DATA = {
-  "UPDATED": "2026-06-11 23:01 UTC",
+  "UPDATED": "2026-06-12 16:34 UTC",
   "SEASON": "2026",
   "ROUND": 6,
   "TOTAL_ROUNDS": 24,
@@ -117,12 +117,12 @@ window.F1_DATA = {
         "secondary": "#000000"
       },
       "team": "",
-      "points": 60.0,
-      "lastWeekendPoints": 12.0,
+      "points": 58.0,
+      "lastWeekendPoints": 10.0,
       "wins": 0,
-      "score": 10.0,
+      "score": 9.7,
       "stats": {
-        "pts": 60.0,
+        "pts": 58.0,
         "wins": 0
       },
       "prevRank": 5
@@ -177,54 +177,6 @@ window.F1_DATA = {
     },
     {
       "position": 8,
-      "name": "Isack Hadjar",
-      "nationality": "",
-      "country": "FRA",
-      "teamCode": "rb",
-      "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
-      "primary": "#555555",
-      "secondary": "#FFFFFF",
-      "colors": {
-        "primary": "#555555",
-        "secondary": "#FFFFFF"
-      },
-      "team": "",
-      "points": 29.0,
-      "lastWeekendPoints": 15.0,
-      "wins": 0,
-      "score": 4.8,
-      "stats": {
-        "pts": 29.0,
-        "wins": 0
-      },
-      "prevRank": 8
-    },
-    {
-      "position": 9,
-      "name": "Liam Lawson",
-      "nationality": "",
-      "country": "NZL",
-      "teamCode": "rb",
-      "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png",
-      "primary": "#555555",
-      "secondary": "#FFFFFF",
-      "colors": {
-        "primary": "#555555",
-        "secondary": "#FFFFFF"
-      },
-      "team": "",
-      "points": 26.0,
-      "lastWeekendPoints": 10.0,
-      "wins": 0,
-      "score": 4.3,
-      "stats": {
-        "pts": 26.0,
-        "wins": 0
-      },
-      "prevRank": 9
-    },
-    {
-      "position": 10,
       "name": "Pierre Gasly",
       "nationality": "",
       "country": "FRA",
@@ -237,15 +189,63 @@ window.F1_DATA = {
         "secondary": "#FF0000"
       },
       "team": "",
+      "points": 35.0,
+      "lastWeekendPoints": 15.0,
+      "wins": 0,
+      "score": 5.8,
+      "stats": {
+        "pts": 35.0,
+        "wins": 0
+      },
+      "prevRank": 10
+    },
+    {
+      "position": 9,
+      "name": "Isack Hadjar",
+      "nationality": "",
+      "country": "FRA",
+      "teamCode": "rb",
+      "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
+      "primary": "#555555",
+      "secondary": "#FFFFFF",
+      "colors": {
+        "primary": "#555555",
+        "secondary": "#FFFFFF"
+      },
+      "team": "",
       "points": 26.0,
-      "lastWeekendPoints": 6.0,
+      "lastWeekendPoints": 12.0,
       "wins": 0,
       "score": 4.3,
       "stats": {
         "pts": 26.0,
         "wins": 0
       },
-      "prevRank": 10
+      "prevRank": 8
+    },
+    {
+      "position": 10,
+      "name": "Liam Lawson",
+      "nationality": "",
+      "country": "NZL",
+      "teamCode": "rb",
+      "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png",
+      "primary": "#555555",
+      "secondary": "#FFFFFF",
+      "colors": {
+        "primary": "#555555",
+        "secondary": "#FFFFFF"
+      },
+      "team": "",
+      "points": 24.0,
+      "lastWeekendPoints": 8.0,
+      "wins": 0,
+      "score": 4.0,
+      "stats": {
+        "pts": 24.0,
+        "wins": 0
+      },
+      "prevRank": 9
     }
   ],
   "CONSTRUCTORS": [
@@ -271,7 +271,7 @@ window.F1_DATA = {
       "id": "mclaren",
       "primary": "#FF8700",
       "secondary": "#000000",
-      "points": 118.0
+      "points": 116.0
     },
     {
       "position": 4,
@@ -279,7 +279,7 @@ window.F1_DATA = {
       "id": "red_bull",
       "primary": "#00327D",
       "secondary": "#CC1E4A",
-      "points": 72.0
+      "points": 69.0
     },
     {
       "position": 5,
@@ -287,7 +287,7 @@ window.F1_DATA = {
       "id": "alpine",
       "primary": "#FFF500",
       "secondary": "#FF0000",
-      "points": 41.0
+      "points": 50.0
     }
   ],
   "LAST_WEEKEND": {
@@ -296,7 +296,35 @@ window.F1_DATA = {
     "label": "MON",
     "includesSprint": false
   },
-  "LAST_RACE": null,
+  "LAST_RACE": {
+    "name": "MSC Cruises Barcelona-Catalunya Grand Prix",
+    "date": "2026-06-12",
+    "circuit": "Circuit de Catalunya",
+    "round": 0,
+    "podium": [
+      {
+        "position": 1,
+        "name": "George Russell",
+        "team": "mercedes",
+        "time": "",
+        "primary": "#00D2BE"
+      },
+      {
+        "position": 2,
+        "name": "Oscar Piastri",
+        "team": "mclaren",
+        "time": "",
+        "primary": "#FF8000"
+      },
+      {
+        "position": 3,
+        "name": "Charles Leclerc",
+        "team": "ferrari",
+        "time": "",
+        "primary": "#E8002D"
+      }
+    ]
+  },
   "LAST_SPRINT": null,
   "LEGENDS": [
     {

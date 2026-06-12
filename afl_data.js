@@ -1,9 +1,9 @@
-// Auto-generated 2026-06-11 23:01 UTC
+// Auto-generated 2026-06-12 16:34 UTC
 window.AFL_DATA = {
-  "UPDATED": "2026-06-11 23:01 UTC",
+  "UPDATED": "2026-06-12 16:34 UTC",
   "SEASON": "2026",
-  "ROUND": 14,
-  "IMPORTANCE": 7.9,
+  "ROUND": 0,
+  "IMPORTANCE": 7.0,
   "LEGEND_THRESHOLD": 70.5,
   "LADDER": [
     {
@@ -32,6 +32,18 @@ window.AFL_DATA = {
     },
     {
       "rank": 3,
+      "name": "Geelong",
+      "wins": 9,
+      "losses": 5,
+      "draws": 0,
+      "pts": 36,
+      "percentage": 123.1,
+      "primary": "#002A54",
+      "secondary": "#FFFFFF",
+      "prevRank": null
+    },
+    {
+      "rank": 4,
       "name": "Hawthorn",
       "wins": 8,
       "losses": 4,
@@ -40,18 +52,6 @@ window.AFL_DATA = {
       "percentage": 113.2,
       "primary": "#4D2004",
       "secondary": "#FFD200",
-      "prevRank": null
-    },
-    {
-      "rank": 4,
-      "name": "Geelong",
-      "wins": 8,
-      "losses": 5,
-      "draws": 0,
-      "pts": 32,
-      "percentage": 120.2,
-      "primary": "#002A54",
-      "secondary": "#FFFFFF",
       "prevRank": null
     },
     {
@@ -94,10 +94,10 @@ window.AFL_DATA = {
       "rank": 8,
       "name": "Gold Coast",
       "wins": 7,
-      "losses": 5,
+      "losses": 6,
       "draws": 0,
       "pts": 28,
-      "percentage": 112.2,
+      "percentage": 107.2,
       "primary": "#C5002F",
       "secondary": "#F1B500",
       "prevRank": null
@@ -1055,18 +1055,7 @@ window.AFL_DATA = {
       "legendScore": 0.0
     }
   ],
-  "LAST_ROUND": [
-    {
-      "hteam": "Western Bulldogs",
-      "hscore": 64,
-      "ateam": "Adelaide",
-      "ascore": 121,
-      "winner": "Adelaide",
-      "date": "2026-06-11",
-      "hprimary": "#0039A6",
-      "aprimary": "#002B5C"
-    }
-  ],
+  "LAST_ROUND": [],
   "CURRENT_CONTENDERS": [
     {
       "id": "dustin_martin",

@@ -1,11 +1,11 @@
-// Auto-generated 2026-06-11 23:02 UTC
+// Auto-generated 2026-06-12 16:35 UTC
 window.FOOTBALL_DATA = {
-  "UPDATED": "2026-06-11 23:02 UTC",
+  "UPDATED": "2026-06-12 16:35 UTC",
   "SEASON": "Men's national teams",
   "SOURCE": {
     "name": "Hermes curated snapshot using World Football Elo / MoreElo-style ratings",
     "notes": "Daily-generated static snapshot; update CURRENT_RAW seeds when source rankings move.",
-    "through": "2026-06-11 23:02 UTC"
+    "through": "2026-06-12 16:35 UTC"
   },
   "IMPORTANCE": 10.0,
   "TEAMS": [
@@ -370,34 +370,6 @@ window.FOOTBALL_DATA = {
       }
     },
     "upcomingMatches": [
-      {
-        "round": 1,
-        "date": "2026-06-11",
-        "timeET": "17:00",
-        "home": "BRA",
-        "homeName": "Brasil",
-        "away": "ECU",
-        "awayName": "Ecuador",
-        "group": "F",
-        "venue": "Levi's Stadium",
-        "city": "Santa Clara",
-        "homeElo": 1985,
-        "awayElo": 1750
-      },
-      {
-        "round": 1,
-        "date": "2026-06-11",
-        "timeET": "20:00",
-        "home": "FRA",
-        "homeName": "Francia",
-        "away": "KSA",
-        "awayName": "Arabia Saudí",
-        "group": "C",
-        "venue": "Rose Bowl",
-        "city": "Pasadena",
-        "homeElo": 2029,
-        "awayElo": 1605
-      },
       {
         "round": 1,
         "date": "2026-06-12",

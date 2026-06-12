@@ -1396,7 +1396,7 @@ window.NBA_DATA = {
       "last": "Holiday",
       "pos": "G",
       "teamCode": "POR",
-      "age": 35,
+      "age": 36,
       "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3995.png",
       "colors": {
         "primary": "#e03a3e",
@@ -7340,7 +7340,7 @@ window.NBA_DATA = {
   "SEASON": "2025-26",
   "STATS_SCOPE": "playoffs",
   "IMPORTANCE": 9.0,
-  "LAST_UPDATE": "2026-06-11 23:00 UTC",
+  "LAST_UPDATE": "2026-06-12 16:33 UTC",
   "SOURCE": {
     "name": "ESPN API",
     "baseUrl": "sports.core.api.espn.com"
